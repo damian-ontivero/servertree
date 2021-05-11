@@ -25,24 +25,21 @@ html, body {
 .navbar-brand{
   text-transform: uppercase;
   letter-spacing: 5px;
-  font-size:large;
+  font-size: large;
 }
 /********** END TOP BAR **********/
 
 /********** FOOTER **********/
-footer{
+.footer{
   width: 100%;
   text-align: center;
-  color: black;
   position: absolute;
-  top: 98%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  bottom: 1%;
 }
 /********** END FOOTER **********/
 
 /********** LOGIN **********/
-.content-login{
+.container-login{
   width: 300px; 
   position: absolute;
   top: 35%;
@@ -50,13 +47,13 @@ footer{
   transform: translate(-50%, -50%);
 }
 
-#alert-login{
+.container-login .alert{
   border-radius: 6px;
   padding: 20px;
   font-size: 14px;
 }
 
-.form-login{
+.container-login .form-login{
   background-color: #F6F8FA;
   border: 1px solid #e1e1e1;
   border-radius: 6px;
@@ -64,40 +61,60 @@ footer{
   font-size: 14px;
 }
 
-.form-login button {
+.container-login .form-login button {
   border: none;
   background-color: #159090;
 }
 
-.form-login button:hover, .form-login button:focus{
+.container-login .form-login button:hover, .form-login button:focus{
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
     0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
   background-color: #018786;
 }
   
-.form-login button:active {
+.container-login .form-login button:active {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
     0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
   background-color: #61b4b3;
 }
 
-.form-group label{
+.container-login .form-group label{
   margin-bottom: .25rem;
 }
 
-.form-group input{
+.container-login .form-group input{
   margin-bottom: 1rem;
 }
 
 @media (max-width: 400px){
-  .content-login{
+  .container-login{
     width: 90%;
   }
 }
 /********** END LOGIN **********/
 
-/********** TABLES **********/
+/********** CONTAINER **********/
+.container-base{
+  width: 90%; 
+  position: relative;
+  padding: 20px;
+  border: 1px solid red;
+}
 
-/********** END TABLES **********/
+.container-base .wellcome{
+  width: 100%;
+  text-align: center;
+}
+
+.container-base .buttons{
+  margin-bottom: 10px;
+  border: 1px solid blue;
+}
+
+.container-base .table{
+  margin-bottom: 10px;
+  border: 1px solid green;
+}
+/********** END CONTAINER **********/

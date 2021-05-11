@@ -6,12 +6,15 @@
 {% block header %} - Usuarios{% endblock %}
 
 {% block content %}
-{% if current_user.role_id == 1 %}
-  <button type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user-plus"></i></button>
-{% else %}
-  <button disabled type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user-plus"></i></button>
-{% endif %}
-<table class="table table-hover">
+<div class="buttons">
+  {% if current_user.role_id == 1 %}
+    <button type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user-plus"></i></button>
+  {% else %}
+    <button disabled type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user-plus"></i></button>
+  {% endif %}
+</div>
+
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>Nombre</th>
@@ -92,7 +95,6 @@
           {{ form.password(class="form-control form-control-md shadow-sm item") }}
           {{ form.show_password.label(id='show_password_label') }}
           {{ form.show_password }}
-          
           <br>
           <div class="form-group">
             {{ form.role_id.label(class="form-control-label") }}
