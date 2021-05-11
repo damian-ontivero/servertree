@@ -42,17 +42,26 @@ footer{
 /********** END FOOTER **********/
 
 /********** LOGIN **********/
+.content-login{
+  width: 300px; 
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#alert-login{
+  border-radius: 6px;
+  padding: 20px;
+  font-size: 14px;
+}
+
 .form-login{
-  width: 300px;
   background-color: #F6F8FA;
   border: 1px solid #e1e1e1;
   border-radius: 6px;
   padding: 20px;
   font-size: 14px;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .form-login button {
@@ -74,16 +83,6 @@ footer{
   background-color: #61b4b3;
 }
 
-#alert-login{
-  width: 300px;
-  border-radius: 6px;
-  font-size: 14px;
-  position: absolute;
-  top: 16%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .form-group label{
   margin-bottom: .25rem;
 }
@@ -93,7 +92,7 @@ footer{
 }
 
 @media (max-width: 400px){
-  .form-login{
+  .form-login, #alert-login{
     width: 90%;
   }
 }
