@@ -5,8 +5,10 @@
     pip install -r requirements.txt
 
 #### Set the environment variable:
-    FLASK_APP=run
-
+    export FLASK_APP=run -> Linux
+    set FLASK_APP=run -> CMD
+    $env:FLASK_APP = "run" -> PowerShell
+    
 #### Run Flask:
     flask run
     
