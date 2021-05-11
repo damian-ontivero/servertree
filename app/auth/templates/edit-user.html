@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar usuario{% endblock %}
+
+{% block header %} - Editar Usuario{% endblock %}
+
+{% block content %}
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <br>
+        <br>
+        {{ form.firstname.label }} {{ form.firstname }}
+        {% for error in form.firstname.errors %}
+            {{ error }}
+        {% endfor %}
+        <br>
+        <br>
+        {{ form.lastname.label }} {{ form.lastname }}
+        {% for error in form.lastname.errors %}
+            {{ error }}
+        {% endfor %}
+        <br>
+        <br>
+        {{ form.email.label }} {{ form.email }}
+        {% for error in form.email.errors %}
+            {{ error }}
+        {% endfor %}
+        <br>
+        <br>
+        <script>
+            window.addEventListener("load", function(){
+                var change_password = document.getElementById('change_password');
+                var password = document.getElementById('password');
+                var password_label = document.getElementById('password_label');
+                var show_password = document.getElementById('show_password');
+                var show_password_label = document.getElementById('show_password_label');
+
+                password.style.display = "none";
+                password_label.style.display = "none";
+                show_password.style.display = "none";
+                show_password_label.style.display = "none";
+
+                change_password.addEventListener('change', function() {
+                    if(change_password.checked) {
+                        password.style.display = "block";
+                        password_label.style.display = "block";
+                        show_password.style.display = "block";
+                        show_password_label.style.display = "block";
+                        show_password.addEventListener('change', function() {
+                            if(show_password.checked) {
+                                password.type = 'text';
+                            } else {
+                                password.type = 'password';
+                            }
+                        })
+                    } else {
+                        password.style.display = "none";
+                        password_label.style.display = "none";
+                        show_password.style.display = "none";
+                        show_password_label.style.display = "none";
+                    }
+                });
+            });
+        </script>
+        {{ form.change_password.label }} {{ form.change_password }}
+        <br>
+        <br>
+        {{ form.password.label(id='password_label') }} {{ form.password }}
+        {% for error in form.password.errors %}
+            {{ error }}
+        {% endfor %}
+        <br>
+        <br>
+        {{ form.show_password.label(id='show_password_label') }} {{ form.show_password }}
+        <br>
+        <br>
+        {{ form.role_id.label }} {{ form.role_id }}
+        {% for error in form.role_id.errors %}
+            {{ error }}
+        {% endfor %}
+        <br>
+        <br>
+        {{ form.is_active.label }} {{ form.is_active }}
+        {% for error in form.is_active.errors %}
+            {{ error }}
+        {% endfor %}
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+{% endblock %}
