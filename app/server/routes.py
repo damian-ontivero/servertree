@@ -53,13 +53,13 @@ def add_server():
 
         server = Server.get_by_name(name)
         if server is not None:
-            error = 'El servidor {} ya está registrador'.format(name)
+            error = 'El servidor {} ya está registrado'.format(name)
         else:
             server = Server(name=name, environment_id=environment_id, operating_system_id=operating_system_id, cpu=cpu, ram=ram, hdd=hdd, is_active=is_active)
             server.save()
             flash('Se ha registrado correctamente el servidor {}.'.format(name), 'success')
 
-    return redirect(url_for('server.get_server_all'))
+    return redirect(request.referrer)
 
 @server_bp.route('/edit_server/<int:server_id>', methods=['GET', 'POST'])
 @login_required
@@ -77,7 +77,8 @@ def edit_server(server_id):
         server.is_active = form.is_active.data
         server.save()
         flash('Se ha actualizado correctamente el servidor {}.'.format(server.name), 'success')
-        return redirect(url_for('server.get_server_all'))
+
+    return redirect(request.referrer)
 
 @server_bp.route('/delete_server/<int:server_id>', methods=['GET', 'POST'])
 @login_required
@@ -86,4 +87,4 @@ def delete_server(server_id):
     server = Server.get_by_id(server_id)
     if server is not None:
         server.delete()
-        return redirect(url_for('server.get_server_all'))
+        return redirect(request.referrer)

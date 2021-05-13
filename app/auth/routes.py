@@ -90,7 +90,7 @@ def add_user():
             user.save()
             flash('Se ha registrado correctamente el usuario con email {}.'.format(email), 'success')
             # Devolvemos la vista de todos los usuarios
-    return redirect(url_for('auth.get_user_all'))
+    return redirect(request.referrer)
 
 @auth_bp.route('/edit_user/<user_id>', methods=['GET', 'POST'])
 @login_required
@@ -99,20 +99,24 @@ def edit_user(user_id):
     user = User.get_by_id(user_id)
     form = UserForm(obj=user)
     if form.validate_on_submit():
-        # Recuperamos los datos del formulario
-        user.firstname = form.firstname.data
-        user.lastname = form.lastname.data
-        user.email = form.email.data
-        if form.change_password.data:
-            user.set_password(form.password.data)
-        # Importante! Se accede a '...data.id' porque desde el campo 'QuerySelectField'
-        # llega el objeto completo y debemos acceder a la propiedad 'id'
-        user.role_id = form.role_id.data.id
-        user.is_active = form.is_active.data
-        user.save()
-        flash('Se ha actualizado correctamente el usuario con email {}.'.format(user.email), 'success')
-        # Devolvemos la vista de todos los usuarios
-        return redirect(url_for('auth.get_user_all'))
+        if User.get_by_email(form.email.data) is None:
+            # Recuperamos los datos del formulario
+            user.firstname = form.firstname.data
+            user.lastname = form.lastname.data
+            user.email = form.email.data
+            # Importante! Se accede a '...data.id' porque desde el campo 'QuerySelectField'
+            # llega el objeto completo y debemos acceder a la propiedad 'id'
+            user.role_id = form.role_id.data.id
+            user.is_active = form.is_active.data
+            if form.change_password.data:
+                user.set_password(form.password.data)
+            user.save()
+            flash('Se ha actualizado correctamente el usuario con email {}.'.format(form.email.data), 'success')
+        else:
+            flash('El email {} ya está registrado por otro usuario.'.format(form.email.data), 'danger')
+            
+    # Devolvemos la vista de todos los usuarios
+    return redirect(request.referrer)
 
 @auth_bp.route('/delete_user/<user_id>', methods=['GET', 'POST'])
 @login_required
@@ -123,4 +127,4 @@ def delete_user(user_id):
         email = user.email
         user.delete()
         flash('Se ha eliminado correctamente el usuario con email {}.'.format(email), 'success')
-        return redirect(url_for('auth.get_user_all'))
+        return redirect(request.referrer)

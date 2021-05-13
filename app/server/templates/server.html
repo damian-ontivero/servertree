@@ -11,9 +11,13 @@
 
 <div class="buttons">
   {% if current_user.role_id == 1 %}
-    <button type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
+    <button type="button" id="addButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
+    <button type="button" id="accessButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
+    <button type="button" id="servicesButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#servicesModal"><i class="fab fa-adn"></i></button>
   {% else %}
-    <button disabled type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
+    <button disabled type="button" id="addButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
+    <button type="button" id="accessButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
+    <button type="button" id="servicesButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#servicesModal"><i class="fab fa-adn"></i></button>
   {% endif %}
 </div>
 
