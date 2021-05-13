@@ -18,7 +18,6 @@ def get_server_all():
 @admin_required
 def get_server():
     server_id = request.form['server_id']
-    print(server_id)
     server = Server.get_by_id(server_id)
     return jsonify({
         'name': server.name,
@@ -69,12 +68,8 @@ def edit_server(server_id):
         server.hdd = form.hdd.data
         server.is_active = form.is_active.data
         server.save()
-        return redirect(url_for('server.get_server'))
-    
-    form.environment_id.data = Environment.get_by_id(server.environment_id)
-    form.operating_system_id.data = OperatingSystem.get_by_id(server.operating_system_id)
-
-    return render_template('edit-server.html', form=form)
+        flash('Se ha actualizado correctamente el servidor {}.'.format(server.name), 'success')
+        return redirect(url_for('server.get_server_all'))
 
 @server_bp.route('/delete_server/<int:server_id>', methods=['GET', 'POST'])
 @login_required
@@ -83,4 +78,4 @@ def delete_server(server_id):
     server = Server.get_by_id(server_id)
     if server is not None:
         server.delete()
-        return redirect(url_for('server.get_server'))
+        return redirect(url_for('server.get_server_all'))
