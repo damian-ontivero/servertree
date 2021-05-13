@@ -42,9 +42,9 @@ def logout():
 def load_user(user_id):
     return User.get_by_id(int(user_id))
 
-@auth_bp.route('/get_all', methods=['GET', 'POST'])
+@auth_bp.route('/get_user_all', methods=['GET', 'POST'])
 @login_required
-def get_all():
+def get_user_all():
     data = db.session.query(User, Role).join(Role).all()
     form = UserForm()
     return render_template('user.html', data=data, form=form)
@@ -90,7 +90,7 @@ def add_user():
             user.save()
             flash('Se ha registrado correctamente el usuario con email {}.'.format(email), 'success')
             # Devolvemos la vista de todos los usuarios
-    return redirect(url_for('auth.get_all'))
+    return redirect(url_for('auth.get_user_all'))
 
 @auth_bp.route('/edit_user/<user_id>', methods=['GET', 'POST'])
 @login_required
@@ -112,7 +112,7 @@ def edit_user(user_id):
         user.save()
         flash('Se ha actualizado correctamente el usuario con email {}.'.format(user.email), 'success')
         # Devolvemos la vista de todos los usuarios
-        return redirect(url_for('auth.get_all'))
+        return redirect(url_for('auth.get_user_all'))
 
 @auth_bp.route('/delete_user/<user_id>', methods=['GET', 'POST'])
 @login_required
@@ -123,4 +123,4 @@ def delete_user(user_id):
         email = user.email
         user.delete()
         flash('Se ha eliminado correctamente el usuario con email {}.'.format(email), 'success')
-        return redirect(url_for('auth.get_all'))
+        return redirect(url_for('auth.get_user_all'))

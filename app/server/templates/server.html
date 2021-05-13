@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}Servidores{% endblock %}
+
+{% block header %} - Servidores{% endblock %}
+
+{% block content %}
+<!-- JavaScript -->
+<script src="{{ url_for('static', filename='js/server.js' ) }}"></script>
+
+<div class="buttons">
+  {% if current_user.role_id == 1 %}
+    <button type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
+  {% else %}
+    <button disabled type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
+  {% endif %}
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Entorno</th>
+      <th>Sistema operativo</th>
+      <th>CPU</th>
+      <th>RAM</th>
+      <th>HDD</th>
+      <th>Activo</th>
+      <th>Editar</th>
+      <th>Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for server, env, os in data %}
+      <tr>
+        <td>{{ server.name }}</td>
+        <td>{{ env.name }}</td>
+        <td>{{ os.name + ' - ' + os.version + ' - ' + os.architect }}</td>
+        <td>{{ server.cpu }}</td>
+        <td>{{ server.ram }}</td>
+        <td>{{ server.hdd }}</td>
+        <td>
+          {% if server.is_active == 0 %}
+            No
+          {% elif server.is_active == 1  %}
+            Si
+          {% endif %}
+        </td>
+        {% if current_user.role_id == 1 %}
+          <td>
+            <button type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger btn-sm" id="deleteButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#deleteServerModal"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        {% else %}
+          <td>
+            <button disabled type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
+          </td>
+          <td>
+            <button disabled type="button" class="btn btn-danger btn-sm" id="deleteButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#deleteServerModal"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Start Server Modal -->
+<div class="modal fade" id="serverModal" tabindex="-1" aria-labelledby="serverModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serverModalLabel">Agregar usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="serverForm" name="serverForm" method="post">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            {{ form.name.label(class="form-control-label") }}
+            <br>
+            {{ form.name(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ form.environment_id.label(class="form-control-label") }}
+            <br>
+            {{ form.environment_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ form.operating_system_id.label(class="form-control-label") }}
+            <br>
+            {{ form.operating_system_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ form.cpu.label(class="form-control-label") }}
+            <br>
+            {{ form.cpu(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ form.ram.label(class="form-control-label") }}
+            <br>
+            {{ form.ram(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ form.hdd.label(class="form-control-label") }}
+            <br>
+            {{ form.hdd(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ form.is_active.label(class="form-control-label") }}
+            <br>
+            {{ form.is_active }}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" form="serverForm">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Server Modal -->
+
+<!-- Start Delete Server Modal -->
+<div class="modal fade" id="deleteServerModal" tabindex="-1" aria-labelledby="deleteServerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteServerModalLabel">Eliminar servidor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteServerForm" action="" novalidate>
+          ¿Está seguro que desea eliminar este servidor?
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" form="deleteServerForm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete Server Modal -->
+{% endblock %}

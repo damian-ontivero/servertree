@@ -6,6 +6,9 @@
 {% block header %} - Usuarios{% endblock %}
 
 {% block content %}
+<!-- JavaScript -->
+<script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
+
 <div class="buttons">
   {% if current_user.role_id == 1 %}
     <button type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user-plus"></i></button>
@@ -14,7 +17,7 @@
   {% endif %}
 </div>
 
-<table class="table table-bordered">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Nombre</th>

@@ -90,12 +90,3 @@ $(document).ready(function(){
       $('#deleteUserForm').attr('action', '/auth/delete_user/' + user_id)
     });
 });
-
-/*
-* Fades flash messages after a set timeout
-*/
-$(document).ready(function(){
-    setTimeout(function (){
-        $('#flash').fadeOut('slow');
-    }, 3550);
-});

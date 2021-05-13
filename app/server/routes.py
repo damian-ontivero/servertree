@@ -1,22 +1,40 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request, jsonify, flash
 from flask_login import login_required
 from app.auth.decorators import admin_required
 from app import db
 from . import server_bp
 from .models import Server, Environment, OperatingSystem
-from .forms import AddServerForm, EditServerForm
+from .forms import ServerForm
+
+@server_bp.route('/get_server_all', methods=['GET', 'POST'])
+@login_required
+def get_server_all():
+    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).all()
+    form = ServerForm()
+    return render_template('server.html', data=data, form=form)
 
 @server_bp.route('/get_server', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def get_server():
-    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).all()
-    return render_template('get-server.html', data=data)
+    server_id = request.form['server_id']
+    print(server_id)
+    server = Server.get_by_id(server_id)
+    return jsonify({
+        'name': server.name,
+        'environment_id': server.environment_id,
+        'operating_system_id': server.operating_system_id,
+        'cpu': server.cpu,
+        'ram': server.ram,
+        'hdd': server.hdd,
+        'is_active': server.is_active
+    })
 
 @server_bp.route('/add_server', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def add_server():
-    form = AddServerForm()
+    form = ServerForm()
     if form.validate_on_submit():
         name = form.name.data
         environment_id = form.environment_id.data.id
@@ -24,22 +42,24 @@ def add_server():
         cpu = form.cpu.data
         ram = form.ram.data
         hdd = form.hdd.data
+        is_active = form.is_active.data
 
         server = Server.get_by_name(name)
         if server is not None:
             error = 'El servidor {} ya está registrador'.format(name)
         else:
-            server = Server(name=name, environment_id=environment_id, operating_system_id=operating_system_id, cpu=cpu, ram=ram, hdd=hdd)
+            server = Server(name=name, environment_id=environment_id, operating_system_id=operating_system_id, cpu=cpu, ram=ram, hdd=hdd, is_active=is_active)
             server.save()
-            return redirect(url_for('server.get_server'))
-    return render_template('add-server.html', form=form)
+            flash('Se ha registrado correctamente el servidor {}.'.format(name), 'success')
+
+    return redirect(url_for('server.get_server_all'))
 
 @server_bp.route('/edit_server/<int:server_id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_server(server_id):
     server = Server.get_by_id(server_id)
-    form = EditServerForm(obj=server)
+    form = ServerForm(obj=server)
     if form.validate_on_submit():
         server.name = form.name.data
         server.environment_id = form.environment_id.data.id

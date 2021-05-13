@@ -48,13 +48,14 @@ class Server(db.Model):
     hdd = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
 
-    def __init__(self, name, environment_id, operating_system_id, cpu, ram, hdd):
+    def __init__(self, name, environment_id, operating_system_id, cpu, ram, hdd, is_active):
         self.name = name
         self.environment_id = environment_id
         self.operating_system_id = operating_system_id
         self.cpu = cpu
         self.ram = ram
         self.hdd = hdd
+        self.is_active = is_active
     
     def __repr__(self):
         return f'<Server {self.name}>'

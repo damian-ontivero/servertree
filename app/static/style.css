@@ -97,10 +97,11 @@ html, body {
 
 /********** CONTAINER **********/
 .container-base{
-  width: 90%; 
+  width: 80%;
   position: relative;
   padding: 20px;
-  border: 1px solid red;
+  left: 10%;
+  top: 5%;
 }
 
 .container-base .wellcome{
@@ -110,11 +111,8 @@ html, body {
 
 .container-base .buttons{
   margin-bottom: 10px;
-  border: 1px solid blue;
 }
 
 .container-base .table{
-  margin-bottom: 10px;
-  border: 1px solid green;
 }
 /********** END CONTAINER **********/
