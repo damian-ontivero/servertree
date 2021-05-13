@@ -55,14 +55,14 @@ def get_user_all():
 def get_user():
     user_id = request.form['user_id']
     user = User.get_by_id(user_id)
-    return jsonify({
-        'firstname': user.firstname,
-        'lastname': user.lastname,
-        'email': user.email,
-        'password': user.password,
-        'role_id': user.role_id,
-        'is_active': user.is_active
-    })
+    return jsonify(
+        firstname = user.firstname,
+        lastname = user.lastname,
+        email = user.email,
+        password = user.password,
+        role_id = user.role_id,
+        is_active = user.is_active
+    )
 
 @auth_bp.route('/add_user', methods=['GET', 'POST'])
 @login_required

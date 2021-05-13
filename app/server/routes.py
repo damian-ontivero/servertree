@@ -19,15 +19,15 @@ def get_server_all():
 def get_server():
     server_id = request.form['server_id']
     server = Server.get_by_id(server_id)
-    return jsonify({
-        'name': server.name,
-        'environment_id': server.environment_id,
-        'operating_system_id': server.operating_system_id,
-        'cpu': server.cpu,
-        'ram': server.ram,
-        'hdd': server.hdd,
-        'is_active': server.is_active
-    })
+    return jsonify(
+        name = server.name,
+        environment_id = server.environment_id,
+        operating_system_id = server.operating_system_id,
+        cpu = server.cpu,
+        ram = server.ram,
+        hdd = server.hdd,
+        is_active = server.is_active
+    )
 
 @server_bp.route('/add_server', methods=['GET', 'POST'])
 @login_required

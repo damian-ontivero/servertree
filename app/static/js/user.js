@@ -25,8 +25,8 @@ $(document).ready(function(){
               $('#lastname').val( data.lastname ).prev().addClass('active');
               $('#email').val( data.email ).prev().addClass('active');
               $('#password').val( data.password ).prev().addClass('active');
-              $('#role_id').val( data.role_id ).material_select();
-              $('#is_active').prop('checked', true);
+              $('#role_id').val( data.role_id );
+              $('#is_active').prop('checked', data.is_active);
             } else {
                $('#userModal').hide();
                location.reload();

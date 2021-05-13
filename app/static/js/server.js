@@ -14,14 +14,15 @@ $(document).ready(function(){
           data: {server_id: server_id},
           dataType: 'json',
           success:function(data){
+            console.log(data)
             if(data){
               $('#name').val( data.name ).prev().addClass('active');
-              $('#environment_id').val( data.environment_id ).material_select();
-              $('#operating_system_id').val( data.operating_system_id ).material_select();
+              $('#environment_id').val( data.environment_id );
+              $('#operating_system_id').val( data.operating_system_id );
               $('#cpu').val( data.cpu ).prev().addClass('active');
               $('#ram').val( data.ram ).prev().addClass('active');
               $('#hdd').val( data.hdd ).prev().addClass('active');
-              $('#is_active').prop('checked', true);
+              $('#is_active').prop('checked', data.is_active);
             } else {
                $('#serverModal').hide();
                location.reload();
