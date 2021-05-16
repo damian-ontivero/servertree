@@ -14,7 +14,6 @@ $(document).ready(function(){
         data: {server_id: server_id},
         dataType: 'json',
         success:function(data){
-          console.log(data)
           if(data){
             $('#name').val( data.name ).prev().addClass('active');
             $('#environment_id').val( data.environment_id );
@@ -44,5 +43,33 @@ $(document).ready(function(){
   $(document).on('click', '#deleteButton', function(){
     var server_id = $(this).attr('data-id');
     $('#deleteServerForm').attr('action', '/server/delete_server/' + server_id)
+  });
+});
+
+
+/*
+* Add and edit for access module
+*/
+$(document).ready(function(){
+  $(document).on('click', '#accessButton', function(){
+    var server_id = $(this).attr('data-id');
+    if(server_id){
+      $.ajax({
+        url: '/server/get_server_access',
+        method: 'post',
+        data: {server_id: server_id},
+        dataType: 'json',
+        success:function(response){
+          var name = response;
+          jQuery.each(name, function(i,data) {
+            $("#accessTable").append("<tr><td>" + data + "</td></tr>");
+        });
+        }
+      });
+    } else {
+      $('#serverModalLabel').html('Nuevo servidor');
+      $('#serverModal').modal('show');
+      $('#serverForm').attr('action', '/server/add_server');
+    }
   });
 });

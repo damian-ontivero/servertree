@@ -3,15 +3,16 @@ from flask_login import login_required
 from app.auth.decorators import admin_required
 from app import db
 from . import server_bp
-from .models import Server, Environment, OperatingSystem
-from .forms import ServerForm
+from .models import Server, Environment, OperatingSystem, Access
+from .forms import ServerForm, AccessForm
 
 @server_bp.route('/get_server_all', methods=['GET', 'POST'])
 @login_required
 def get_server_all():
     data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).all()
     form = ServerForm()
-    return render_template('server.html', data=data, form=form)
+    access_form = AccessForm()
+    return render_template('server.html', data=data, form=form, access_form=access_form)
 
 @server_bp.route('/get_server', methods=['GET', 'POST'])
 @login_required
@@ -88,3 +89,39 @@ def delete_server(server_id):
     if server is not None:
         server.delete()
         return redirect(request.referrer)
+
+@server_bp.route('/get_server_access', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def get_server_access():
+    server_id = request.form['server_id']
+    access = Access.get_by_server_id(server_id)
+    return jsonify(
+        server_id = access.server_id,
+        connection_type_id = access.connection_type_id,
+        ip_local = access.ip_local,
+        port_local = access.port_local,
+        ip_public = access.ip_public,
+        port_public = access.port_public,
+        username = access.username,
+        password = access.password,
+        is_active = access.is_active
+    )
+
+@server_bp.route('/add_server_access')
+@login_required
+@admin_required
+def add_server_access():
+    pass
+
+@server_bp.route('/edit_server_access/<int:access_id>')
+@login_required
+@admin_required
+def edit_server_access(access_id):
+    pass
+
+@server_bp.route('/delete_server_access/<int:access_id>')
+@login_required
+@admin_required
+def delete_server_access(access_id):
+    pass

@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class Role(db.Model):
     __tablename__ = 'Roles'
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True, default=1)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     role = db.Column(db.String(30), unique=True, nullable=False)
     
     def __repr__(self):
@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('Roles.id'), nullable=False)
-    is_active = db.Column(db.Boolean, default=True)
+    is_active = db.Column(db.Boolean)
     
     def __init__(self, firstname, lastname, email, role_id, is_active):
         self.firstname = firstname

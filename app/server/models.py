@@ -46,7 +46,7 @@ class Server(db.Model):
     cpu = db.Column(db.String(50), nullable=False)
     ram = db.Column(db.String(50), nullable=False)
     hdd = db.Column(db.String(50), nullable=False)
-    is_active = db.Column(db.Boolean, default=True)
+    is_active = db.Column(db.Boolean)
 
     def __init__(self, name, environment_id, operating_system_id, cpu, ram, hdd, is_active):
         self.name = name
@@ -80,3 +80,60 @@ class Server(db.Model):
     @staticmethod
     def get_all():
         return Server.query.all()
+
+class ConnectionType(db.Model):
+    __tablename__ = 'ConnectionType'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return '<ConnectionType: {}>'.format(self.name)
+
+    @staticmethod
+    def get_all():
+        return ConnectionType.query.all()
+    
+    @staticmethod
+    def get_by_id(id):
+        return ConnectionType.query.get(id)
+
+class Access(db.Model):
+    __tablename__ = 'Access'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    server_id = db.Column(db.Integer, db.ForeignKey('Servers.id'))
+    connection_type_id = db.Column(db.Integer, db.ForeignKey('ConnectionType.id'))
+    ip_local = db.Column(db.String(15))
+    port_local = db.Column(db.String(5))
+    ip_public = db.Column(db.String(15))
+    port_public = db.Column(db.String(5))
+    username = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
+    is_active = db.Column(db.Boolean)
+
+    def __init__(self, server_id, connection_type_id, ip_local, port_local, ip_public, port_public, username, password, is_active):
+        self.server_id = server_id
+        self.connection_type_id = connection_type_id
+        self.ip_local = ip_local
+        self.port_local = port_local
+        self.ip_public = ip_public
+        self.port_public = port_public
+        self.username = username
+        self.password = password
+        self.is_active = is_active
+
+    def __repr__(self):
+        return '<Access_ID: {}>'.format(self.id)
+
+    @staticmethod
+    def get_all():
+        return Access.query.all()
+    
+    @staticmethod
+    def get_by_id(id):
+        return Access.query.get(id)
+    
+    @staticmethod
+    def get_by_server_id(server_id):
+        return Access.query.filter_by(server_id=server_id).first()
