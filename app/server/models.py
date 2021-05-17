@@ -125,6 +125,15 @@ class Access(db.Model):
 
     def __repr__(self):
         return '<Access_ID: {}>'.format(self.id)
+    
+    def save(self):
+        if not self.id:
+            db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
     @staticmethod
     def get_all():
@@ -136,4 +145,4 @@ class Access(db.Model):
     
     @staticmethod
     def get_by_server_id(server_id):
-        return Access.query.filter_by(server_id=server_id).first()
+        return Access.query.filter_by(server_id=server_id).all()
