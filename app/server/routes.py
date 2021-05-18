@@ -88,14 +88,14 @@ def delete_server(server_id):
     server = Server.get_by_id(server_id)
     if server is not None:
         server.delete()
+        flash('Se ha eliminado correctamente el servidor {}.'.format(server.name), 'success')
         return redirect(request.referrer)
 
-@server_bp.route('/get_server_access', methods=['GET', 'POST'])
+@server_bp.route('/get_server_access_by_server_id', methods=['GET', 'POST'])
 @login_required
 @admin_required
-def get_server_access():
+def get_server_access_by_server_id():
     server_id = request.form['server_id']
-    #data_access = Access.get_by_server_id(server_id)
     data_access = db.session.query(Access, Server, ConnectionType).join(Server, ConnectionType).filter(Access.server_id==server_id).all()
     if data_access is not None:
         all_access = []
@@ -105,6 +105,7 @@ def get_server_access():
             else:
                 is_active = 'No'
             all_access.append({
+                'access_id': access.id,
                 'server_name': server.name,
                 'connection_type_name': connection_type.name,
                 'ip_local': access.ip_local,
@@ -116,6 +117,33 @@ def get_server_access():
                 'is_active': is_active
             })
         return jsonify(all_access)
+    else:
+        return jsonify()
+
+
+@server_bp.route('/get_server_access_by_access_id', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def get_server_access_by_access_id():
+    access_id = request.form['access_id']
+    access = Access.get_by_id(access_id)
+    if access is not None:
+        if access.is_active:
+            is_active = 'Si'
+        else:
+            is_active = 'No'
+        return jsonify(
+            access_id = access.id,
+            server_id = access.server_id,
+            connection_type_id = access.connection_type_id,
+            ip_local = access.ip_local,
+            port_local = access.port_local,
+            ip_public = access.ip_public,
+            port_public = access.port_public,
+            username = access.username,
+            password = access.password,
+            is_active = is_active
+        )
     else:
         return jsonify()
 
@@ -140,14 +168,33 @@ def add_server_access():
         flash('Se ha registrado correctamente el acceso para el servidor {}.'.format(form.server_id.data.name), 'success')
     return redirect(request.referrer)
 
-@server_bp.route('/edit_server_access/<int:access_id>')
+@server_bp.route('/edit_server_access/<int:access_id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_server_access(access_id):
-    pass
+    access = Access.get_by_id(access_id)
+    form = AccessForm(obj=access)
+    if form.validate_on_submit():
+        access.server_id = form.server_id.data.id
+        access.connection_type_id = form.connection_type_id.data.id
+        access.ip_local = form.ip_local.data
+        access.port_local = form.port_local.data
+        access.ip_public = form.ip_public.data
+        access.port_public = form.port_public.data
+        access.username = form.username.data
+        access.password = form.password.data
+        access.is_active = form.is_active.data
+        access.save()
+        flash('Se ha actualizado correctamente el acceso.', 'success')
+
+    return redirect(request.referrer)
 
 @server_bp.route('/delete_server_access/<int:access_id>')
 @login_required
 @admin_required
 def delete_server_access(access_id):
-    pass
+    access = Access.get_by_id(access_id)
+    if access is not None:
+        access.delete()
+        flash('Se ha eliminado correctamente el accesso.', 'success')
+        return redirect(request.referrer)
