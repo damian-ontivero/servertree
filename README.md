@@ -16,7 +16,7 @@
     Users roles:
     insert into Roles values (1, 'Administrador'), (2, 'Observador')
 
-    Admin user:
+    Admin user (pass = 123456):
     insert into Users values (1, 'Administrador', 'Administrador', 'admin@servertree.com', 'pbkdf2:sha256:150000$qghrCG8m$16a44c366d90f0eb0a97c2a4317089a27741a172d9a410d025ed6a7dd56f11a4', 1, 1)
 
     Environment:
