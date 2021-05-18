@@ -3,7 +3,7 @@ from app import db
 class Environment(db.Model):
     __tablename__ = 'Environments'
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class Environment(db.Model):
 class OperatingSystem(db.Model):
     __tablename__ = 'OperatingSystems'
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     version = db.Column(db.String(50), nullable=False)
     architect = db.Column(db.String(6), nullable=False)
@@ -39,7 +39,7 @@ class OperatingSystem(db.Model):
 class Server(db.Model):
     __tablename__ = 'Servers'
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     environment_id = db.Column(db.Integer, db.ForeignKey('Environments.id'), nullable=False)
     operating_system_id = db.Column(db.Integer, db.ForeignKey('OperatingSystems.id'), nullable=False)
@@ -84,7 +84,7 @@ class Server(db.Model):
 class ConnectionType(db.Model):
     __tablename__ = 'ConnectionType'
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
@@ -101,9 +101,9 @@ class ConnectionType(db.Model):
 class Access(db.Model):
     __tablename__ = 'Access'
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey('Servers.id'))
-    connection_type_id = db.Column(db.Integer, db.ForeignKey('ConnectionType.id'))
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey('Servers.id'), nullable=False)
+    connection_type_id = db.Column(db.Integer, db.ForeignKey('ConnectionType.id'), nullable=False)
     ip_local = db.Column(db.String(15))
     port_local = db.Column(db.String(5))
     ip_public = db.Column(db.String(15))
@@ -146,3 +146,56 @@ class Access(db.Model):
     @staticmethod
     def get_by_server_id(server_id):
         return Access.query.filter_by(server_id=server_id).all()
+
+class Service(db.Model):
+    __tablename__ = 'Services'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey('Servers.id'), nullable=False)
+    service = db.Column(db.String(50), nullable=False)
+    version = db.Column(db.String(50), nullable=False)
+    architect = db.Column(db.String(6), nullable=False)
+    ip_local = db.Column(db.String(15))
+    port_local = db.Column(db.String(5))
+    ip_public = db.Column(db.String(15))
+    port_public = db.Column(db.String(5))
+    install_dir = db.Column(db.String(50), nullable=False)
+    log_dir = db.Column(db.String(50), nullable=False)
+    is_active = db.Column(db.Boolean)
+
+    def __init__(self, server_id, service, version, architect, ip_local, port_local, ip_public, port_public, install_dir, log_dir, is_active):
+        self.server_id = server_id
+        self.service = service
+        self.version = version
+        self.architect = architect
+        self.ip_local = ip_local
+        self.port_local = port_local
+        self.ip_public = ip_public
+        self.port_public = port_public
+        self.install_dir = install_dir
+        self.log_dir = log_dir
+        self.is_active = is_active
+
+    def __repr__(self):
+        return '<Service_ID: {}>'.format(self.id)
+    
+    def save(self):
+        if not self.id:
+            db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @staticmethod
+    def get_all():
+        return Service.query.all()
+    
+    @staticmethod
+    def get_by_id(id):
+        return Service.query.get(id)
+    
+    @staticmethod
+    def get_by_server_id(server_id):
+        return Service.query.filter_by(server_id=server_id).all()

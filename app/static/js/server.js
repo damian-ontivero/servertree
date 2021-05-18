@@ -9,7 +9,7 @@ $(document).ready(function(){
       $('#serverModalLabel').html('Editar servidor');
       $('#serverForm').attr('action', '/server/edit_server/' + server_id);
       $.ajax({
-        url: '/server/get_server',
+        url: '/server/get_server_by_id',
         method: 'post',
         data: {server_id: server_id},
         dataType: 'json',
@@ -56,7 +56,7 @@ $(document).ready(function(){
     server_id = $(this).attr('data-id');
     if(server_id){
       $.ajax({
-        url: '/server/get_server_access_by_server_id',
+        url: '/server/get_access_by_server_id',
         method: 'post',
         data: {server_id: server_id},
         dataType: 'json',
@@ -90,9 +90,9 @@ $(document).ready(function(){
     access_id = $(this).attr('data-id');
     if(access_id){
       $('#addEditAccessModalLabel').html('Editar acceso');
-      $('#accessForm').attr('action', '/server/edit_server_access/' + access_id);
+      $('#accessForm').attr('action', '/server/edit_access/' + access_id);
       $.ajax({
-        url: '/server/get_server_access_by_access_id',
+        url: '/server/get_access_by_id',
         method: 'post',
         data: {access_id: access_id},
         dataType: 'json',
@@ -116,7 +116,7 @@ $(document).ready(function(){
     } else {
       $('#addEditAccessModalLabel').html('Nuevo acceso');
       $('#addEditAccessModal').modal('show');
-      $('#accessForm').attr('action', '/server/add_server_access');
+      $('#accessForm').attr('action', '/server/add_access');
       $('#server_id').val(server_id)
     }
   });
@@ -128,6 +128,95 @@ $(document).ready(function(){
 $(document).ready(function(){
   $(document).on('click', '#deleteAccessButton', function(){
     var access_id = $(this).attr('data-id');
-    $('#deleteAccessForm').attr('action', '/server/delete_server_access/' + access_id)
+    $('#deleteAccessForm').attr('action', '/server/delete_access/' + access_id)
+  });
+});
+
+/*
+* Table service module
+*/
+$(document).ready(function(){
+  $(document).on('click', '#serviceButton', function(){
+    $("#serviceTable tbody tr").empty();
+    server_id = $(this).attr('data-id');
+    if(server_id){
+      $.ajax({
+        url: '/server/get_service_by_server_id',
+        method: 'post',
+        data: {server_id: server_id},
+        dataType: 'json',
+        success:function(access){
+          $.each(access, function(key, val) {
+            $('<tr>').append(
+              $('<td>').text(val.server_name),
+              $('<td>').text(val.service),
+              $('<td>').text(val.version),
+              $('<td>').text(val.architect),
+              $('<td>').text(val.ip_local),
+              $('<td>').text(val.port_local),
+              $('<td>').text(val.ip_public),
+              $('<td>').text(val.port_public),
+              $('<td>').text(val.install_dir),
+              $('<td>').text(val.log_dir),
+              $('<td>').text(val.is_active),
+              $('<td><button type="button" class="btn btn-info btn-sm" id="editServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#addEditServiceModal"><i class="fas fa-edit"></i></button></td>'),
+              $('<td><button type="button" class="btn btn-danger btn-sm" id="deleteServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteServiceModal"><i class="fas fa-trash-alt"></i></button></td>')
+          ).appendTo('#serviceTable');
+          });
+        }
+      });
+    }
+  });
+
+
+  /*
+  * Add and edit for service module
+  */
+  $(document).on('click', '#addServiceButton, #editServiceButton', function(){
+    $('#serviceForm')[0].reset();
+    service_id = $(this).attr('data-id');
+    if(service_id){
+      $('#addEditServiceModalLabel').html('Editar servicio');
+      $('#serviceForm').attr('action', '/server/edit_service/' + service_id);
+      $.ajax({
+        url: '/server/get_service_by_id',
+        method: 'post',
+        data: {service_id: service_id},
+        dataType: 'json',
+        success:function(data){
+          if(data){
+            $('#server_id').val( data.server_id ).prev().addClass('active');
+            $('#service').val( data.service ).prev().addClass('active');
+            $('#version').val( data.version ).prev().addClass('active');
+            $('#architect').val( data.architect ).prev().addClass('active');
+            $('#ip_local').val( data.ip_local ).prev().addClass('active');
+            $('#port_local').val( data.port_local ).prev().addClass('active');
+            $('#ip_public').val( data.ip_public ).prev().addClass('active');
+            $('#port_public').val( data.port_public ).prev().addClass('active');
+            $('#install_dir').val( data.install_dir ).prev().addClass('active');
+            $('#log_dir').val( data.log_dir ).prev().addClass('active');
+            $('#is_active').prop('checked', data.is_active);
+          } else {
+             $('#addEditServiceModal').hide();
+             location.reload();
+          }
+        }
+      });
+    } else {
+      $('#addEditServiceModalLabel').html('Nuevo servicio');
+      $('#addEditServiceModal').modal('show');
+      $('#serviceForm').attr('action', '/server/add_service');
+      $('#server_id').val(server_id)
+    }
+  });
+});
+
+/*
+* Delete for service module
+*/
+$(document).ready(function(){
+  $(document).on('click', '#deleteServiceButton', function(){
+    var service_id = $(this).attr('data-id');
+    $('#deleteServiceForm').attr('action', '/server/delete_service/' + service_id)
   });
 });

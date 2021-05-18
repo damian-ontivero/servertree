@@ -24,11 +24,11 @@ class AccessForm(FlaskForm):
     password = StringField('Contraseña', validators=[DataRequired()])
     is_active = BooleanField('Activo')
 
-class AppForm(FlaskForm):
+class ServiceForm(FlaskForm):
     server_id = QuerySelectField('Servidor', query_factory=Server.get_all, get_label='name')
-    name = StringField('Nombre', validators=[DataRequired()])
+    service = StringField('Servicio', validators=[DataRequired()])
     version = StringField('Versión', validators=[DataRequired()])
-    arch = StringField('Arquitectura', validators=[DataRequired()])
+    architect = StringField('Arquitectura', validators=[DataRequired()])
     ip_local = StringField('IP local')
     port_local = StringField('Puerto local')
     ip_public = StringField('IP pública')

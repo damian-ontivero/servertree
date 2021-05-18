@@ -12,9 +12,21 @@
 #### Run Flask:
     flask run
     
-#### Web access include:
-    User: admin@servertree.com
-    Password 123456
+#### Default data:
+    Users roles:
+    insert into Roles values (1, 'Administrador'), (2, 'Observador')
+
+    Admin user:
+    insert into Users values (1, 'Administrador', 'Administrador', 'admin@servertree.com', 'pbkdf2:sha256:150000$qghrCG8m$16a44c366d90f0eb0a97c2a4317089a27741a172d9a410d025ed6a7dd56f11a4', 1, 1)
+
+    Environment:
+    insert into Environments values (1, 'Desarrollo'), (2, 'Prueba'), (3, 'Preproducción'), (4, 'Producción')
+
+    Operating system:
+    insert into OperatingSystems values (1, 'Ubuntu', '20.04', '64-bit'), (2, 'Windows Server', '2019', '64-bit')
+
+    Connection type:
+    insert into ConnectionType values (1, 'SSH'), (2, 'RDP')
 
 ## Notes:
 The application is using sqlite as database and is include in "app/servertree.db" but if you want to configure a different DBMS you might change the SQLALCHEMY_DATABASE_URI variable in the Config class.

@@ -28,7 +28,7 @@
       <th>HDD</th>
       <th>Activo</th>
       <th>Accesos</th>
-      <th>Applicaciones</th>
+      <th>Servicios</th>
       <th>Editar</th>
       <th>Eliminar</th>
     </tr>
@@ -54,7 +54,7 @@
             <button type="button" class="btn btn-success btn-sm" id="accessButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
           </td>
           <td>
-            <button type="button" class="btn btn-dark btn-sm" id="servicesButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#appModal"><i class="fab fa-adn"></i></button>
+            <button type="button" class="btn btn-dark btn-sm" id="serviceButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serviceModal"><i class="fab fa-adn"></i></button>
           </td>
           <td>
             <button type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
@@ -67,7 +67,7 @@
             <button disabled type="button" class="btn btn-primary btn-sm" id="accessButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
           </td>
           <td>
-            <button disabled type="button" class="btn btn-primary btn-sm" id="servicesButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#appModal"><i class="fab fa-adn"></i></button>
+            <button disabled type="button" class="btn btn-primary btn-sm" id="serviceButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serviceModal"><i class="fab fa-adn"></i></button>
           </td>
           <td>
             <button disabled type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
@@ -303,21 +303,21 @@
 </div>
 <!-- End Delete Access Modal -->
 
-<!-- Start App Modal -->
-<div class="modal fade" id="appModal" tabindex="-1" aria-labelledby="appModalLabel" aria-hidden="true">
+<!-- Start Service Modal -->
+<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="appModalLabel">Aplicaciones</h5>
+        <h5 class="modal-title" id="serviceModalLabel">Servicios</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <button type="button" id="addAppButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditAppModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
-        <table class="table table-hover" id="appTable" name="appTable">
+        <button type="button" id="addServiceButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditServiceModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        <table class="table table-hover" id="serviceTable" name="serviceTable">
           <thead>
             <tr>
               <th>Servidor</th>
-              <th>Nombre</th>
+              <th>Servicio</th>
               <th>Versión</th>
               <th>Arquitectura</th>
               <th>IP local</th>
@@ -343,114 +343,114 @@
     </div>
   </div>
 </div>
-<!-- End App Modal -->
+<!-- End Service Modal -->
 
-<!-- Start Add Edit App Modal -->
-<div class="modal fade" id="addEditAppModal" tabindex="-1" aria-labelledby="addEditAppModalLabel" aria-hidden="true">
+<!-- Start Add Edit Service Modal -->
+<div class="modal fade" id="addEditServiceModal" tabindex="-1" aria-labelledby="addEditServiceModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addEditAppModalLabel">Agregar aplicación</h5>
+        <h5 class="modal-title" id="addEditServiceModalLabel">Agregar servicio</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="appForm" name="appForm" method="post">
-          {{ app_form.hidden_tag() }}
+        <form id="serviceForm" name="serviceForm" method="post">
+          {{ service_form.hidden_tag() }}
           <div class="form-group">
-            {{ app_form.server_id.label(class="form-control-label") }}
+            {{ service_form.server_id.label(class="form-control-label") }}
             <br>
-            {{ app_form.server_id(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.server_id(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.name.label(class="form-control-label") }}
+            {{ service_form.service.label(class="form-control-label") }}
             <br>
-            {{ app_form.name(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.version.label(class="form-control-label") }}
+            {{ service_form.version.label(class="form-control-label") }}
             <br>
-            {{ app_form.version(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.version(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.arch.label(class="form-control-label") }}
+            {{ service_form.architect.label(class="form-control-label") }}
             <br>
-            {{ app_form.arch(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.architect(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.ip_local.label(class="form-control-label") }}
+            {{ service_form.ip_local.label(class="form-control-label") }}
             <br>
-            {{ app_form.ip_local(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.ip_local(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.port_local.label(class="form-control-label") }}
+            {{ service_form.port_local.label(class="form-control-label") }}
             <br>
-            {{ app_form.port_local(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.port_local(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.ip_public.label(class="form-control-label") }}
+            {{ service_form.ip_public.label(class="form-control-label") }}
             <br>
-            {{ app_form.ip_public(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.ip_public(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.port_public.label(class="form-control-label") }}
+            {{ service_form.port_public.label(class="form-control-label") }}
             <br>
-            {{ app_form.port_public(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.port_public(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.install_dir.label(class="form-control-label") }}
+            {{ service_form.install_dir.label(class="form-control-label") }}
             <br>
-            {{ app_form.install_dir(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.install_dir(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.log_dir.label(class="form-control-label") }}
+            {{ service_form.log_dir.label(class="form-control-label") }}
             <br>
-            {{ app_form.log_dir(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.log_dir(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ app_form.is_active.label(class="form-control-label") }}
+            {{ service_form.is_active.label(class="form-control-label") }}
             <br>
-            {{ app_form.is_active }}
+            {{ service_form.is_active }}
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-success" form="appForm">Guardar</button>
+        <button type="submit" class="btn btn-success" form="serviceForm">Guardar</button>
       </div>
     </div>
   </div>
 </div>
-<!-- End Add Edit App Modal -->
+<!-- End Add Edit Service Modal -->
 
-<!-- Start Delete App Modal -->
-<div class="modal fade" id="deleteAppModal" tabindex="-1" aria-labelledby="deleteAppModalLabel" aria-hidden="true">
+<!-- Start Delete Service Modal -->
+<div class="modal fade" id="deleteServiceModal" tabindex="-1" aria-labelledby="deleteServiceModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteAppModalLabel">Eliminar servidor</h5>
+        <h5 class="modal-title" id="deleteServiceModalLabel">Eliminar servicio</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="deleteAppForm" novalidate>
-          ¿Está seguro que desea eliminar esta aplicación?
+        <form id="deleteServiceForm" novalidate>
+          ¿Está seguro que desea eliminar este servicio?
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-danger" form="deleteAppForm">Eliminar</button>
+        <button type="submit" class="btn btn-danger" form="deleteServiceForm">Eliminar</button>
       </div>
     </div>
   </div>
 </div>
-<!-- End Delete App Modal -->
+<!-- End Delete Service Modal -->
 {% endblock %}
