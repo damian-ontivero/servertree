@@ -14,6 +14,15 @@ def get_server_all():
     access_form = AccessForm()
     return render_template('server.html', data=data, form=form, access_form=access_form)
 
+@server_bp.route('/get_server_by_env/<int:server_env>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def get_server_by_env(server_env):
+    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(Server.environment_id==server_env).all()
+    form = ServerForm()
+    access_form = AccessForm()
+    return render_template('server.html', data=data, form=form, access_form=access_form)
+
 @server_bp.route('/get_server', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -29,14 +38,6 @@ def get_server():
         hdd = server.hdd,
         is_active = server.is_active
     )
-
-@server_bp.route('/get_server_by_env/<int:server_env>', methods=['GET', 'POST'])
-@login_required
-@admin_required
-def get_server_by_env(server_env):
-    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(Server.environment_id==server_env).all()
-    form = ServerForm()
-    return render_template('server.html', data=data, form=form)
 
 @server_bp.route('/add_server', methods=['GET', 'POST'])
 @login_required
@@ -128,10 +129,6 @@ def get_server_access_by_access_id():
     access_id = request.form['access_id']
     access = Access.get_by_id(access_id)
     if access is not None:
-        if access.is_active:
-            is_active = 'Si'
-        else:
-            is_active = 'No'
         return jsonify(
             access_id = access.id,
             server_id = access.server_id,
@@ -142,7 +139,7 @@ def get_server_access_by_access_id():
             port_public = access.port_public,
             username = access.username,
             password = access.password,
-            is_active = is_active
+            is_active = access.is_active
         )
     else:
         return jsonify()
@@ -173,6 +170,7 @@ def add_server_access():
 @admin_required
 def edit_server_access(access_id):
     access = Access.get_by_id(access_id)
+    server = Server.get_by_id(access.server_id)
     form = AccessForm(obj=access)
     if form.validate_on_submit():
         access.server_id = form.server_id.data.id
@@ -185,7 +183,7 @@ def edit_server_access(access_id):
         access.password = form.password.data
         access.is_active = form.is_active.data
         access.save()
-        flash('Se ha actualizado correctamente el acceso.', 'success')
+        flash('Se ha actualizado correctamente el acceso para el servidor {}.'.format(server.name), 'success')
 
     return redirect(request.referrer)
 
@@ -194,7 +192,8 @@ def edit_server_access(access_id):
 @admin_required
 def delete_server_access(access_id):
     access = Access.get_by_id(access_id)
+    server = Server.get_by_id(access.server_id)
     if access is not None:
         access.delete()
-        flash('Se ha eliminado correctamente el accesso.', 'success')
+        flash('Se ha eliminado correctamente el accesso para el servidor {}.'.format(server.name), 'success')
         return redirect(request.referrer)
