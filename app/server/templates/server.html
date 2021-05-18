@@ -54,7 +54,7 @@
             <button type="button" class="btn btn-success btn-sm" id="accessButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
           </td>
           <td>
-            <button type="button" class="btn btn-dark btn-sm" id="servicesButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#servicesModal"><i class="fab fa-adn"></i></button>
+            <button type="button" class="btn btn-dark btn-sm" id="servicesButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#appModal"><i class="fab fa-adn"></i></button>
           </td>
           <td>
             <button type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
@@ -67,7 +67,7 @@
             <button disabled type="button" class="btn btn-primary btn-sm" id="accessButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
           </td>
           <td>
-            <button disabled type="button" class="btn btn-primary btn-sm" id="servicesButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#servicesModal"><i class="fab fa-adn"></i></button>
+            <button disabled type="button" class="btn btn-primary btn-sm" id="servicesButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#appModal"><i class="fab fa-adn"></i></button>
           </td>
           <td>
             <button disabled type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
@@ -144,6 +144,28 @@
 </div>
 <!-- End Server Modal -->
 
+<!-- Start Delete Server Modal -->
+<div class="modal fade" id="deleteServerModal" tabindex="-1" aria-labelledby="deleteServerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteServerModalLabel">Eliminar servidor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteServerForm" action="" novalidate>
+          ¿Está seguro que desea eliminar este servidor?
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" form="deleteServerForm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete Server Modal -->
+
 <!-- Start Access Modal -->
 <div class="modal fade" id="accessModal" tabindex="-1" aria-labelledby="accessModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -184,7 +206,7 @@
 </div>
 <!-- End Access Modal -->
 
-<!-- Start Add Access Modal -->
+<!-- Start Add Edit Access Modal -->
 <div class="modal fade" id="addEditAccessModal" tabindex="-1" aria-labelledby="addEditAccessModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -244,9 +266,9 @@
           </div>
           <br>
           <div class="form-group">
-            {{ form.is_active.label(class="form-control-label") }}
+            {{ access_form.is_active.label(class="form-control-label") }}
             <br>
-            {{ form.is_active }}
+            {{ access_form.is_active }}
           </div>
         </form>
       </div>
@@ -257,29 +279,7 @@
     </div>
   </div>
 </div>
-<!-- End Add Access Modal -->
-
-<!-- Start Delete Server Modal -->
-<div class="modal fade" id="deleteServerModal" tabindex="-1" aria-labelledby="deleteServerModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteServerModalLabel">Eliminar servidor</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="deleteServerForm" action="" novalidate>
-          ¿Está seguro que desea eliminar este servidor?
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-danger" form="deleteServerForm">Eliminar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End Delete Server Modal -->
+<!-- End Add Edit Access Modal -->
 
 <!-- Start Delete Access Modal -->
 <div class="modal fade" id="deleteAccessModal" tabindex="-1" aria-labelledby="deleteAccessModalLabel" aria-hidden="true">
@@ -302,4 +302,155 @@
   </div>
 </div>
 <!-- End Delete Access Modal -->
+
+<!-- Start App Modal -->
+<div class="modal fade" id="appModal" tabindex="-1" aria-labelledby="appModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="appModalLabel">Aplicaciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <button type="button" id="addAppButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditAppModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        <table class="table table-hover" id="appTable" name="appTable">
+          <thead>
+            <tr>
+              <th>Servidor</th>
+              <th>Nombre</th>
+              <th>Versión</th>
+              <th>Arquitectura</th>
+              <th>IP local</th>
+              <th>Puerto local</th>
+              <th>IP pública</th>
+              <th>Puerto público</th>
+              <th>Directorio instalación</th>
+              <th>Directorio logs</th>
+              <th>Activo</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End App Modal -->
+
+<!-- Start Add Edit App Modal -->
+<div class="modal fade" id="addEditAppModal" tabindex="-1" aria-labelledby="addEditAppModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addEditAppModalLabel">Agregar aplicación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="appForm" name="appForm" method="post">
+          {{ app_form.hidden_tag() }}
+          <div class="form-group">
+            {{ app_form.server_id.label(class="form-control-label") }}
+            <br>
+            {{ app_form.server_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.name.label(class="form-control-label") }}
+            <br>
+            {{ app_form.name(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.version.label(class="form-control-label") }}
+            <br>
+            {{ app_form.version(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.arch.label(class="form-control-label") }}
+            <br>
+            {{ app_form.arch(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.ip_local.label(class="form-control-label") }}
+            <br>
+            {{ app_form.ip_local(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.port_local.label(class="form-control-label") }}
+            <br>
+            {{ app_form.port_local(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.ip_public.label(class="form-control-label") }}
+            <br>
+            {{ app_form.ip_public(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.port_public.label(class="form-control-label") }}
+            <br>
+            {{ app_form.port_public(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.install_dir.label(class="form-control-label") }}
+            <br>
+            {{ app_form.install_dir(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.log_dir.label(class="form-control-label") }}
+            <br>
+            {{ app_form.log_dir(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ app_form.is_active.label(class="form-control-label") }}
+            <br>
+            {{ app_form.is_active }}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" form="appForm">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Add Edit App Modal -->
+
+<!-- Start Delete App Modal -->
+<div class="modal fade" id="deleteAppModal" tabindex="-1" aria-labelledby="deleteAppModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAppModalLabel">Eliminar servidor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteAppForm" novalidate>
+          ¿Está seguro que desea eliminar esta aplicación?
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" form="deleteAppForm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete App Modal -->
 {% endblock %}

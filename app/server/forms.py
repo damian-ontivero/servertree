@@ -23,3 +23,16 @@ class AccessForm(FlaskForm):
     username = StringField('Usuario', validators=[DataRequired()])
     password = StringField('Contraseña', validators=[DataRequired()])
     is_active = BooleanField('Activo')
+
+class AppForm(FlaskForm):
+    server_id = QuerySelectField('Servidor', query_factory=Server.get_all, get_label='name')
+    name = StringField('Nombre', validators=[DataRequired()])
+    version = StringField('Versión', validators=[DataRequired()])
+    arch = StringField('Arquitectura', validators=[DataRequired()])
+    ip_local = StringField('IP local')
+    port_local = StringField('Puerto local')
+    ip_public = StringField('IP pública')
+    port_public = StringField('Puerto público')
+    install_dir = StringField('Directorio intalación', validators=[DataRequired()])
+    log_dir = StringField('Directorio logs', validators=[DataRequired()])
+    is_active = BooleanField('Activo')

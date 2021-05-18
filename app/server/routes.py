@@ -4,7 +4,7 @@ from app.auth.decorators import admin_required
 from app import db
 from . import server_bp
 from .models import Server, Environment, OperatingSystem, Access, ConnectionType
-from .forms import ServerForm, AccessForm
+from .forms import ServerForm, AccessForm, AppForm
 
 @server_bp.route('/get_server_all', methods=['GET', 'POST'])
 @login_required
@@ -12,7 +12,8 @@ def get_server_all():
     data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).all()
     form = ServerForm()
     access_form = AccessForm()
-    return render_template('server.html', data=data, form=form, access_form=access_form)
+    app_form = AppForm()
+    return render_template('server.html', data=data, form=form, access_form=access_form, app_form=app_form)
 
 @server_bp.route('/get_server_by_env/<int:server_env>', methods=['GET', 'POST'])
 @login_required
@@ -21,7 +22,8 @@ def get_server_by_env(server_env):
     data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(Server.environment_id==server_env).all()
     form = ServerForm()
     access_form = AccessForm()
-    return render_template('server.html', data=data, form=form, access_form=access_form)
+    app_form = AppForm()
+    return render_template('server.html', data=data, form=form, access_form=access_form, app_form=app_form)
 
 @server_bp.route('/get_server', methods=['GET', 'POST'])
 @login_required
