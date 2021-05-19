@@ -98,15 +98,15 @@ $(document).ready(function(){
         dataType: 'json',
         success:function(data){
           if(data){
-            $('#server_id').val( data.server_id );
-            $('#connection_type_id').val( data.connection_type_id );
-            $('#ip_local').val( data.ip_local ).prev().addClass('active');
-            $('#port_local').val( data.port_local ).prev().addClass('active');
-            $('#ip_public').val( data.ip_public ).prev().addClass('active');
-            $('#port_public').val( data.port_public ).prev().addClass('active');
-            $('#username').val( data.username ).prev().addClass('active');
-            $('#password').val( data.password ).prev().addClass('active');
-            $('#is_active').prop('checked', data.is_active);
+            $('#access_server_id').val( data.server_id );
+            $('#access_connection_type_id').val( data.connection_type_id );
+            $('#access_ip_local').val( data.ip_local ).prev().addClass('active');
+            $('#access_port_local').val( data.port_local ).prev().addClass('active');
+            $('#access_ip_public').val( data.ip_public ).prev().addClass('active');
+            $('#access_port_public').val( data.port_public ).prev().addClass('active');
+            $('#access_username').val( data.username ).prev().addClass('active');
+            $('#access_password').val( data.password ).prev().addClass('active');
+            $('#access_is_active').prop('checked', data.is_active);
           } else {
              $('#addEditAccessModal').hide();
              location.reload();
@@ -117,7 +117,7 @@ $(document).ready(function(){
       $('#addEditAccessModalLabel').html('Nuevo acceso');
       $('#addEditAccessModal').modal('show');
       $('#accessForm').attr('action', '/server/add_access');
-      $('#server_id').val(server_id)
+      $('#access_server_id').val(server_id)
     }
   });
 });
@@ -185,17 +185,17 @@ $(document).ready(function(){
         dataType: 'json',
         success:function(data){
           if(data){
-            $('#server_id').val( data.server_id ).prev().addClass('active');
+            $('#service_server_id').val( data.server_id );
             $('#service').val( data.service ).prev().addClass('active');
-            $('#version').val( data.version ).prev().addClass('active');
-            $('#architect').val( data.architect ).prev().addClass('active');
-            $('#ip-local').val( data.ip_local ).prev().addClass('active');
-            $('#port-local').val( data.port_local ).prev().addClass('active');
-            $('#ip-public').val( data.ip_public ).prev().addClass('active');
-            $('#port-public').val( data.port_public ).prev().addClass('active');
-            $('#install_dir').val( data.install_dir ).prev().addClass('active');
-            $('#log_dir').val( data.log_dir ).prev().addClass('active');
-            $('#is_active').prop('checked', data.is_active);
+            $('#service_version').val( data.version ).prev().addClass('active');
+            $('#service_architect').val( data.architect ).prev().addClass('active');
+            $('#service_ip_local').val( data.ip_local ).prev().addClass('active');
+            $('#service_port_local').val( data.port_local ).prev().addClass('active');
+            $('#service_ip_public').val( data.ip_public ).prev().addClass('active');
+            $('#service_port_public').val( data.port_public ).prev().addClass('active');
+            $('#service_install_dir').val( data.install_dir ).prev().addClass('active');
+            $('#service_log_dir').val( data.log_dir ).prev().addClass('active');
+            $('#service_is_active').prop('checked', data.is_active);
           } else {
              $('#addEditServiceModal').hide();
              location.reload();
@@ -206,7 +206,7 @@ $(document).ready(function(){
       $('#addEditServiceModalLabel').html('Nuevo servicio');
       $('#addEditServiceModal').modal('show');
       $('#serviceForm').attr('action', '/server/add_service');
-      $('#server_id').val(server_id)
+      $('#service_server_id').val(server_id)
     }
   });
 });

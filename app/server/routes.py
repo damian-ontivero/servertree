@@ -162,19 +162,19 @@ def get_access_by_id():
 def add_access():
     form = AccessForm()
     if form.validate_on_submit:
-        server_id = form.server_id.data.id
-        connection_type_id = form.connection_type_id.data.id
-        ip_local = form.ip_local.data
-        port_local = form.port_local.data
-        ip_public = form.ip_public.data
-        port_public = form.port_public.data
-        username = form.username.data
-        password = form.password.data
-        is_active = form.is_active.data
+        server_id = form.access_server_id.data.id
+        connection_type_id = form.access_connection_type_id.data.id
+        ip_local = form.access_ip_local.data
+        port_local = form.access_port_local.data
+        ip_public = form.access_ip_public.data
+        port_public = form.access_port_public.data
+        username = form.access_username.data
+        password = form.access_password.data
+        is_active = form.access_is_active.data
 
         access = Access(server_id=server_id, connection_type_id=connection_type_id, ip_local=ip_local, port_local=port_local, ip_public=ip_public, port_public=port_public, username=username, password=password, is_active=is_active)
         access.save()
-        flash('Se ha registrado correctamente el acceso para el servidor {}.'.format(form.server_id.data.name), 'success')
+        flash('Se ha registrado correctamente el acceso para el servidor {}.'.format(form.access_server_id.data.name), 'success')
     return redirect(request.referrer)
 
 @server_bp.route('/edit_access/<int:access_id>', methods=['GET', 'POST'])
@@ -185,15 +185,15 @@ def edit_access(access_id):
     server = Server.get_by_id(access.server_id)
     form = AccessForm(obj=access)
     if form.validate_on_submit():
-        access.server_id = form.server_id.data.id
-        access.connection_type_id = form.connection_type_id.data.id
-        access.ip_local = form.ip_local.data
-        access.port_local = form.port_local.data
-        access.ip_public = form.ip_public.data
-        access.port_public = form.port_public.data
-        access.username = form.username.data
-        access.password = form.password.data
-        access.is_active = form.is_active.data
+        access.server_id = form.access_server_id.data.id
+        access.connection_type_id = form.access_connection_type_id.data.id
+        access.ip_local = form.access_ip_local.data
+        access.port_local = form.access_port_local.data
+        access.ip_public = form.access_ip_public.data
+        access.port_public = form.access_port_public.data
+        access.username = form.access_username.data
+        access.password = form.access_password.data
+        access.is_active = form.access_is_active.data
         access.save()
         flash('Se ha actualizado correctamente el acceso para el servidor {}.'.format(server.name), 'success')
 
@@ -276,21 +276,21 @@ def get_service_by_id():
 def add_service():
     form = ServiceForm()
     if form.validate_on_submit:
-        server_id = form.server_id.data.id
+        server_id = form.service_server_id.data.id
         service = form.service.data
-        version = form.version.data
-        architect = form.architect.data
-        ip_local = form.ip_local.data
-        port_local = form.port_local.data
-        ip_public = form.ip_public.data
-        port_public = form.port_public.data
-        install_dir = form.install_dir.data
-        log_dir = form.log_dir.data
-        is_active = form.is_active.data
+        version = form.service_version.data
+        architect = form.service_architect.data
+        ip_local = form.service_ip_local.data
+        port_local = form.service_port_local.data
+        ip_public = form.service_ip_public.data
+        port_public = form.service_port_public.data
+        install_dir = form.service_install_dir.data
+        log_dir = form.service_log_dir.data
+        is_active = form.service_is_active.data
 
         service = Service(server_id=server_id, service=service, version=version, architect=architect, ip_local=ip_local, port_local=port_local, ip_public=ip_public, port_public=port_public, install_dir=install_dir, log_dir=log_dir, is_active=is_active)
         service.save()
-        flash('Se ha registrado correctamente el servicio para el servidor {}.'.format(form.server_id.data.name), 'success')
+        flash('Se ha registrado correctamente el servicio para el servidor {}.'.format(form.service_server_id.data.name), 'success')
     return redirect(request.referrer)
 
 @server_bp.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
@@ -301,17 +301,17 @@ def edit_service(service_id):
     server = Server.get_by_id(service.server_id)
     form = ServiceForm(obj=service)
     if form.validate_on_submit():
-        service.server_id = form.server_id.data.id
+        service.server_id = form.service_server_id.data.id
         service.service = form.service.data
-        service.version = form.version.data
-        service.architect = form.architect.data
-        service.ip_local = form.ip_local.data
-        service.port_local = form.port_local.data
-        service.ip_public = form.ip_public.data
-        service.port_public = form.port_public.data
-        service.install_dir = form.install_dir.data
-        service.log_dir = form.log_dir.data
-        service.is_active = form.is_active.data
+        service.version = form.service_version.data
+        service.architect = form.service_architect.data
+        service.ip_local = form.service_ip_local.data
+        service.port_local = form.service_port_local.data
+        service.ip_public = form.service_ip_public.data
+        service.port_public = form.service_port_public.data
+        service.install_dir = form.service_install_dir.data
+        service.log_dir = form.service_log_dir.data
+        service.is_active = form.service_is_active.data
         service.save()
         flash('Se ha actualizado correctamente el servicio para el servidor {}.'.format(server.name), 'success')
 

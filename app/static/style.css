@@ -102,6 +102,11 @@ html, body {
   padding: 20px;
   left: 10%;
   top: 5%;
+  overflow-x: auto;
+}
+
+.modal-body{
+  overflow-x: auto;
 }
 
 .container-base .wellcome{

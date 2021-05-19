@@ -216,57 +216,57 @@
         <form id="accessForm" name="accessForm" method="post">
           {{ access_form.hidden_tag() }}
           <div class="form-group">
-            {{ access_form.server_id.label(class="form-control-label") }}
+            {{ access_form.access_server_id.label(class="form-control-label") }}
             <br>
-            {{ access_form.server_id(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_server_id(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.connection_type_id.label(class="form-control-label") }}
+            {{ access_form.access_connection_type_id.label(class="form-control-label") }}
             <br>
-            {{ access_form.connection_type_id(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_connection_type_id(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.ip_local.label(class="form-control-label") }}
+            {{ access_form.access_ip_local.label(class="form-control-label") }}
             <br>
-            {{ access_form.ip_local(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_ip_local(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.port_local.label(class="form-control-label") }}
+            {{ access_form.access_port_local.label(class="form-control-label") }}
             <br>
-            {{ access_form.port_local(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_port_local(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.ip_public.label(class="form-control-label") }}
+            {{ access_form.access_ip_public.label(class="form-control-label") }}
             <br>
-            {{ access_form.ip_public(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_ip_public(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.port_public.label(class="form-control-label") }}
+            {{ access_form.access_port_public.label(class="form-control-label") }}
             <br>
-            {{ access_form.port_public(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_port_public(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.username.label(class="form-control-label") }}
+            {{ access_form.access_username.label(class="form-control-label") }}
             <br>
-            {{ access_form.username(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_username(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.password.label(class="form-control-label") }}
+            {{ access_form.access_password.label(class="form-control-label") }}
             <br>
-            {{ access_form.password(class="form-control form-control-md shadow-sm item") }}
+            {{ access_form.access_password(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ access_form.is_active.label(class="form-control-label") }}
+            {{ access_form.access_is_active.label(class="form-control-label") }}
             <br>
-            {{ access_form.is_active }}
+            {{ access_form.access_is_active }}
           </div>
         </form>
       </div>
@@ -303,7 +303,7 @@
 
 <!-- Start Service Modal -->
 <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
+  <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="serviceModalLabel">Servicios</h5>
@@ -359,9 +359,9 @@
         <form id="serviceForm" name="serviceForm" method="post">
           {{ service_form.hidden_tag() }}
           <div class="form-group">
-            {{ service_form.server_id.label(class="form-control-label") }}
+            {{ service_form.service_server_id.label(class="form-control-label") }}
             <br>
-            {{ service_form.server_id(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_server_id(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
@@ -371,57 +371,57 @@
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.version.label(class="form-control-label") }}
+            {{ service_form.service_version.label(class="form-control-label") }}
             <br>
-            {{ service_form.version(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_version(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.architect.label(class="form-control-label") }}
+            {{ service_form.service_architect.label(class="form-control-label") }}
             <br>
-            {{ service_form.architect(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_architect(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.ip_local.label(class="form-control-label") }}
+            {{ service_form.service_ip_local.label(class="form-control-label") }}
             <br>
-            {{ service_form.ip_local(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_ip_local(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.port_local.label(class="form-control-label") }}
+            {{ service_form.service_port_local.label(class="form-control-label") }}
             <br>
-            {{ service_form.port_local(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_port_local(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.ip_public.label(class="form-control-label") }}
+            {{ service_form.service_ip_public.label(class="form-control-label") }}
             <br>
-            {{ service_form.ip_public(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_ip_public(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.port_public.label(class="form-control-label") }}
+            {{ service_form.service_port_public.label(class="form-control-label") }}
             <br>
-            {{ service_form.port_public(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_port_public(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.install_dir.label(class="form-control-label") }}
+            {{ service_form.service_install_dir.label(class="form-control-label") }}
             <br>
-            {{ service_form.install_dir(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_install_dir(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.log_dir.label(class="form-control-label") }}
+            {{ service_form.service_log_dir.label(class="form-control-label") }}
             <br>
-            {{ service_form.log_dir(class="form-control form-control-md shadow-sm item") }}
+            {{ service_form.service_log_dir(class="form-control form-control-md shadow-sm item") }}
           </div>
           <br>
           <div class="form-group">
-            {{ service_form.is_active.label(class="form-control-label") }}
+            {{ service_form.service_is_active.label(class="form-control-label") }}
             <br>
-            {{ service_form.is_active }}
+            {{ service_form.service_is_active }}
           </div>
         </form>
       </div>
