@@ -13,7 +13,7 @@
   {% if current_user.role_id == 1 %}
     <button type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
   {% else %}
-    <button disabled type="button" id="addButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
+    <button disabled type="button" id="addButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>
   {% endif %}
 </div>
 
@@ -49,13 +49,13 @@
             Si
           {% endif %}
         </td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm" id="accessButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-dark btn-sm" id="serviceButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serviceModal"><i class="fab fa-adn"></i></button>
+        </td>
         {% if current_user.role_id == 1 %}
-          <td>
-            <button type="button" class="btn btn-success btn-sm" id="accessButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
-          </td>
-          <td>
-            <button type="button" class="btn btn-dark btn-sm" id="serviceButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serviceModal"><i class="fab fa-adn"></i></button>
-          </td>
           <td>
             <button type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
           </td>
@@ -63,12 +63,6 @@
             <button type="button" class="btn btn-danger btn-sm" id="deleteButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#deleteServerModal"><i class="fas fa-trash-alt"></i></button>
           </td>
         {% else %}
-          <td>
-            <button disabled type="button" class="btn btn-primary btn-sm" id="accessButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#accessModal"><i class="fas fa-key"></i></button>
-          </td>
-          <td>
-            <button disabled type="button" class="btn btn-primary btn-sm" id="serviceButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serviceModal"><i class="fab fa-adn"></i></button>
-          </td>
           <td>
             <button disabled type="button" class="btn btn-info btn-sm" id="editButton" data-id={{ server.id }} data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-edit"></i></button>
           </td>
@@ -175,7 +169,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <button type="button" id="addAccessButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditAccessModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% if current_user.role_id == 1 %}
+          <button type="button" id="addAccessButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditAccessModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% else %}
+          <button disabled type="button" id="addAccessButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditAccessModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% endif %}
         <table class="table table-hover" id="accessTable" name="accessTable">
           <thead>
             <tr>
@@ -312,7 +310,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <button type="button" id="addServiceButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditServiceModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% if current_user.role_id == 1 %}
+          <button type="button" id="addServiceButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditServiceModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% else %}
+          <button disabled type="button" id="addServiceButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditServiceModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% endif %}
         <table class="table table-hover" id="serviceTable" name="serviceTable">
           <thead>
             <tr>

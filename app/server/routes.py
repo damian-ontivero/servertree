@@ -108,7 +108,6 @@ Server access management
 
 @server_bp.route('/get_access_by_server_id', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def get_access_by_server_id():
     server_id = request.form['server_id']
     data_access = db.session.query(Access, Server, ConnectionType).join(Server, ConnectionType).filter(Access.server_id==server_id).all()
@@ -138,7 +137,6 @@ def get_access_by_server_id():
 
 @server_bp.route('/get_access_by_id', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def get_access_by_id():
     access_id = request.form['access_id']
     access = Access.get_by_id(access_id)
@@ -220,7 +218,6 @@ Server services management
 
 @server_bp.route('/get_service_by_server_id', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def get_service_by_server_id():
     server_id = request.form['server_id']
     data_service = db.session.query(Service, Server).join(Server).filter(Service.server_id==server_id).all()
@@ -252,7 +249,6 @@ def get_service_by_server_id():
 
 @server_bp.route('/get_service_by_id', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def get_service_by_id():
     service_id = request.form['service_id']
     service = Service.get_by_id(service_id)
