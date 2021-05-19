@@ -189,10 +189,10 @@ $(document).ready(function(){
             $('#service').val( data.service ).prev().addClass('active');
             $('#version').val( data.version ).prev().addClass('active');
             $('#architect').val( data.architect ).prev().addClass('active');
-            $('#ip_local').val( data.ip_local ).prev().addClass('active');
-            $('#port_local').val( data.port_local ).prev().addClass('active');
-            $('#ip_public').val( data.ip_public ).prev().addClass('active');
-            $('#port_public').val( data.port_public ).prev().addClass('active');
+            $('#ip-local').val( data.ip_local ).prev().addClass('active');
+            $('#port-local').val( data.port_local ).prev().addClass('active');
+            $('#ip-public').val( data.ip_public ).prev().addClass('active');
+            $('#port-public').val( data.port_public ).prev().addClass('active');
             $('#install_dir').val( data.install_dir ).prev().addClass('active');
             $('#log_dir').val( data.log_dir ).prev().addClass('active');
             $('#is_active').prop('checked', data.is_active);
