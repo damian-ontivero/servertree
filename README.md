@@ -15,7 +15,7 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 ##### To initialize the DB (just in case you don't use the included DB):
     flask db init -> Crea una estructura de directorios y ficheros necesarios para la ejecución de esta extensión. Se ejecuta solo una vez, al principio.
 
-##### The to create the DB or when you change the DB model:
+##### To create the DB or when you change the DB model:
     flask db migrate -> Navega entre los modelos en busca de actualizaciones y genera los ficheros de migración de base de datos con los cambios detectados.
 
     flask db upgrade -> Lleva a cabo la migración de la base de datos.    
