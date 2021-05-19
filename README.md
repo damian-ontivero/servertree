@@ -40,6 +40,8 @@ The application is using sqlite as database and is placed in "app/servertree.db"
     flask run
 
 ## TODO
+* Fix user role "observador" to be able to edit its own user.
+* Fix user role "observador" to not be able to edit/delete access/service.
 * Fix edit user keeping same email (Should be possible).
 * Fix edit server using an existing name (Should not be possible).
 * Create module for environment.
