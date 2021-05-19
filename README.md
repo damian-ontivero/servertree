@@ -12,15 +12,15 @@
 #### DB:
 The application is using sqlite as database and is placed in "app/servertree.db" but if you want to configure a different DBMS you might change the SQLALCHEMY_DATABASE_URI variable in the Config class.
 
-#### To initialize the DB (just once at the first):
+##### To initialize the DB (just in case you don't use the included DB):
     flask db init -> Crea una estructura de directorios y ficheros necesarios para la ejecución de esta extensión. Se ejecuta solo una vez, al principio.
 
-#### The first time to create the DB or when you change the DB model:
+##### The to create the DB or when you change the DB model:
     flask db migrate -> Navega entre los modelos en busca de actualizaciones y genera los ficheros de migración de base de datos con los cambios detectados.
 
     flask db upgrade -> Lleva a cabo la migración de la base de datos.    
 
-#### Default data:
+##### Default data:
     Users roles:
     insert into Roles (name) values ('Administrador'), ('Observador')
 
