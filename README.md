@@ -40,7 +40,7 @@ The application is using sqlite as database and is placed in "app/servertree.db"
     flask run
 
 ## TODO
-- Fix edit user keeping same email (Should be possible).
-- Fix edit server using an existing name (Should not be possible).
-- Create module for environment.
-- Create module for operating system.
+Fix edit user keeping same email (Should be possible).
+Fix edit server using an existing name (Should not be possible).
+Create module for environment.
+Create module for operating system.
