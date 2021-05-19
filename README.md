@@ -37,4 +37,4 @@ The application is using sqlite as database and is placed in "app/servertree.db"
     insert into ConnectionType (name) values ('SSH'), ('RDP')
 
 #### Run Flask:
-    flask run
+    *flask run
