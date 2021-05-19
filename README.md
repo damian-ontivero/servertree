@@ -40,6 +40,8 @@ The application is using sqlite as database and is placed in "app/servertree.db"
     flask run
 
 ## TODO
+* Add user logged to navbar.
+* Add module title.
 * Fix user role "observador" to be able to edit its own user.
 * Fix user role "observador" to not be able to edit/delete access/service.
 * Fix edit user keeping same email (Should be possible).
