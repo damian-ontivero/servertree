@@ -63,7 +63,7 @@ def add_server():
 
         server = Server.get_by_name(name)
         if server is not None:
-            error = 'El servidor {} ya está registrado'.format(name)
+            flash('El servidor {} ya está registrado'.format(name), 'danger')
         else:
             server = Server(name=name, environment_id=environment_id, operating_system_id=operating_system_id, cpu=cpu, ram=ram, hdd=hdd, is_active=is_active)
             server.save()
