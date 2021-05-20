@@ -60,7 +60,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ current_user.email }}</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#" id="edit-my-user" data-id="{{ current_user.id }}">Editar mi usuario</a></li>
+                <li><a class="dropdown-item" href="#" id="edit-my-user" data-id="{{ current_user.id }}" data-bs-toggle="modal" data-bs-target="#userModal">Editar mi usuario</a></li>
                 <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
               </ul>
             </li>

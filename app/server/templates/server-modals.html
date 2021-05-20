@@ -1,0 +1,84 @@
+<!-- Start Server Modal -->
+<div class="modal fade" id="serverModal" tabindex="-1" aria-labelledby="serverModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serverModalLabel">Agregar usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="serverForm" name="serverForm" method="post">
+          {{ server_form.hidden_tag() }}
+          <div class="form-group">
+            {{ server_form.name.label(class="form-control-label") }}
+            <br>
+            {{ server_form.name(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ server_form.environment_id.label(class="form-control-label") }}
+            <br>
+            {{ server_form.environment_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ server_form.operating_system_id.label(class="form-control-label") }}
+            <br>
+            {{ server_form.operating_system_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ server_form.cpu.label(class="form-control-label") }}
+            <br>
+            {{ server_form.cpu(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ server_form.ram.label(class="form-control-label") }}
+            <br>
+            {{ server_form.ram(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ server_form.hdd.label(class="form-control-label") }}
+            <br>
+            {{ server_form.hdd(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ server_form.is_active.label(class="form-control-label") }}
+            <br>
+            {{ server_form.is_active }}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" form="serverForm">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Server Modal -->
+
+<!-- Start Delete Server Modal -->
+<div class="modal fade" id="deleteServerModal" tabindex="-1" aria-labelledby="deleteServerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteServerModalLabel">Eliminar servidor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteServerForm" action="" novalidate>
+          ¿Está seguro que desea eliminar este servidor?
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" form="deleteServerForm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete Server Modal -->

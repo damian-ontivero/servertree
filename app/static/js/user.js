@@ -2,7 +2,7 @@
 * Add and edit for user module
 */
 $(document).ready(function(){
-  $(document).on('click', '#addButton, #editButton, #edit-my-user', function(){
+  $(document).on('click', '#addUserButton, #editUserButton, #edit-my-user', function(){
     $('#userForm')[0].reset();
     var change_password_label = document.getElementById('change_password_label');
     var change_password = document.getElementById('change_password');
@@ -86,7 +86,7 @@ $(document).ready(function(){
 * Delete for user module
 */
 $(document).ready(function(){
-    $(document).on('click', '#deleteButton', function(){
+    $(document).on('click', '#deleteUserButton', function(){
       var user_id = $(this).attr('data-id');
       $('#deleteUserForm').attr('action', '/auth/delete_user/' + user_id)
     });

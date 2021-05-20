@@ -14,23 +14,23 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index.index'))
 
-    form = LoginForm()
-    if form.validate_on_submit():
-        email = form.email.data
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        email = login_form.email.data
         user = User.get_by_email(email)
-        if user is not None and user.check_password(form.password.data) and user.is_active:
-            login_user(user, remember=form.remember_me.data)
+        if user is not None and user.check_password(login_form.password.data) and user.is_active:
+            login_user(user, remember=login_form.remember_me.data)
             flash('Se ha iniciado sesión correctamente con el usuario {}.'.format(email), 'success')
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':
                 next_page = url_for('index.index')
             return redirect(next_page)
-        elif user is None or not user.check_password(form.password.data):
+        elif user is None or not user.check_password(login_form.password.data):
             flash('Email o contraseña incorrecto.', 'danger')
         elif not user.is_active:
             flash('Usuario inactivo.', 'danger')
 
-    return render_template('login.html', form=form)
+    return render_template('login.html', login_form=login_form)
 
 @auth_bp.route('/logout')
 @login_required
@@ -46,8 +46,8 @@ def load_user(user_id):
 @login_required
 def get_user_all():
     data = db.session.query(User, Role).join(Role).all()
-    form = UserForm()
-    return render_template('user.html', data=data, form=form)
+    user_form = UserForm()
+    return render_template('user.html', data=data, user_form=user_form)
 
 @auth_bp.route('/get_user', methods=['GET', 'POST'])
 @login_required
@@ -68,17 +68,17 @@ def get_user():
 @login_required
 @admin_required
 def add_user():
-    form = UserForm()
-    if form.validate_on_submit():
+    user_form = UserForm()
+    if user_form.validate_on_submit():
         # Recuperamos los datos del formulario
-        firstname = form.firstname.data
-        lastname = form.lastname.data
-        email = form.email.data
-        password = form.password.data
+        firstname = user_form.firstname.data
+        lastname = user_form.lastname.data
+        email = user_form.email.data
+        password = user_form.password.data
         # Importante! Se accede a '...data.id' porque desde el campo 'QuerySelectField'
         # llega el objeto completo y debemos acceder a la propiedad 'id'
-        role_id = form.role_id.data.id
-        is_active = form.is_active.data
+        role_id = user_form.role_id.data.id
+        is_active = user_form.is_active.data
         # Comprobamos que no hay ya un usuario con ese email
         user = User.get_by_email(email)
         if user is not None:
@@ -97,23 +97,23 @@ def add_user():
 @admin_required
 def edit_user(user_id):
     user = User.get_by_id(user_id)
-    form = UserForm(obj=user)
-    if form.validate_on_submit():
-        if User.get_by_email(form.email.data) is None:
+    user_form = UserForm(obj=user)
+    if user_form.validate_on_submit():
+        if User.get_by_email(user_form.email.data) is None:
             # Recuperamos los datos del formulario
-            user.firstname = form.firstname.data
-            user.lastname = form.lastname.data
-            user.email = form.email.data
+            user.firstname = user_form.firstname.data
+            user.lastname = user_form.lastname.data
+            user.email = user_form.email.data
             # Importante! Se accede a '...data.id' porque desde el campo 'QuerySelectField'
             # llega el objeto completo y debemos acceder a la propiedad 'id'
-            user.role_id = form.role_id.data.id
-            user.is_active = form.is_active.data
-            if form.change_password.data:
-                user.set_password(form.password.data)
+            user.role_id = user_form.role_id.data.id
+            user.is_active = user_form.is_active.data
+            if user_form.change_password.data:
+                user.set_password(user_form.password.data)
             user.save()
-            flash('Se ha actualizado correctamente el usuario con email {}.'.format(form.email.data), 'success')
+            flash('Se ha actualizado correctamente el usuario con email {}.'.format(user_form.email.data), 'success')
         else:
-            flash('El email {} ya está registrado por otro usuario.'.format(form.email.data), 'danger')
+            flash('El email {} ya está registrado por otro usuario.'.format(user_form.email.data), 'danger')
             
     # Devolvemos la vista de todos los usuarios
     return redirect(request.referrer)

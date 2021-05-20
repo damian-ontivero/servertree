@@ -1,0 +1,80 @@
+<!-- Start User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="userModalLabel">Agregar usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="userForm" name="userForm" method="post">
+          {{ user_form.hidden_tag() }}
+          <div class="form-group">
+            {{ user_form.firstname.label(class="form-control-label") }}
+            <br>
+            {{ user_form.firstname(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ user_form.lastname.label(class="form-control-label") }}
+            <br>
+            {{ user_form.lastname(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ user_form.email.label(class="form-control-label") }}
+            <br>
+            {{ user_form.email(class="form-control form-control-md shadow-sm item", type="email") }}
+          </div>
+          <br>
+            {{ user_form.change_password.label(id='change_password_label') }}
+            {{ user_form.change_password }}
+            {{ user_form.password.label(id='password_label') }}
+            {{ user_form.password(class="form-control form-control-md shadow-sm item") }}
+          <br>
+            {{ user_form.show_password.label(id='show_password_label') }}
+            {{ user_form.show_password }}
+          <br>
+          <div class="form-group">
+            {{ user_form.role_id.label(class="form-control-label") }}
+            <br>
+            {{ user_form.role_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ user_form.is_active.label(class="form-control-label") }}
+            <br>
+            {{ user_form.is_active }}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" form="userForm">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End User Modal -->
+
+<!-- Start Delete User Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteUserModalLabel">Eliminar usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteUserForm" action="" novalidate>
+          ¿Está seguro que desea eliminar este usuario?
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" form="deleteUserForm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete User Modal -->

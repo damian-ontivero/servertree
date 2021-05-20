@@ -2,7 +2,7 @@
 * Add and edit for server module
 */
 $(document).ready(function(){
-  $(document).on('click', '#addButton, #editButton', function(){
+  $(document).on('click', '#addServerButton, #editServerButton', function(){
     $('#serverForm')[0].reset();
     var server_id = $(this).attr('data-id');
     if(server_id){
@@ -40,7 +40,7 @@ $(document).ready(function(){
 * Delete for server module
 */
 $(document).ready(function(){
-  $(document).on('click', '#deleteButton', function(){
+  $(document).on('click', '#deleteServerButton', function(){
     var server_id = $(this).attr('data-id');
     $('#deleteServerForm').attr('action', '/server/delete_server/' + server_id)
   });
