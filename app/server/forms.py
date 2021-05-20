@@ -3,7 +3,11 @@ from wtforms import StringField, BooleanField, SubmitField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Length
 
-from .models import Server, Environment, OperatingSystem, ConnectionType
+from .models import Server, Access, Service
+from app.environments.models import Environment
+from app.operating_systems.models import OperatingSystem
+from app.connection_type.models import ConnectionType
+
 class ServerForm(FlaskForm):
     name = StringField('Nombre', validators=[DataRequired()])
     environment_id = QuerySelectField('Entorno', query_factory=Environment.get_all, get_label='name')

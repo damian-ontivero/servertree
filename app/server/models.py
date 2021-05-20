@@ -1,41 +1,5 @@
 from app import db
 
-class Environment(db.Model):
-    __tablename__ = 'Environments'
-
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
-    name = db.Column(db.String(50), nullable=False)
-
-    def __repr__(self):
-        return '<Environment {}>'.format(self.name)
-
-    @staticmethod
-    def get_all():
-        return Environment.query.all()
-    
-    @staticmethod
-    def get_by_id(id):
-        return Environment.query.get(id)
-
-class OperatingSystem(db.Model):
-    __tablename__ = 'OperatingSystems'
-
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
-    name = db.Column(db.String(50), nullable=False)
-    version = db.Column(db.String(50), nullable=False)
-    architect = db.Column(db.String(6), nullable=False)
-
-    def __repr__(self):
-        return '{} - {} - {}'.format(self.name, self.version, self.architect)
-    
-    @staticmethod
-    def get_all():
-        return OperatingSystem.query.all()
-    
-    @staticmethod
-    def get_by_id(id):
-        return OperatingSystem.query.get(id)
-
 class Server(db.Model):
     __tablename__ = 'Servers'
 
@@ -80,23 +44,6 @@ class Server(db.Model):
     @staticmethod
     def get_all():
         return Server.query.all()
-
-class ConnectionType(db.Model):
-    __tablename__ = 'ConnectionType'
-
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
-    name = db.Column(db.String(50), nullable=False)
-
-    def __repr__(self):
-        return '<ConnectionType: {}>'.format(self.name)
-
-    @staticmethod
-    def get_all():
-        return ConnectionType.query.all()
-    
-    @staticmethod
-    def get_by_id(id):
-        return ConnectionType.query.get(id)
 
 class Access(db.Model):
     __tablename__ = 'Access'

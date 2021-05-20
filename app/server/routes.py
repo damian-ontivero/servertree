@@ -3,7 +3,10 @@ from flask_login import login_required
 from app.auth.decorators import admin_required
 from app import db
 from . import server_bp
-from .models import Server, Environment, OperatingSystem, Access, ConnectionType, Service
+from .models import Server, Access, Service
+from app.environments.models import Environment
+from app.operating_systems.models import OperatingSystem
+from app.connection_type.models import ConnectionType
 from .forms import ServerForm, AccessForm, ServiceForm
 from app.auth.forms import UserForm
 
