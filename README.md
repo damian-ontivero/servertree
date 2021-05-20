@@ -1,5 +1,7 @@
 # S E R V E R   T R E E
 
+Made with Python (Flask), HTML, CSS3, JavaScript (A little) and SQLAlchemy as ORM.
+
 ## To run the application you will need:
 #### Install the requeriments:
     pip install -r requirements.txt
@@ -40,7 +42,8 @@ The application is using sqlite as database and is placed in "app/servertree.db"
     flask run
 
 #### TODO
-* Add user logged to navbar.
+* Fix favicon. Done
+* Add user logged to navbar and be able to edit my user.
 * Add module title.
 * Fix user role "observador" to be able to edit its own user.
 * Fix user role "observador" to not be able to edit/delete access/service.

@@ -2,7 +2,7 @@
 * Add and edit for user module
 */
 $(document).ready(function(){
-  $(document).on('click', '#addButton, #editButton', function(){
+  $(document).on('click', '#addButton, #editButton, #edit-my-user', function(){
     $('#userForm')[0].reset();
     var change_password_label = document.getElementById('change_password_label');
     var change_password = document.getElementById('change_password');
@@ -12,6 +12,7 @@ $(document).ready(function(){
     var show_password_label = document.getElementById('show_password_label');
     var user_id = $(this).attr('data-id');
     if(user_id){
+      $('#userModal').modal('show');
       $('#userModalLabel').html('Editar usuario');
       $('#userForm').attr('action', '/auth/edit_user/' + user_id);
       $.ajax({
