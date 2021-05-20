@@ -43,7 +43,7 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 
 #### TODO
 * Fix favicon. Done
-* Add user logged to navbar and be able to edit my user.
+* Add user logged to navbar and be able to edit my user. Done
 * Add module title.
 * Fix user role "observador" to be able to edit its own user.
 * Fix user role "observador" to not be able to edit/delete access/service.

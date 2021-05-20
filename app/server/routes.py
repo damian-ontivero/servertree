@@ -20,22 +20,24 @@ Server management
 @login_required
 def get_server_all():
     data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).all()
+    environments = Environment.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
     service_form = ServiceForm()
     user_form = UserForm()
-    return render_template('server.html', data=data, server_form=server_form, access_form=access_form, service_form=service_form, user_form=user_form)
+    return render_template('server.html', data=data, environments=environments, server_form=server_form, access_form=access_form, service_form=service_form, user_form=user_form)
 
 @server_bp.route('/get_server_by_env/<int:server_env>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def get_server_by_env(server_env):
     data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(Server.environment_id==server_env).all()
+    environments = Environment.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
     service_form = ServiceForm()
     user_form = UserForm()
-    return render_template('server.html', data=data, server_form=server_form, access_form=access_form, service_form=service_form, user_form=user_form)
+    return render_template('server.html', data=data, environments=environments, server_form=server_form, access_form=access_form, service_form=service_form, user_form=user_form)
 
 @server_bp.route('/get_server_by_id', methods=['GET', 'POST'])
 @login_required

@@ -41,10 +41,7 @@
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Servidores</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=1) }}">Desarrollo</a></li>
-                      <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=2) }}">Prueba</a></li>
-                      <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=3) }}">Preproducción</a></li>
-                      <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=4) }}">Producción</a></li>
+                      {% block environments %}{% endblock %}
                       <li><a class="dropdown-item" href="{{ url_for('server.get_server_all') }}">Todos</a></li>
                   </ul>
               </li>
@@ -53,6 +50,7 @@
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item" href="#">Entornos</a></li>
                       <li><a class="dropdown-item" href="#">Sistemas operativos</a></li>
+                      <li><a class="dropdown-item" href="#">Tipos de conexión</a></li>
                   </ul>
               </li>
           </ul>

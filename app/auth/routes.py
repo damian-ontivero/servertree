@@ -8,6 +8,7 @@ from . import auth_bp
 from .forms import LoginForm, UserForm
 from .models import User, Role
 from .decorators import admin_required
+from app.environments.models import Environment
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,8 +47,9 @@ def load_user(user_id):
 @login_required
 def get_user_all():
     data = db.session.query(User, Role).join(Role).all()
+    environments = Environment.get_all()
     user_form = UserForm()
-    return render_template('user.html', data=data, user_form=user_form)
+    return render_template('user.html', data=data, environments=environments, user_form=user_form)
 
 @auth_bp.route('/get_user', methods=['GET', 'POST'])
 @login_required

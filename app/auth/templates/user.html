@@ -5,6 +5,12 @@
 
 {% block header %} - Usuarios{% endblock %}
 
+{% block environments %}
+{% for environment in environments %}
+  <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
+{% endfor %}
+{% endblock%}
+
 {% block content %}
 <!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
