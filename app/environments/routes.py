@@ -52,15 +52,11 @@ def edit(environment_id):
     environment = Environment.get_by_id(environment_id)
     environment_form = EnvironmentForm(obj=environment)
     if environment_form.validate_on_submit():
-        if environment.name == environment_form.environment_name.data:
-            flash('No hubo cambios para el entorno {}.'.format(environment.name), 'warning')
-            return redirect(request.referrer)
-
-        environment.name = environment_form.environment_name.data
-        environment.is_active = environment_form.environment_is_active.data
-        if Environment.get_by_name(environment.name) is not None:
-            flash('El entorno {} ya está registrado.'.format(environment.name), 'danger')
+        if Environment.get_by_name(environment_form.environment_name.data) is not None:
+            flash('El entorno {} ya está registrado.'.format(environment_form.environment_name.data), 'danger')
         else:
+            environment.name = environment_form.environment_name.data
+            environment.is_active = environment_form.environment_is_active.data
             environment.save()
             flash('Se ha actualizado correctamente el entorno {}.'.format(environment.name), 'success')
 
@@ -71,6 +67,7 @@ def edit(environment_id):
 @admin_required
 def delete(environment_id):
     environment = Environment.get_by_id(environment_id)
-    environment.delete()
-    flash('Se ha eliminado correctamente el entorno {}.'.format(environment.name), 'success')
-    return redirect(request.referrer)
+    if environment is not None:
+        environment.delete()
+        flash('Se ha eliminado correctamente el entorno {}.'.format(environment.name), 'success')
+        return redirect(request.referrer)

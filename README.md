@@ -45,10 +45,10 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 * ~~Fix favicon. Done~~
 * ~~Add user logged to navbar and be able to edit my user. Done~~
 * Add module title.
-* Fix user role "observador" to be able to edit its own user.
-* Fix user role "observador" to not be able to edit/delete access/service.
-* Fix edit user keeping same email (Should be possible).
-* Fix edit server using an existing name (Should not be possible).
+* User role "observador" must be able to edit its own user.
+* User role "observador" must not be able to edit/delete access/service.
+* Edit user keeping same email (Should be possible).
+* Edit server using an existing name (Should not be possible).
 * ~~Create module for environment. Done~~
 * ~~Create module for operating system. Done~~
 * ~~Create module for connection type. Done~~

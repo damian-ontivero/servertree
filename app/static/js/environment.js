@@ -35,7 +35,7 @@ $(document).ready(function(){
   * Delete for environment module
   */
   $(document).ready(function(){
-    $(document).on('click', '#deleteEnvironmentTypeButton', function(){
+    $(document).on('click', '#deleteEnvironmentButton', function(){
       var environment_id = $(this).attr('data-id');
       $('#deleteEnvironmentForm').attr('action', '/environment/delete/' + environment_id)
     });
