@@ -42,8 +42,8 @@ The application is using sqlite as database and is placed in "app/servertree.db"
     flask run
 
 #### TODO
-* ~~Fix favicon.~~
-* ~~Add user logged to navbar and be able to edit my user.~~
+* ~~Fix favicon. Done~~
+* ~~Add user logged to navbar and be able to edit my user. Done~~
 * Add module title.
 * Fix user role "observador" to be able to edit its own user.
 * Fix user role "observador" to not be able to edit/delete access/service.
@@ -51,4 +51,4 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 * Fix edit server using an existing name (Should not be possible).
 * Create module for environment. **In progress**
 * Create module for operating system. **In progress**
-* Create module for connection type. **In progress**
+* ~~Create module for connection type. Done~~

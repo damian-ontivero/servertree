@@ -9,13 +9,13 @@ from app.operating_systems.models import OperatingSystem
 from app.connection_type.models import ConnectionType
 
 class ServerForm(FlaskForm):
-    name = StringField('Nombre', validators=[DataRequired()])
-    environment_id = QuerySelectField('Entorno', query_factory=Environment.get_all, get_label='name')
-    operating_system_id = QuerySelectField('Sistema operativo', query_factory=OperatingSystem.get_all)
-    cpu = StringField('CPU', validators=[DataRequired()])
-    ram = StringField('RAM', validators=[DataRequired()])
-    hdd = StringField('HDD', validators=[DataRequired()])
-    is_active = BooleanField('Activo')
+    server_name = StringField('Nombre', validators=[DataRequired()])
+    server_environment_id = QuerySelectField('Entorno', query_factory=Environment.get_all, get_label='name')
+    server_operating_system_id = QuerySelectField('Sistema operativo', query_factory=OperatingSystem.get_all)
+    server_cpu = StringField('CPU', validators=[DataRequired()])
+    server_ram = StringField('RAM', validators=[DataRequired()])
+    server_hdd = StringField('HDD', validators=[DataRequired()])
+    server_is_active = BooleanField('Activo')
 
 class AccessForm(FlaskForm):
     access_server_id = QuerySelectField('Servidor', query_factory=Server.get_all, get_label='name')

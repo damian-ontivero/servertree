@@ -61,13 +61,13 @@ def get_server_by_id():
 def add_server():
     server_form = ServerForm()
     if server_form.validate_on_submit():
-        name = server_form.name.data
-        environment_id = server_form.environment_id.data.id
-        operating_system_id = server_form.operating_system_id.data.id
-        cpu = server_form.cpu.data
-        ram = server_form.ram.data
-        hdd = server_form.hdd.data
-        is_active = server_form.is_active.data
+        name = server_form.server_name.data
+        environment_id = server_form.server_environment_id.data.id
+        operating_system_id = server_form.server_operating_system_id.data.id
+        cpu = server_form.server_cpu.data
+        ram = server_form.server_ram.data
+        hdd = server_form.server_hdd.data
+        is_active = server_form.server_is_active.data
 
         server = Server.get_by_name(name)
         if server is not None:
@@ -86,15 +86,15 @@ def edit_server(server_id):
     server = Server.get_by_id(server_id)
     server_form = ServerForm(obj=server)
     if server_form.validate_on_submit():
-        server.name = server_form.name.data
-        server.environment_id = server_form.environment_id.data.id
-        server.operating_system_id = server_form.operating_system_id.data.id
-        server.cpu = server_form.cpu.data
-        server.ram = server_form.ram.data
-        server.hdd = server_form.hdd.data
-        server.is_active = server_form.is_active.data
+        server.name = server_form.server_name.data
+        server.environment_id = server_form.server_environment_id.data.id
+        server.operating_system_id = server_form.server_operating_system_id.data.id
+        server.cpu = server_form.server_cpu.data
+        server.ram = server_form.server_ram.data
+        server.hdd = server_form.server_hdd.data
+        server.is_active = server_form.server_is_active.data
         server.save()
-        flash('Se ha actualizado correctamente el servidor {}.'.format(server.name), 'success')
+        flash('Se ha actualizado correctamente el servidor {}.'.format(server.server_name), 'success')
 
     return redirect(request.referrer)
 

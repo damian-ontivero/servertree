@@ -15,13 +15,13 @@ $(document).ready(function(){
         dataType: 'json',
         success:function(data){
           if(data){
-            $('#name').val( data.name ).prev().addClass('active');
-            $('#environment_id').val( data.environment_id );
-            $('#operating_system_id').val( data.operating_system_id );
-            $('#cpu').val( data.cpu ).prev().addClass('active');
-            $('#ram').val( data.ram ).prev().addClass('active');
-            $('#hdd').val( data.hdd ).prev().addClass('active');
-            $('#is_active').prop('checked', data.is_active);
+            $('#server_name').val( data.name ).prev().addClass('active');
+            $('#server_environment_id').val( data.environment_id );
+            $('#server_operating_system_id').val( data.operating_system_id );
+            $('#server_cpu').val( data.cpu ).prev().addClass('active');
+            $('#server_ram').val( data.ram ).prev().addClass('active');
+            $('#server_hdd').val( data.hdd ).prev().addClass('active');
+            $('#server_is_active').prop('checked', data.is_active);
           } else {
              $('#serverModal').hide();
              location.reload();

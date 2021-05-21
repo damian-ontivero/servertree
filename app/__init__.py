@@ -37,7 +37,10 @@ def create_app():
     from .server import server_bp
     app.register_blueprint(server_bp)
 
-    # Custom error handlers
+    from .connection_type import connection_type_bp
+    app.register_blueprint(connection_type_bp)
+
+    ''' Custom error handlers '''
     register_error_handlers(app)
 
     return app
