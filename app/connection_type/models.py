@@ -30,3 +30,7 @@ class ConnectionType(db.Model):
     @staticmethod
     def get_by_id(id):
         return ConnectionType.query.get(id)
+    
+    @staticmethod
+    def get_by_name(name):
+        return ConnectionType.query.filter_by(name=name).first()

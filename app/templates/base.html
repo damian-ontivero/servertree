@@ -48,8 +48,8 @@
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Configuración</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="#">Entornos</a></li>
-                      <li><a class="dropdown-item" href="#">Sistemas operativos</a></li>
+                      <li><a class="dropdown-item" href="{{ url_for('environment.get_all') }}">Entornos</a></li>
+                      <li><a class="dropdown-item" href="{{ url_for('operating_system.get_all') }}">Sistemas operativos</a></li>
                       <li><a class="dropdown-item" href="{{ url_for('connection_type.get_connection_type_all') }}">Tipos de conexión</a></li>
                   </ul>
               </li>

@@ -34,3 +34,7 @@ class OperatingSystem(db.Model):
     @staticmethod
     def get_by_id(id):
         return OperatingSystem.query.get(id)
+    
+    @staticmethod
+    def get_by_name_version_architect(name, version, architect):
+        return OperatingSystem.query.filter_by(name=name, version=version, architect=architect).first()

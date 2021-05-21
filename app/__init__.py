@@ -40,6 +40,12 @@ def create_app():
     from .connection_type import connection_type_bp
     app.register_blueprint(connection_type_bp)
 
+    from .environments import environment_bp
+    app.register_blueprint(environment_bp)
+
+    from .operating_systems import operating_system_bp
+    app.register_blueprint(operating_system_bp)
+
     ''' Custom error handlers '''
     register_error_handlers(app)
 

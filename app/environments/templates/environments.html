@@ -15,6 +15,7 @@
 <!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/server.js' ) }}"></script>
 <script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
+<script src="{{ url_for('static', filename='js/environment.js' ) }}"></script>
 
 <div class="buttons">
   {% if current_user.role_id == 1 %}
@@ -65,8 +66,6 @@
 </table>
 
 {% include 'user-modals.html' %}
-{% include 'server-modals.html' %}
-{% include 'access-modals.html' %}
-{% include 'service-modals.html' %}
+{% include 'environments-modals.html' %}
 
 {% endblock %}
