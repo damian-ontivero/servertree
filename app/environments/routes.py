@@ -52,13 +52,19 @@ def edit(environment_id):
     environment = Environment.get_by_id(environment_id)
     environment_form = EnvironmentForm(obj=environment)
     if environment_form.validate_on_submit():
-        if Environment.get_by_name(environment_form.environment_name.data) is not None:
-            flash('El entorno {} ya está registrado.'.format(environment_form.environment_name.data), 'danger')
-        else:
+        if environment.name == environment_form.environment_name.data:
             environment.name = environment_form.environment_name.data
             environment.is_active = environment_form.environment_is_active.data
             environment.save()
             flash('Se ha actualizado correctamente el entorno {}.'.format(environment.name), 'success')
+        else: 
+            if Environment.get_by_name(environment_form.environment_name.data) is not None:
+                flash('El entorno {} ya está registrado.'.format(environment_form.environment_name.data), 'danger')
+            else:
+                environment.name = environment_form.environment_name.data
+                environment.is_active = environment_form.environment_is_active.data
+                environment.save()
+                flash('Se ha actualizado correctamente el entorno {}.'.format(environment.name), 'success')
 
     return redirect(request.referrer)
 

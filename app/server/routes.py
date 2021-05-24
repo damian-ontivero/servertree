@@ -86,15 +86,29 @@ def edit_server(server_id):
     server = Server.get_by_id(server_id)
     server_form = ServerForm(obj=server)
     if server_form.validate_on_submit():
-        server.name = server_form.server_name.data
-        server.environment_id = server_form.server_environment_id.data.id
-        server.operating_system_id = server_form.server_operating_system_id.data.id
-        server.cpu = server_form.server_cpu.data
-        server.ram = server_form.server_ram.data
-        server.hdd = server_form.server_hdd.data
-        server.is_active = server_form.server_is_active.data
-        server.save()
-        flash('Se ha actualizado correctamente el servidor {}.'.format(server.server_name), 'success')
+        if server.name == server_form.server_name.data and server.environment_id == server_form.server_environment_id.data.id:
+            server.name = server_form.server_name.data
+            server.environment_id = server_form.server_environment_id.data.id
+            server.operating_system_id = server_form.server_operating_system_id.data.id
+            server.cpu = server_form.server_cpu.data
+            server.ram = server_form.server_ram.data
+            server.hdd = server_form.server_hdd.data
+            server.is_active = server_form.server_is_active.data
+            server.save()
+            flash('Se ha actualizado correctamente el servidor {}.'.format(server_form.server_name.data), 'success')
+        else: 
+            if Server.get_by_name(server_form.server_name.data) is not None and Server.get_by_name(server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
+                flash('El servidor {} ya está registrado.'.format(server_form.server_name.data), 'danger')
+            else:
+                server.name = server_form.server_name.data
+                server.environment_id = server_form.server_environment_id.data.id
+                server.operating_system_id = server_form.server_operating_system_id.data.id
+                server.cpu = server_form.server_cpu.data
+                server.ram = server_form.server_ram.data
+                server.hdd = server_form.server_hdd.data
+                server.is_active = server_form.server_is_active.data
+                server.save()
+                flash('Se ha actualizado correctamente el servidor {}.'.format(server_form.server_name.data), 'success')
 
     return redirect(request.referrer)
 

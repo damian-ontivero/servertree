@@ -47,8 +47,8 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 * Add module title.
 * User role "observador" must be able to edit its own user.
 * User role "observador" must not be able to edit/delete access/service.
-* Edit user keeping same email (Should be possible).
-* Edit server using an existing name (Should not be possible).
+* ~~Edit user keeping same email (Should be possible). Done~~
+* ~~Edit server using an existing name for an environment (Should not be possible). Done~~
 * ~~Create module for environment. Done~~
 * ~~Create module for operating system. Done~~
 * ~~Create module for connection type. Done~~

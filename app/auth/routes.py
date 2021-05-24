@@ -101,7 +101,7 @@ def edit_user(user_id):
     user = User.get_by_id(user_id)
     user_form = UserForm(obj=user)
     if user_form.validate_on_submit():
-        if User.get_by_email(user_form.email.data) is None:
+        if user.email == user_form.email.data:
             # Recuperamos los datos del formulario
             user.firstname = user_form.firstname.data
             user.lastname = user_form.lastname.data
@@ -114,9 +114,22 @@ def edit_user(user_id):
                 user.set_password(user_form.password.data)
             user.save()
             flash('Se ha actualizado correctamente el usuario con email {}.'.format(user_form.email.data), 'success')
-        else:
-            flash('El email {} ya está registrado por otro usuario.'.format(user_form.email.data), 'danger')
-            
+        else: 
+            if User.get_by_email(user_form.email.data) is not None:
+                flash('El email {} ya está registrado por otro usuario.'.format(user_form.email.data), 'danger')
+            else:
+                # Recuperamos los datos del formulario
+                user.firstname = user_form.firstname.data
+                user.lastname = user_form.lastname.data
+                user.email = user_form.email.data
+                # Importante! Se accede a '...data.id' porque desde el campo 'QuerySelectField'
+                # llega el objeto completo y debemos acceder a la propiedad 'id'
+                user.role_id = user_form.role_id.data.id
+                user.is_active = user_form.is_active.data
+                if user_form.change_password.data:
+                    user.set_password(user_form.password.data)
+                user.save()
+                flash('Se ha actualizado correctamente el usuario con email {}.'.format(user_form.email.data), 'success')
     # Devolvemos la vista de todos los usuarios
     return redirect(request.referrer)
 

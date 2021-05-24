@@ -59,13 +59,19 @@ def edit_connection_type(connection_type_id):
     connection_type = ConnectionType.get_by_id(connection_type_id)
     connection_type_form = ConnectionTypeForm(obj=connection_type)
     if connection_type_form.validate_on_submit():
-        if ConnectionType.get_by_name(connection_type_form.connection_type_name.data) is not None:
-            flash('El tipo de conexión {} ya está registrado.'.format(connection_type_form.connection_type_name.data), 'danger')
-        else:
+        if connection_type.name == connection_type_form.connection_type_name.data:
             connection_type.name = connection_type_form.connection_type_name.data
             connection_type.is_active = connection_type_form.connection_type_is_active.data
             connection_type.save()
             flash('Se ha actualizado correctamente el tipo de conexión {}.'.format(connection_type.name), 'success')
+        else: 
+            if ConnectionType.get_by_name(connection_type_form.connection_type_name.data) is not None:
+                flash('El tipo de conexión {} ya está registrado.'.format(connection_type_form.connection_type_name.data), 'danger')
+            else:
+                connection_type.name = connection_type_form.connection_type_name.data
+                connection_type.is_active = connection_type_form.connection_type_is_active.data
+                connection_type.save()
+                flash('Se ha actualizado correctamente el tipo de conexión {}.'.format(connection_type.name), 'success')
 
     return redirect(request.referrer)
 
