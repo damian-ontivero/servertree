@@ -13,7 +13,7 @@
 
 {% block content %}
 <!-- JavaScript -->
-<script src="{{ url_for('static', filename='js/server.js' ) }}"></script>
+<script src="{{ url_for('static', filename='js/server.js') }}" role_id="{{ current_user.role_id }}"></script>
 <script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
 
 <div class="buttons">

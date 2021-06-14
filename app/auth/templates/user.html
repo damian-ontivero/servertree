@@ -56,6 +56,13 @@
           <td>
             <button type="button" class="btn btn-danger btn-sm" id="deleteUserButton" data-id={{ user.id }} data-bs-toggle="modal" data-bs-target="#deleteUserModal"><i class="fas fa-trash-alt"></i></button>
           </td>
+        {% elif current_user.role_id == user.id %}
+        <td>
+          <button type="button" class="btn btn-info btn-sm" id="editUserButton" data-id={{ user.id }} data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-edit"></i></button>
+        </td>
+        <td>
+          <button disabled type="button" class="btn btn-danger btn-sm" id="deleteUserButton" data-id={{ user.id }} data-bs-toggle="modal" data-bs-target="#deleteUserModal"><i class="fas fa-trash-alt"></i></button>
+        </td>
         {% else %}
           <td>
             <button disabled type="button" class="btn btn-info btn-sm" id="editUserButton" data-id={{ user.id }} data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-edit"></i></button>

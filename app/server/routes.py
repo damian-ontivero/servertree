@@ -29,7 +29,6 @@ def get_server_all():
 
 @server_bp.route('/get_server_by_env/<int:server_env>', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def get_server_by_env(server_env):
     data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(Server.environment_id==server_env).all()
     environments = Environment.get_all()

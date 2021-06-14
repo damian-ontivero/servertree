@@ -53,7 +53,6 @@ def get_user_all():
 
 @auth_bp.route('/get_user', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def get_user():
     user_id = request.form['user_id']
     user = User.get_by_id(user_id)
@@ -96,7 +95,6 @@ def add_user():
 
 @auth_bp.route('/edit_user/<user_id>', methods=['GET', 'POST'])
 @login_required
-@admin_required
 def edit_user(user_id):
     user = User.get_by_id(user_id)
     user_form = UserForm(obj=user)

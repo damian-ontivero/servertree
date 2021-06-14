@@ -38,13 +38,21 @@
           <div class="form-group">
             {{ user_form.role_id.label(class="form-control-label") }}
             <br>
-            {{ user_form.role_id(class="form-control form-control-md shadow-sm item") }}
+            {% if current_user.role_id == 1 %}
+              {{ user_form.role_id(class="form-control form-control-md shadow-sm item", disabled=False) }}
+            {% else %}
+              {{ user_form.role_id(class="form-control form-control-md shadow-sm item", disabled=True) }}
+            {% endif %}
           </div>
           <br>
           <div class="form-group">
             {{ user_form.is_active.label(class="form-control-label") }}
             <br>
-            {{ user_form.is_active }}
+            {% if current_user.role_id == 1 %}
+              {{ user_form.is_active(disabled=False) }}
+            {% else %}
+              {{ user_form.is_active(disabled=True) }}
+            {% endif %}
           </div>
         </form>
       </div>

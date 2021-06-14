@@ -54,6 +54,7 @@ $(document).ready(function(){
   $(document).on('click', '#accessButton', function(){
     $("#accessTable tbody tr").empty();
     server_id = $(this).attr('data-id');
+    var role_id = $('script[src*=server]').attr('role_id');
     if(server_id){
       $.ajax({
         url: '/server/get_access_by_server_id',
@@ -62,19 +63,35 @@ $(document).ready(function(){
         dataType: 'json',
         success:function(access){
           $.each(access, function(key, val) {
-            $('<tr>').append(
-              $('<td>').text(val.server_name),
-              $('<td>').text(val.connection_type_name),
-              $('<td>').text(val.ip_local),
-              $('<td>').text(val.port_local),
-              $('<td>').text(val.ip_public),
-              $('<td>').text(val.port_public),
-              $('<td>').text(val.username),
-              $('<td>').text(val.password),
-              $('<td>').text(val.is_active),
-              $('<td><button type="button" class="btn btn-info btn-sm" id="editAccessButton" data-id='+val.access_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#addEditAccessModal"><i class="fas fa-edit"></i></button></td>'),
-              $('<td><button type="button" class="btn btn-danger btn-sm" id="deleteAccessButton" data-id='+val.access_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteAccessModal"><i class="fas fa-trash-alt"></i></button></td>')
-          ).appendTo('#accessTable');
+            if(role_id == 1){
+              $('<tr>').append( 
+                $('<td>').text(val.server_name),
+                $('<td>').text(val.connection_type_name),
+                $('<td>').text(val.ip_local),
+                $('<td>').text(val.port_local),
+                $('<td>').text(val.ip_public),
+                $('<td>').text(val.port_public),
+                $('<td>').text(val.username),
+                $('<td>').text(val.password),
+                $('<td>').text(val.is_active),
+                $('<td><button type="button" class="btn btn-info btn-sm" id="editAccessButton" data-id='+val.access_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#addEditAccessModal"><i class="fas fa-edit"></i></button></td>'),
+                $('<td><button type="button" class="btn btn-danger btn-sm" id="deleteAccessButton" data-id='+val.access_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteAccessModal"><i class="fas fa-trash-alt"></i></button></td>')
+              ).appendTo('#accessTable');
+            } else {
+              $('<tr>').append(
+                $('<td>').text(val.server_name),
+                $('<td>').text(val.connection_type_name),
+                $('<td>').text(val.ip_local),
+                $('<td>').text(val.port_local),
+                $('<td>').text(val.ip_public),
+                $('<td>').text(val.port_public),
+                $('<td>').text(val.username),
+                $('<td>').text(val.password),
+                $('<td>').text(val.is_active),
+                $('<td><button disabled type="button" class="btn btn-info btn-sm" id="editAccessButton" data-id='+val.access_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#addEditAccessModal"><i class="fas fa-edit"></i></button></td>'),
+                $('<td><button disabled type="button" class="btn btn-danger btn-sm" id="deleteAccessButton" data-id='+val.access_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteAccessModal"><i class="fas fa-trash-alt"></i></button></td>')
+              ).appendTo('#accessTable');
+            }
           });
         }
       });
@@ -139,29 +156,48 @@ $(document).ready(function(){
   $(document).on('click', '#serviceButton', function(){
     $("#serviceTable tbody tr").empty();
     server_id = $(this).attr('data-id');
+    var role_id = $('script[src*=server]').attr('role_id');
     if(server_id){
       $.ajax({
         url: '/server/get_service_by_server_id',
         method: 'post',
         data: {server_id: server_id},
         dataType: 'json',
-        success:function(access){
-          $.each(access, function(key, val) {
-            $('<tr>').append(
-              $('<td>').text(val.server_name),
-              $('<td>').text(val.service),
-              $('<td>').text(val.version),
-              $('<td>').text(val.architect),
-              $('<td>').text(val.ip_local),
-              $('<td>').text(val.port_local),
-              $('<td>').text(val.ip_public),
-              $('<td>').text(val.port_public),
-              $('<td>').text(val.install_dir),
-              $('<td>').text(val.log_dir),
-              $('<td>').text(val.is_active),
-              $('<td><button type="button" class="btn btn-info btn-sm" id="editServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#addEditServiceModal"><i class="fas fa-edit"></i></button></td>'),
-              $('<td><button type="button" class="btn btn-danger btn-sm" id="deleteServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteServiceModal"><i class="fas fa-trash-alt"></i></button></td>')
-          ).appendTo('#serviceTable');
+        success:function(service){
+          $.each(service, function(key, val) {
+            if(role_id == 1){
+              $('<tr>').append(
+                $('<td>').text(val.server_name),
+                $('<td>').text(val.service),
+                $('<td>').text(val.version),
+                $('<td>').text(val.architect),
+                $('<td>').text(val.ip_local),
+                $('<td>').text(val.port_local),
+                $('<td>').text(val.ip_public),
+                $('<td>').text(val.port_public),
+                $('<td>').text(val.install_dir),
+                $('<td>').text(val.log_dir),
+                $('<td>').text(val.is_active),
+                $('<td><button type="button" class="btn btn-info btn-sm" id="editServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#addEditServiceModal"><i class="fas fa-edit"></i></button></td>'),
+                $('<td><button type="button" class="btn btn-danger btn-sm" id="deleteServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteServiceModal"><i class="fas fa-trash-alt"></i></button></td>')
+              ).appendTo('#serviceTable');
+            } else {
+              $('<tr>').append(
+                $('<td>').text(val.server_name),
+                $('<td>').text(val.service),
+                $('<td>').text(val.version),
+                $('<td>').text(val.architect),
+                $('<td>').text(val.ip_local),
+                $('<td>').text(val.port_local),
+                $('<td>').text(val.ip_public),
+                $('<td>').text(val.port_public),
+                $('<td>').text(val.install_dir),
+                $('<td>').text(val.log_dir),
+                $('<td>').text(val.is_active),
+                $('<td><button disabled type="button" class="btn btn-info btn-sm" id="editServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#addEditServiceModal"><i class="fas fa-edit"></i></button></td>'),
+                $('<td><button disabled type="button" class="btn btn-danger btn-sm" id="deleteServiceButton" data-id='+val.service_id+' data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteServiceModal"><i class="fas fa-trash-alt"></i></button></td>')
+              ).appendTo('#serviceTable');
+            }
           });
         }
       });
