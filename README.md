@@ -32,6 +32,17 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 #### Run Flask:
     flask run
 
+#### some screenshots:
+![image](https://user-images.githubusercontent.com/62670542/122008826-be488680-cdb9-11eb-88f5-a57efbe095b4.png)
+![image](https://user-images.githubusercontent.com/62670542/122009078-049de580-cdba-11eb-9b74-4006b9bb6061.png)
+![image](https://user-images.githubusercontent.com/62670542/122009098-08316c80-cdba-11eb-917b-7c99a64bbe08.png)
+![image](https://user-images.githubusercontent.com/62670542/122009122-0ebfe400-cdba-11eb-9f44-6607b08a66d6.png)
+![image](https://user-images.githubusercontent.com/62670542/122009138-12536b00-cdba-11eb-96f6-83754c57fbaf.png)
+![image](https://user-images.githubusercontent.com/62670542/122009157-167f8880-cdba-11eb-90f9-e429671da507.png)
+![image](https://user-images.githubusercontent.com/62670542/122009165-197a7900-cdba-11eb-8ba1-93e531145805.png)
+![image](https://user-images.githubusercontent.com/62670542/122009214-24350e00-cdba-11eb-8b6a-677129793c45.png)
+
+
 #### TODO
 * ~~Fix favicon. Done~~
 * ~~Add user logged to navbar and be able to edit my user. Done~~
