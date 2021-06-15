@@ -17,6 +17,8 @@
 <script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
 <script src="{{ url_for('static', filename='js/operating_system.js' ) }}"></script>
 
+<h2 style="text-align: center;">Sistemas operativos</h2>
+
 <div class="buttons">
   {% if current_user.role_id == 1 %}
     <button type="button" id="addOperatingSystemButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#operatingSystemModal"><i class="fas fa-plus"></i></button>

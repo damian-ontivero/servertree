@@ -44,7 +44,7 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 #### TODO
 * ~~Fix favicon. Done~~
 * ~~Add user logged to navbar and be able to edit my user. Done~~
-* Add module titles.
+* ~~Add module titles. Done~~
 * ~~User role "observador" must be able to edit its own user. Done~~
 * ~~User role "observador" must not be able to click on edit/delete buttons of access/service. Done~~
 * ~~Edit user keeping same email (Should be possible). Done~~

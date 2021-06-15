@@ -16,6 +16,8 @@
 <script src="{{ url_for('static', filename='js/server.js') }}" role_id="{{ current_user.role_id }}"></script>
 <script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
 
+<h2 style="text-align: center;">Servidores</h2>
+
 <div class="buttons">
   {% if current_user.role_id == 1 %}
     <button type="button" id="addServerButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#serverModal"><i class="fas fa-plus"></i></button>

@@ -15,6 +15,8 @@
 <!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
 
+<h2 style="text-align: center;">Usuarios</h2>
+
 <div class="buttons">
   {% if current_user.role_id == 1 %}
     <button type="button" id="addUserButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user-plus"></i></button>
