@@ -32,7 +32,7 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 #### Run Flask:
     flask run
 
-#### some screenshots:
+#### Some screenshots:
 ![image](https://user-images.githubusercontent.com/62670542/122008826-be488680-cdb9-11eb-88f5-a57efbe095b4.png)
 ![image](https://user-images.githubusercontent.com/62670542/122009078-049de580-cdba-11eb-9b74-4006b9bb6061.png)
 ![image](https://user-images.githubusercontent.com/62670542/122009098-08316c80-cdba-11eb-917b-7c99a64bbe08.png)
