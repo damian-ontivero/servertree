@@ -10,9 +10,6 @@ from .models import User, Role
 from .decorators import admin_required
 from app.environments.models import Environment
 
-
-
-
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
