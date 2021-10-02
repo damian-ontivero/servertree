@@ -1,18 +1,27 @@
 from flask import Flask, render_template
-from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 
+from configparser import ConfigParser
+
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+config = ConfigParser()
+config_file = './config.ini'
 
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+
+    config.read(filenames=config_file)
+
+    app.config['SECRET_KEY'] = config.get('flask', 'SECRET_KEY')
+    app.config['SQLALCHEMY_DATABASE_URI'] = config.get('flask-sqlalchemy', 'SQLALCHEMY_DATABASE_URI')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.get('flask-sqlalchemy', 'SQLALCHEMY_TRACK_MODIFICATIONS')
+    app.config['JSON_SORT_KEYS'] = config.get('flask-sqlalchemy', 'JSON_SORT_KEYS')
 
     db.init_app(app)
     migrate.init_app(app, db)
