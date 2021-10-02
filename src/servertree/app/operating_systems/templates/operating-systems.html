@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}Sistemas operativos{% endblock %}
+
+{% block header %} - Sistemas operativos{% endblock %}
+
+{% block environments %}
+{% for environment in environments %}
+  <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+<!-- JavaScript -->
+<script src="{{ url_for('static', filename='js/server.js' ) }}"></script>
+<script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
+<script src="{{ url_for('static', filename='js/operating_system.js' ) }}"></script>
+
+<h2 style="text-align: center;">Sistemas operativos</h2>
+
+<div class="buttons">
+  {% if current_user.role_id == 1 %}
+    <button type="button" id="addOperatingSystemButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#operatingSystemModal"><i class="fas fa-plus"></i></button>
+  {% else %}
+    <button disabled type="button" id="addOperatingSystemButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#operatingSystemModal"><i class="fas fa-plus"></i></button>
+  {% endif %}
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Versión</th>
+      <th>Arquitectura</th>
+      <th>Activo</th>
+      <th>Editar</th>
+      <th>Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for operating_system in data %}
+      <tr>
+        <td>{{ operating_system.name }}</td>
+        <td>{{ operating_system.version }}</td>
+        <td>{{ operating_system.architect }}</td>
+        <td>
+          {% if operating_system.is_active == 0 %}
+            No
+          {% elif operating_system.is_active == 1  %}
+            Si
+          {% endif %}
+        </td>
+        {% if current_user.role_id == 1 %}
+          <td>
+            <button type="button" class="btn btn-info btn-sm" id="editOperatingSystemButton" data-id={{ operating_system.id }} data-bs-toggle="modal" data-bs-target="#operatingSystemModal"><i class="fas fa-edit"></i></button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger btn-sm" id="deleteOperatingSystemButton" data-id={{ operating_system.id }} data-bs-toggle="modal" data-bs-target="#deleteOperatingSystemModal"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        {% else %}
+          <td>
+            <button disabled type="button" class="btn btn-info btn-sm" id="editOperatingSystemButton" data-id={{ operating_system.id }} data-bs-toggle="modal" data-bs-target="#operatingSystemModal"><i class="fas fa-edit"></i></button>
+          </td>
+          <td>
+            <button disabled type="button" class="btn btn-danger btn-sm" id="deleteOperatingSystemButton" data-id={{ operating_system.id }} data-bs-toggle="modal" data-bs-target="#deleteOperatingSystemModal"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include 'user-modals.html' %}
+{% include 'operating-systems-modals.html' %}
+
+{% endblock %}

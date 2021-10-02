@@ -1,0 +1,140 @@
+<!-- Start Access Modal -->
+<div class="modal fade" id="accessModal" tabindex="-1" aria-labelledby="accessModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="accessModalLabel">Accesos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if current_user.role_id == 1 %}
+          <button type="button" id="addAccessButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditAccessModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% else %}
+          <button disabled type="button" id="addAccessButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditAccessModal" data-bs-dismiss="modal"><i class="fas fa-plus"></i></button>
+        {% endif %}
+        <table class="table table-hover" id="accessTable" name="accessTable">
+          <thead>
+            <tr>
+              <th>Servidor</th>
+              <th>Tipo de conexión</th>
+              <th>IP local</th>
+              <th>Puerto local</th>
+              <th>IP pública</th>
+              <th>Puerto público</th>
+              <th>Usuario</th>
+              <th>Contraseña</th>
+              <th>Activo</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Access Modal -->
+
+<!-- Start Add Edit Access Modal -->
+<div class="modal fade" id="addEditAccessModal" tabindex="-1" aria-labelledby="addEditAccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addEditAccessModalLabel">Agregar acceso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="accessForm" name="accessForm" method="post">
+          {{ access_form.hidden_tag() }}
+          <div class="form-group">
+            {{ access_form.access_server_id.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_server_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_connection_type_id.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_connection_type_id(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_ip_local.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_ip_local(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_port_local.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_port_local(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_ip_public.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_ip_public(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_port_public.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_port_public(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_username.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_username(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_password.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_password(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ access_form.access_is_active.label(class="form-control-label") }}
+            <br>
+            {{ access_form.access_is_active }}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" form="accessForm">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Add Edit Access Modal -->
+
+<!-- Start Delete Access Modal -->
+<div class="modal fade" id="deleteAccessModal" tabindex="-1" aria-labelledby="deleteAccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAccessModalLabel">Eliminar servidor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteAccessForm" novalidate>
+          ¿Está seguro que desea eliminar este accesso?
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" form="deleteAccessForm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete Access Modal -->

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block header %} - Inicio{% endblock %}
+
+{% block environments %}
+{% for environment in environments %}
+  <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+<!-- JavaScript -->
+<script src="{{ url_for('static', filename='js/server.js' ) }}"></script>
+<script src="{{ url_for('static', filename='js/user.js' ) }}"></script>
+
+<div class="wellcome">
+    <h3>Bienvenido a Server Tree</h3>
+</div>
+
+{% include 'user-modals.html' %}
+
+{% endblock %}

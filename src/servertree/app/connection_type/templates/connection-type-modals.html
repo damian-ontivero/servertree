@@ -1,0 +1,54 @@
+<!-- Start ConnectionType Modal -->
+<div class="modal fade" id="connectionTypeModal" tabindex="-1" aria-labelledby="connectionTypeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="connectionTypeModalLabel">Agregar tipo de conexión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="connectionTypeForm" name="connectionTypeForm" method="post">
+          {{ connection_type_form.hidden_tag() }}
+          <div class="form-group">
+            {{ connection_type_form.connection_type_name.label(class="form-control-label") }}
+            <br>
+            {{ connection_type_form.connection_type_name(class="form-control form-control-md shadow-sm item") }}
+          </div>
+          <br>
+          <div class="form-group">
+            {{ connection_type_form.connection_type_is_active.label(class="form-control-label") }}
+            <br>
+            {{ connection_type_form.connection_type_is_active }}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" form="connectionTypeForm">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End ConnectionType Modal -->
+
+<!-- Start Delete ConnectionType Modal -->
+<div class="modal fade" id="deleteConnectionTypeModal" tabindex="-1" aria-labelledby="deleteConnectionTypeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConnectionTypeModalLabel">Eliminar tipo de conexión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deleteConnectionTypeForm" action="" novalidate>
+          ¿Está seguro que desea eliminar este tipo de conexión?
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" form="deleteConnectionTypeForm">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Delete ConnectionType Modal -->
