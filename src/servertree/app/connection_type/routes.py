@@ -1,3 +1,5 @@
+"""Docs."""
+
 from flask import flash, jsonify, redirect, render_template, request
 from flask_login import login_required
 
@@ -16,7 +18,13 @@ def get_connection_type_all():
     environments = Environment.get_all()
     connection_type_form = ConnectionTypeForm()
     user_form = UserForm()
-    return render_template('connection-type.html', data=data, environments=environments, connection_type_form=connection_type_form, user_form=user_form)
+    return render_template(
+        'connection-type.html',
+        data=data,
+        environments=environments,
+        connection_type_form=connection_type_form,
+        user_form=user_form
+    )
 
 
 @connection_type_bp.route('/get_connection_type_by_id', methods=['GET', 'POST'])
@@ -26,8 +34,8 @@ def get_connection_type_by_id():
     connection_type_id = request.form['connection_type_id']
     connection_type = ConnectionType.get_by_id(connection_type_id)
     return jsonify(
-        name = connection_type.name,
-        is_active = connection_type.is_active
+        name=connection_type.name,
+        is_active=connection_type.is_active
     )
 
 
@@ -61,7 +69,7 @@ def edit_connection_type(connection_type_id):
             connection_type.is_active = connection_type_form.connection_type_is_active.data
             connection_type.save()
             flash('Se ha actualizado correctamente el tipo de conexión {}.'.format(connection_type.name), 'success')
-        else: 
+        else:
             if ConnectionType.get_by_name(connection_type_form.connection_type_name.data) is not None:
                 flash('El tipo de conexión {} ya está registrado.'.format(connection_type_form.connection_type_name.data), 'danger')
             else:
@@ -71,6 +79,7 @@ def edit_connection_type(connection_type_id):
                 flash('Se ha actualizado correctamente el tipo de conexión {}.'.format(connection_type.name), 'success')
 
     return redirect(request.referrer)
+
 
 @connection_type_bp.route('/delete_connection_type/<int:connection_type_id>', methods=['GET', 'POST'])
 @login_required

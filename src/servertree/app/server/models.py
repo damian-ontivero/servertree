@@ -1,3 +1,5 @@
+"""Docs."""
+
 from servertree.app import db
 
 
@@ -21,30 +23,31 @@ class Server(db.Model):
         self.ram = ram
         self.hdd = hdd
         self.is_active = is_active
-    
+
     def __repr__(self):
         return f'<Server {self.name}>'
-    
+
     def save(self):
         if not self.id:
             db.session.add(self)
         db.session.commit()
-    
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-    
+
     @staticmethod
     def get_by_id(id):
         return Server.query.get(id)
-    
+
     @staticmethod
     def get_by_name(name):
         return Server.query.filter_by(name=name).first()
-    
+
     @staticmethod
     def get_all():
         return Server.query.all()
+
 
 class Access(db.Model):
     __tablename__ = 'Access'
@@ -73,12 +76,12 @@ class Access(db.Model):
 
     def __repr__(self):
         return '<Access_ID: {}>'.format(self.id)
-    
+
     def save(self):
         if not self.id:
             db.session.add(self)
         db.session.commit()
-    
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -86,14 +89,15 @@ class Access(db.Model):
     @staticmethod
     def get_all():
         return Access.query.all()
-    
+
     @staticmethod
     def get_by_id(id):
         return Access.query.get(id)
-    
+
     @staticmethod
     def get_by_server_id(server_id):
         return Access.query.filter_by(server_id=server_id).all()
+
 
 class Service(db.Model):
     __tablename__ = 'Services'
@@ -111,7 +115,20 @@ class Service(db.Model):
     log_dir = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean)
 
-    def __init__(self, server_id, service, version, architect, ip_local, port_local, ip_public, port_public, install_dir, log_dir, is_active):
+    def __init__(
+        self,
+        server_id,
+        service,
+        version,
+        architect,
+        ip_local,
+        port_local,
+        ip_public,
+        port_public,
+        install_dir,
+        log_dir,
+        is_active
+    ):
         self.server_id = server_id
         self.service = service
         self.version = version
@@ -126,12 +143,12 @@ class Service(db.Model):
 
     def __repr__(self):
         return '<Service_ID: {}>'.format(self.id)
-    
+
     def save(self):
         if not self.id:
             db.session.add(self)
         db.session.commit()
-    
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -139,11 +156,11 @@ class Service(db.Model):
     @staticmethod
     def get_all():
         return Service.query.all()
-    
+
     @staticmethod
     def get_by_id(id):
         return Service.query.get(id)
-    
+
     @staticmethod
     def get_by_server_id(server_id):
         return Service.query.filter_by(server_id=server_id).all()

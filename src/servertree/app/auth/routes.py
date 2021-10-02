@@ -1,3 +1,5 @@
+"""Docs."""
+
 from flask import render_template, redirect, request, url_for, jsonify, flash
 from flask_login import current_user, login_user, login_required, logout_user
 
@@ -34,15 +36,18 @@ def login():
 
     return render_template('login.html', login_form=login_form)
 
+
 @auth_bp.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.get_by_id(int(user_id))
+
 
 @auth_bp.route('/get_user_all', methods=['GET', 'POST'])
 @login_required
@@ -52,19 +57,21 @@ def get_user_all():
     user_form = UserForm()
     return render_template('user.html', data=data, environments=environments, user_form=user_form)
 
+
 @auth_bp.route('/get_user', methods=['GET', 'POST'])
 @login_required
 def get_user():
     user_id = request.form['user_id']
     user = User.get_by_id(user_id)
     return jsonify(
-        firstname = user.firstname,
-        lastname = user.lastname,
-        email = user.email,
-        password = user.password,
-        role_id = user.role_id,
-        is_active = user.is_active
+        firstname=user.firstname,
+        lastname=user.lastname,
+        email=user.email,
+        password=user.password,
+        role_id=user.role_id,
+        is_active=user.is_active
     )
+
 
 @auth_bp.route('/add_user', methods=['GET', 'POST'])
 @login_required
@@ -93,6 +100,7 @@ def add_user():
             flash('Se ha registrado correctamente el usuario con email {}.'.format(email), 'success')
             # Devolvemos la vista de todos los usuarios
     return redirect(request.referrer)
+
 
 @auth_bp.route('/edit_user/<user_id>', methods=['GET', 'POST'])
 @login_required
@@ -131,6 +139,7 @@ def edit_user(user_id):
                 flash('Se ha actualizado correctamente el usuario con email {}.'.format(user_form.email.data), 'success')
     # Devolvemos la vista de todos los usuarios
     return redirect(request.referrer)
+
 
 @auth_bp.route('/delete_user/<user_id>', methods=['GET', 'POST'])
 @login_required

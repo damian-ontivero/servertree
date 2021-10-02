@@ -1,5 +1,6 @@
 """Server management."""
-from flask import render_template, redirect, url_for, request, jsonify, flash
+
+from flask import render_template, redirect, request, jsonify, flash
 from flask_login import login_required
 
 from servertree.app import db
@@ -22,18 +23,37 @@ def get_server_all():
     access_form = AccessForm()
     service_form = ServiceForm()
     user_form = UserForm()
-    return render_template('server.html', data=data, environments=environments, server_form=server_form, access_form=access_form, service_form=service_form, user_form=user_form)
+    return render_template(
+        'server.html',
+        data=data,
+        environments=environments,
+        server_form=server_form,
+        access_form=access_form,
+        service_form=service_form,
+        user_form=user_form
+    )
+
 
 @server_bp.route('/get_server_by_env/<int:server_env>', methods=['GET', 'POST'])
 @login_required
 def get_server_by_env(server_env):
-    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(Server.environment_id==server_env).all()
+    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(
+        Server.environment_id == server_env).all()
     environments = Environment.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
     service_form = ServiceForm()
     user_form = UserForm()
-    return render_template('server.html', data=data, environments=environments, server_form=server_form, access_form=access_form, service_form=service_form, user_form=user_form)
+    return render_template(
+        'server.html',
+        data=data,
+        environments=environments,
+        server_form=server_form,
+        access_form=access_form,
+        service_form=service_form,
+        user_form=user_form
+    )
+
 
 @server_bp.route('/get_server_by_id', methods=['GET', 'POST'])
 @login_required
@@ -42,14 +62,15 @@ def get_server_by_id():
     server_id = request.form['server_id']
     server = Server.get_by_id(server_id)
     return jsonify(
-        name = server.name,
-        environment_id = server.environment_id,
-        operating_system_id = server.operating_system_id,
-        cpu = server.cpu,
-        ram = server.ram,
-        hdd = server.hdd,
-        is_active = server.is_active
+        name=server.name,
+        environment_id=server.environment_id,
+        operating_system_id=server.operating_system_id,
+        cpu=server.cpu,
+        ram=server.ram,
+        hdd=server.hdd,
+        is_active=server.is_active
     )
+
 
 @server_bp.route('/add_server', methods=['GET', 'POST'])
 @login_required
@@ -69,11 +90,20 @@ def add_server():
         if server is not None:
             flash('El servidor {} ya está registrado'.format(name), 'danger')
         else:
-            server = Server(name=name, environment_id=environment_id, operating_system_id=operating_system_id, cpu=cpu, ram=ram, hdd=hdd, is_active=is_active)
+            server = Server(
+                name=name,
+                environment_id=environment_id,
+                operating_system_id=operating_system_id,
+                cpu=cpu,
+                ram=ram,
+                hdd=hdd,
+                is_active=is_active
+            )
             server.save()
             flash('Se ha registrado correctamente el servidor {}.'.format(name), 'success')
 
     return redirect(request.referrer)
+
 
 @server_bp.route('/edit_server/<int:server_id>', methods=['GET', 'POST'])
 @login_required
@@ -92,8 +122,9 @@ def edit_server(server_id):
             server.is_active = server_form.server_is_active.data
             server.save()
             flash('Se ha actualizado correctamente el servidor {}.'.format(server_form.server_name.data), 'success')
-        else: 
-            if Server.get_by_name(server_form.server_name.data) is not None and Server.get_by_name(server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
+        else:
+            if Server.get_by_name(server_form.server_name.data) is not None and Server.get_by_name(
+                    server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
                 flash('El servidor {} ya está registrado.'.format(server_form.server_name.data), 'danger')
             else:
                 server.name = server_form.server_name.data
@@ -108,6 +139,7 @@ def edit_server(server_id):
 
     return redirect(request.referrer)
 
+
 @server_bp.route('/delete_server/<int:server_id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -121,11 +153,15 @@ def delete_server(server_id):
 
 """Server access management."""
 
+
 @server_bp.route('/get_access_by_server_id', methods=['GET', 'POST'])
 @login_required
 def get_access_by_server_id():
     server_id = request.form['server_id']
-    data_access = db.session.query(Access, Server, ConnectionType).join(Server, ConnectionType).filter(Access.server_id==server_id).all()
+    data_access = db.session.query(
+        Access,
+        Server,
+        ConnectionType).join(Server, ConnectionType).filter(Access.server_id == server_id).all()
     if data_access is not None:
         all_access = []
         for access, server, connection_type in data_access:
@@ -157,19 +193,20 @@ def get_access_by_id():
     access = Access.get_by_id(access_id)
     if access is not None:
         return jsonify(
-            access_id = access.id,
-            server_id = access.server_id,
-            connection_type_id = access.connection_type_id,
-            ip_local = access.ip_local,
-            port_local = access.port_local,
-            ip_public = access.ip_public,
-            port_public = access.port_public,
-            username = access.username,
-            password = access.password,
-            is_active = access.is_active
+            access_id=access.id,
+            server_id=access.server_id,
+            connection_type_id=access.connection_type_id,
+            ip_local=access.ip_local,
+            port_local=access.port_local,
+            ip_public=access.ip_public,
+            port_public=access.port_public,
+            username=access.username,
+            password=access.password,
+            is_active=access.is_active
         )
     else:
         return jsonify()
+
 
 @server_bp.route('/add_access', methods=['GET', 'POST'])
 @login_required
@@ -187,10 +224,22 @@ def add_access():
         password = access_form.access_password.data
         is_active = access_form.access_is_active.data
 
-        access = Access(server_id=server_id, connection_type_id=connection_type_id, ip_local=ip_local, port_local=port_local, ip_public=ip_public, port_public=port_public, username=username, password=password, is_active=is_active)
+        access = Access(
+            server_id=server_id,
+            connection_type_id=connection_type_id,
+            ip_local=ip_local,
+            port_local=port_local,
+            ip_public=ip_public,
+            port_public=port_public,
+            username=username,
+            password=password,
+            is_active=is_active
+        )
         access.save()
-        flash('Se ha registrado correctamente el acceso para el servidor {}.'.format(access_form.access_server_id.data.name), 'success')
+        message = 'Se ha registrado correctamente el acceso para el servidor {}.'
+        flash(message.format(access_form.access_server_id.data.name), 'success')
     return redirect(request.referrer)
+
 
 @server_bp.route('/edit_access/<int:access_id>', methods=['GET', 'POST'])
 @login_required
@@ -214,6 +263,7 @@ def edit_access(access_id):
 
     return redirect(request.referrer)
 
+
 @server_bp.route('/delete_access/<int:access_id>')
 @login_required
 @admin_required
@@ -228,11 +278,12 @@ def delete_access(access_id):
 
 """Server services management."""
 
+
 @server_bp.route('/get_service_by_server_id', methods=['GET', 'POST'])
 @login_required
 def get_service_by_server_id():
     server_id = request.form['server_id']
-    data_service = db.session.query(Service, Server).join(Server).filter(Service.server_id==server_id).all()
+    data_service = db.session.query(Service, Server).join(Server).filter(Service.server_id == server_id).all()
     if data_service is not None:
         all_service = []
         for service, server in data_service:
@@ -266,21 +317,22 @@ def get_service_by_id():
     service = Service.get_by_id(service_id)
     if service is not None:
         return jsonify(
-            service_id = service.id,
-            server_id = service.server_id,
-            service = service.service,
-            version = service.version,
-            architect = service.architect,
-            ip_local = service.ip_local,
-            port_local = service.port_local,
-            ip_public = service.ip_public,
-            port_public = service.port_public,
-            install_dir = service.install_dir,
-            log_dir = service.log_dir,
-            is_active = service.is_active
+            service_id=service.id,
+            server_id=service.server_id,
+            service=service.service,
+            version=service.version,
+            architect=service.architect,
+            ip_local=service.ip_local,
+            port_local=service.port_local,
+            ip_public=service.ip_public,
+            port_public=service.port_public,
+            install_dir=service.install_dir,
+            log_dir=service.log_dir,
+            is_active=service.is_active
         )
     else:
         return jsonify()
+
 
 @server_bp.route('/add_service', methods=['GET', 'POST'])
 @login_required
@@ -300,10 +352,24 @@ def add_service():
         log_dir = service_form.service_log_dir.data
         is_active = service_form.service_is_active.data
 
-        service = Service(server_id=server_id, service=service, version=version, architect=architect, ip_local=ip_local, port_local=port_local, ip_public=ip_public, port_public=port_public, install_dir=install_dir, log_dir=log_dir, is_active=is_active)
+        service = Service(
+            server_id=server_id,
+            service=service,
+            version=version,
+            architect=architect,
+            ip_local=ip_local,
+            port_local=port_local,
+            ip_public=ip_public,
+            port_public=port_public,
+            install_dir=install_dir,
+            log_dir=log_dir,
+            is_active=is_active
+        )
         service.save()
-        flash('Se ha registrado correctamente el servicio para el servidor {}.'.format(service_form.service_server_id.data.name), 'success')
+        message = 'Se ha registrado correctamente el servicio para el servidor {}.'
+        flash(message.format(service_form.service_server_id.data.name), 'success')
     return redirect(request.referrer)
+
 
 @server_bp.route('/edit_service/<int:service_id>', methods=['GET', 'POST'])
 @login_required
@@ -328,6 +394,7 @@ def edit_service(service_id):
         flash('Se ha actualizado correctamente el servicio para el servidor {}.'.format(server.name), 'success')
 
     return redirect(request.referrer)
+
 
 @server_bp.route('/delete_service/<int:service_id>')
 @login_required

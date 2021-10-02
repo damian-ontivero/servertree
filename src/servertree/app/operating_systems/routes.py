@@ -1,4 +1,6 @@
-from flask import flash, jsonify, redirect, render_template, request, url_for
+"""Docs."""
+
+from flask import flash, jsonify, redirect, render_template, request
 from flask_login import login_required
 
 from servertree.app.operating_systems import operating_system_bp
@@ -16,7 +18,14 @@ def get_all():
     environments = Environment.get_all()
     operating_system_form = OperatingSystemForm()
     user_form = UserForm()
-    return render_template('operating-systems.html', data=data, environments=environments, operating_system_form=operating_system_form, user_form=user_form)
+    return render_template(
+        'operating-systems.html',
+        data=data,
+        environments=environments,
+        operating_system_form=operating_system_form,
+        user_form=user_form
+    )
+
 
 @operating_system_bp.route('get_by_id', methods=['GET', 'POST'])
 @login_required
@@ -24,11 +33,12 @@ def get_by_id():
     operating_system_id = request.form['operating_system_id']
     operating_system = OperatingSystem.get_by_id(operating_system_id)
     return jsonify(
-        name = operating_system.name,
-        version = operating_system.version,
-        architect = operating_system.architect,
-        is_active = operating_system.is_active
+        name=operating_system.name,
+        version=operating_system.version,
+        architect=operating_system.architect,
+        is_active=operating_system.is_active
     )
+
 
 @operating_system_bp.route('/add', methods=['GET', 'POST'])
 @login_required
@@ -49,6 +59,7 @@ def add():
 
     return redirect(request.referrer)
 
+
 @operating_system_bp.route('/edit/<int:operating_system_id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -56,25 +67,44 @@ def edit(operating_system_id):
     operating_system = OperatingSystem.get_by_id(operating_system_id)
     operating_system_form = OperatingSystemForm(obj=operating_system)
     if operating_system_form.validate_on_submit():
-        if operating_system.name == operating_system_form.operating_system_name.data and operating_system.version == operating_system_form.operating_system_version.data and operating_system.architect == operating_system_form.operating_system_architect.data:
+        if (operating_system.name == operating_system_form.operating_system_name.data
+                and operating_system.version == operating_system_form.operating_system_version.data
+                and operating_system.architect == operating_system_form.operating_system_architect.data):
             operating_system.name = operating_system_form.operating_system_name.data
             operating_system.version = operating_system_form.operating_system_version.data
             operating_system.architect = operating_system_form.operating_system_architect.data
             operating_system.is_active = operating_system_form.operating_system_is_active.data
             operating_system.save()
-            flash('Se ha actualizado correctamente el sistema operativo {} {} {}.'.format(operating_system.name, operating_system.version, operating_system.architect), 'success')
-        else: 
-            if OperatingSystem.get_by_name_version_architect(operating_system_form.operating_system_name.data, operating_system_form.operating_system_version.data, operating_system_form.operating_system_architect.data) is not None:
-                flash('El sistema operativo {} {} {} ya está registrado.'.format(operating_system_form.operating_system_name.data, operating_system_form.operating_system_version.data, operating_system_form.operating_system_architect.data), 'danger')
+            flash('Se ha actualizado correctamente el sistema operativo {} {} {}.'.format(
+                operating_system.name,
+                operating_system.version,
+                operating_system.architect
+            ), 'success')
+        else:
+            if OperatingSystem.get_by_name_version_architect(
+                operating_system_form.operating_system_name.data,
+                operating_system_form.operating_system_version.data,
+                operating_system_form.operating_system_architect.data
+            ) is not None:
+                flash('El sistema operativo {} {} {} ya está registrado.'.format(
+                    operating_system_form.operating_system_name.data,
+                    operating_system_form.operating_system_version.data,
+                    operating_system_form.operating_system_architect.data
+                ), 'danger')
             else:
                 operating_system.name = operating_system_form.operating_system_name.data
                 operating_system.version = operating_system_form.operating_system_version.data
                 operating_system.architect = operating_system_form.operating_system_architect.data
                 operating_system.is_active = operating_system_form.operating_system_is_active.data
                 operating_system.save()
-                flash('Se ha actualizado correctamente el sistema operativo {} {} {}.'.format(operating_system.name, operating_system.version, operating_system.architect), 'success')
+                flash('Se ha actualizado correctamente el sistema operativo {} {} {}.'.format(
+                    operating_system.name,
+                    operating_system.version,
+                    operating_system.architect
+                ), 'success')
 
     return redirect(request.referrer)
+
 
 @operating_system_bp.route('/delete/<int:operating_system_id>', methods=['GET', 'POST'])
 @login_required

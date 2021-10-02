@@ -1,3 +1,5 @@
+"""Docs."""
+
 from servertree.app import db
 
 
@@ -18,7 +20,7 @@ class OperatingSystem(db.Model):
 
     def __repr__(self):
         return '{} - {} - {}'.format(self.name, self.version, self.architect)
-    
+
     def save(self):
         if not self.id:
             db.session.add(self)
@@ -31,11 +33,11 @@ class OperatingSystem(db.Model):
     @staticmethod
     def get_all():
         return OperatingSystem.query.all()
-    
+
     @staticmethod
     def get_by_id(id):
         return OperatingSystem.query.get(id)
-    
+
     @staticmethod
     def get_by_name_version_architect(name, version, architect):
         return OperatingSystem.query.filter_by(name=name, version=version, architect=architect).first()

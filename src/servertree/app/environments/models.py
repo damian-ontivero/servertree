@@ -1,3 +1,5 @@
+"""Docs."""
+
 from servertree.app import db
 
 
@@ -19,7 +21,7 @@ class Environment(db.Model):
         if not self.id:
             db.session.add(self)
         db.session.commit()
-    
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -27,7 +29,7 @@ class Environment(db.Model):
     @staticmethod
     def get_all():
         return Environment.query.all()
-    
+
     @staticmethod
     def get_by_id(id):
         return Environment.query.get(id)

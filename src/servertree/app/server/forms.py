@@ -1,8 +1,10 @@
+"""Docs."""
+
 from flask_wtf import FlaskForm
 
-from wtforms import StringField, BooleanField, SubmitField
+from wtforms import StringField, BooleanField
 from wtforms_sqlalchemy.fields import QuerySelectField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired
 
 from servertree.app.server.models import Server
 from servertree.app.environments.models import Environment
@@ -19,6 +21,7 @@ class ServerForm(FlaskForm):
     server_hdd = StringField('HDD', validators=[DataRequired()])
     server_is_active = BooleanField('Activo')
 
+
 class AccessForm(FlaskForm):
     access_server_id = QuerySelectField('Servidor', query_factory=Server.get_all, get_label='name')
     access_connection_type_id = QuerySelectField('Tipo de conexión', query_factory=ConnectionType.get_all, get_label='name')
@@ -29,6 +32,7 @@ class AccessForm(FlaskForm):
     access_username = StringField('Usuario', validators=[DataRequired()])
     access_password = StringField('Contraseña', validators=[DataRequired()])
     access_is_active = BooleanField('Activo')
+
 
 class ServiceForm(FlaskForm):
     service_server_id = QuerySelectField('Servidor', query_factory=Server.get_all, get_label='name')
