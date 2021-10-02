@@ -7,9 +7,9 @@ Made with Python (Flask), HTML, CSS3, JavaScript (A little) and SQLAlchemy as OR
     pip install -r requirements.txt
 
 #### Set the environment variable:
-    export FLASK_APP=run -> Linux
-    set FLASK_APP=run -> CMD
-    $env:FLASK_APP = "run" -> PowerShell
+    export FLASK_APP=entrypoint -> Linux
+    set FLASK_APP=entrypoint -> CMD
+    $env:FLASK_APP = "entrypoint" -> PowerShell
 
 #### DB:
 The application is using sqlite as database and is placed in "app/servertree.db" but if you want to configure a different DBMS you might change the SQLALCHEMY_DATABASE_URI variable in the Config class.
