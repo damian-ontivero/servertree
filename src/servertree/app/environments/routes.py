@@ -1,4 +1,4 @@
-"""Docs."""
+"""Doc."""
 
 from flask import flash, jsonify, redirect, render_template, request
 from flask_login import login_required

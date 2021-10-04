@@ -1,4 +1,4 @@
-"""Docs."""
+"""Doc."""
 
 from functools import wraps
 

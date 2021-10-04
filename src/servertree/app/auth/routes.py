@@ -121,7 +121,7 @@ def edit_user(user_id):
                 user.set_password(user_form.password.data)
             user.save()
             flash('Se ha actualizado correctamente el usuario con email {}.'.format(user_form.email.data), 'success')
-        else: 
+        else:
             if User.get_by_email(user_form.email.data) is not None:
                 flash('El email {} ya está registrado por otro usuario.'.format(user_form.email.data), 'danger')
             else:

@@ -1,4 +1,4 @@
-"""Docs."""
+"""Doc."""
 
 from servertree.app import db
 

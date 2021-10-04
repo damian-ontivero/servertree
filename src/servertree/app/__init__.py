@@ -1,3 +1,5 @@
+"""Doc."""
+
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -26,8 +28,10 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     """
-    flask db init: Crea una estructura de directorios y ficheros necesarios para la ejecución de esta extensión. Se ejecuta solo una vez, al principio.
-    flask db migrate: Navega entre los modelos en busca de actualizaciones y genera los ficheros de migración de base de datos con los cambios detectados.
+    flask db init: Crea una estructura de directorios y ficheros necesarios para la ejecución de esta extensión.
+                   Se ejecuta solo una vez, al principio.
+    flask db migrate: Navega entre los modelos en busca de actualizaciones y genera los ficheros de migración
+                      de base de datos con los cambios detectados.
     flask db upgrade: Lleva a cabo la migración de la base de datos.
     """
 

@@ -1,4 +1,4 @@
-"""Docs."""
+"""Doc."""
 
 from flask_login import UserMixin
 
