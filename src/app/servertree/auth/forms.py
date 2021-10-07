@@ -6,7 +6,7 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
 
-from servertree.app.auth.models import Role
+from servertree.auth.models import Role
 
 
 class LoginForm(FlaskForm):

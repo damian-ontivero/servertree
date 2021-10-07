@@ -1,6 +1,6 @@
 """Doc."""
 
-from servertree.app import db
+from servertree import db
 
 
 class Environment(db.Model):

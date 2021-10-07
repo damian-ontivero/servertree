@@ -1,16 +1,16 @@
-"""Docs."""
+"""Doc."""
 
 from flask import render_template, redirect, request, url_for, jsonify, flash
 from flask_login import current_user, login_user, login_required, logout_user
 
 from werkzeug.urls import url_parse
 
-from servertree.app import login_manager, db
-from servertree.app.auth import auth_bp
-from servertree.app.auth.forms import LoginForm, UserForm
-from servertree.app.auth.models import User, Role
-from servertree.app.auth.decorators import admin_required
-from servertree.app.environments.models import Environment
+from servertree import login_manager, db
+from servertree.auth import auth_bp
+from servertree.auth.forms import LoginForm, UserForm
+from servertree.auth.models import User, Role
+from servertree.auth.decorators import admin_required
+from servertree.environments.models import Environment
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
