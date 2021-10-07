@@ -3,12 +3,12 @@
 from flask import flash, jsonify, redirect, render_template, request
 from flask_login import login_required
 
-from servertree.operating_systems import operating_system_bp
-from servertree.operating_systems.models import OperatingSystem
-from servertree.operating_systems.forms import OperatingSystemForm
-from servertree.auth.forms import UserForm
-from servertree.auth.decorators import admin_required
-from servertree.environments.models import Environment
+from app.servertree.operating_systems import operating_system_bp
+from app.servertree.operating_systems.models import OperatingSystem
+from app.servertree.operating_systems.forms import OperatingSystemForm
+from app.servertree.auth.forms import UserForm
+from app.servertree.auth.decorators import admin_required
+from app.servertree.environments.models import Environment
 
 
 @operating_system_bp.route('/get_all', methods=['GET', 'POST'])

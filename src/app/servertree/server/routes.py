@@ -3,15 +3,15 @@
 from flask import render_template, redirect, request, jsonify, flash
 from flask_login import login_required
 
-from servertree import db
-from servertree.server import server_bp
-from servertree.server.models import Server, Access, Service
-from servertree.server.forms import ServerForm, AccessForm, ServiceForm
-from servertree.environments.models import Environment
-from servertree.operating_systems.models import OperatingSystem
-from servertree.connection_type.models import ConnectionType
-from servertree.auth.forms import UserForm
-from servertree.auth.decorators import admin_required
+from app.servertree import db
+from app.servertree.server import server_bp
+from app.servertree.server.models import Server, Access, Service
+from app.servertree.server.forms import ServerForm, AccessForm, ServiceForm
+from app.servertree.environments.models import Environment
+from app.servertree.operating_systems.models import OperatingSystem
+from app.servertree.connection_type.models import ConnectionType
+from app.servertree.auth.forms import UserForm
+from app.servertree.auth.decorators import admin_required
 
 
 @server_bp.route('/get_server_all', methods=['GET', 'POST'])

@@ -3,12 +3,12 @@
 from flask import flash, jsonify, redirect, render_template, request
 from flask_login import login_required
 
-from servertree.connection_type import connection_type_bp
-from servertree.connection_type.models import ConnectionType
-from servertree.connection_type.forms import ConnectionTypeForm
-from servertree.auth.decorators import admin_required
-from servertree.auth.forms import UserForm
-from servertree.environments.models import Environment
+from app.servertree.connection_type import connection_type_bp
+from app.servertree.connection_type.models import ConnectionType
+from app.servertree.connection_type.forms import ConnectionTypeForm
+from app.servertree.auth.decorators import admin_required
+from app.servertree.auth.forms import UserForm
+from app.servertree.environments.models import Environment
 
 
 @connection_type_bp.route('/get_connection_type_all', methods=['GET'])

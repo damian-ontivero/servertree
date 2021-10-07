@@ -1,4 +1,4 @@
-from servertree.app import create_app
+from app.servertree import create_app
 
 app = create_app()
 

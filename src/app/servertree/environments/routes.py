@@ -3,11 +3,11 @@
 from flask import flash, jsonify, redirect, render_template, request
 from flask_login import login_required
 
-from servertree.environments import environment_bp
-from servertree.environments.models import Environment
-from servertree.environments.forms import EnvironmentForm
-from servertree.auth.forms import UserForm
-from servertree.auth.decorators import admin_required
+from app.servertree.environments import environment_bp
+from app.servertree.environments.models import Environment
+from app.servertree.environments.forms import EnvironmentForm
+from app.servertree.auth.forms import UserForm
+from app.servertree.auth.decorators import admin_required
 
 
 @environment_bp.route('/get_all', methods=['GET', 'POST'])

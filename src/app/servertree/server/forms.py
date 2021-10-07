@@ -6,10 +6,10 @@ from wtforms import StringField, BooleanField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
 
-from servertree.server.models import Server
-from servertree.environments.models import Environment
-from servertree.operating_systems.models import OperatingSystem
-from servertree.connection_type.models import ConnectionType
+from app.servertree.server.models import Server
+from app.servertree.environments.models import Environment
+from app.servertree.operating_systems.models import OperatingSystem
+from app.servertree.connection_type.models import ConnectionType
 
 
 class ServerForm(FlaskForm):
