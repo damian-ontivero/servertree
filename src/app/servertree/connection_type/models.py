@@ -4,7 +4,7 @@ from app.servertree import db
 
 
 class ConnectionType(db.Model):
-    __tablename__ = 'ConnectionType'
+    __tablename__ = "ConnectionType"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
@@ -15,7 +15,7 @@ class ConnectionType(db.Model):
         self.is_active = is_active
 
     def __repr__(self):
-        return '<ConnectionType: {}>'.format(self.name)
+        return "<ConnectionType: {}>".format(self.name)
 
     def save(self):
         if not self.id:

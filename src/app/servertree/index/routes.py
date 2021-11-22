@@ -8,9 +8,9 @@ from app.servertree.environments.models import Environment
 from app.servertree.auth.forms import UserForm
 
 
-@index_bp.route('/', methods=['GET', 'POST'])
+@index_bp.route("/", methods=["GET", "POST"])
 @login_required
 def index():
     user_form = UserForm()
     environments = Environment.get_all()
-    return render_template('index.html', user_form=user_form, environments=environments)
+    return render_template("index.html", user_form=user_form, environments=environments)

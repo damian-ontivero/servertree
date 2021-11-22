@@ -4,7 +4,7 @@ from app.servertree import db
 
 
 class OperatingSystem(db.Model):
-    __tablename__ = 'OperatingSystems'
+    __tablename__ = "OperatingSystems"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
@@ -19,7 +19,7 @@ class OperatingSystem(db.Model):
         self.is_active = is_active
 
     def __repr__(self):
-        return '{} - {} - {}'.format(self.name, self.version, self.architect)
+        return "{} - {} - {}".format(self.name, self.version, self.architect)
 
     def save(self):
         if not self.id:

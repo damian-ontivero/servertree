@@ -10,7 +10,7 @@ from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
 
 
-@environment_bp.route('/get_all', methods=['GET', 'POST'])
+@environment_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
 def get_all():
     data = Environment.get_all()
@@ -18,7 +18,7 @@ def get_all():
     environment_form = EnvironmentForm()
     user_form = UserForm()
     return render_template(
-        'environments.html',
+        "environments.html",
         data=data,
         environments=environments,
         environment_form=environment_form,
@@ -26,11 +26,11 @@ def get_all():
     )
 
 
-@environment_bp.route('/get_by_id', methods=['GET', 'POST'])
+@environment_bp.route("/get_by_id", methods=["GET", "POST"])
 @login_required
 @admin_required
 def get_by_id():
-    environment_id = request.form['environment_id']
+    environment_id = request.form["environment_id"]
     environment = Environment.get_by_id(environment_id)
     return jsonify(
         name=environment.name,
@@ -38,7 +38,7 @@ def get_by_id():
     )
 
 
-@environment_bp.route('/add', methods=['GET', 'POST'])
+@environment_bp.route("/add", methods=["GET", "POST"])
 @login_required
 @admin_required
 def add():
@@ -47,16 +47,16 @@ def add():
         name = environment_form.environment_name.data
         is_active = environment_form.environment_is_active.data
         if Environment.get_by_name(name) is not None:
-            flash('El entorno {} ya está registrado.'.format(name), 'danger')
+            flash("El entorno {} ya está registrado.".format(name), "danger")
         else:
             environment = Environment(name=name, is_active=is_active)
             environment.save()
-            flash('Se ha registrador correctamente el entorno {}.'.format(name), 'success')
+            flash("Se ha registrador correctamente el entorno {}.".format(name), "success")
 
     return redirect(request.referrer)
 
 
-@environment_bp.route('/edit/<int:environment_id>', methods=['GET', 'POST'])
+@environment_bp.route("/edit/<int:environment_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def edit(environment_id):
@@ -67,25 +67,25 @@ def edit(environment_id):
             environment.name = environment_form.environment_name.data
             environment.is_active = environment_form.environment_is_active.data
             environment.save()
-            flash('Se ha actualizado correctamente el entorno {}.'.format(environment.name), 'success')
+            flash("Se ha actualizado correctamente el entorno {}.".format(environment.name), "success")
         else:
             if Environment.get_by_name(environment_form.environment_name.data) is not None:
-                flash('El entorno {} ya está registrado.'.format(environment_form.environment_name.data), 'danger')
+                flash("El entorno {} ya está registrado.".format(environment_form.environment_name.data), "danger")
             else:
                 environment.name = environment_form.environment_name.data
                 environment.is_active = environment_form.environment_is_active.data
                 environment.save()
-                flash('Se ha actualizado correctamente el entorno {}.'.format(environment.name), 'success')
+                flash("Se ha actualizado correctamente el entorno {}.".format(environment.name), "success")
 
     return redirect(request.referrer)
 
 
-@environment_bp.route('/delete/<int:environment_id>', methods=['GET', 'POST'])
+@environment_bp.route("/delete/<int:environment_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def delete(environment_id):
     environment = Environment.get_by_id(environment_id)
     if environment is not None:
         environment.delete()
-        flash('Se ha eliminado correctamente el entorno {}.'.format(environment.name), 'success')
+        flash("Se ha eliminado correctamente el entorno {}.".format(environment.name), "success")
         return redirect(request.referrer)

@@ -4,12 +4,12 @@ from app.servertree import db
 
 
 class Server(db.Model):
-    __tablename__ = 'Servers'
+    __tablename__ = "Servers"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
-    environment_id = db.Column(db.Integer, db.ForeignKey('Environments.id'), nullable=False)
-    operating_system_id = db.Column(db.Integer, db.ForeignKey('OperatingSystems.id'), nullable=False)
+    environment_id = db.Column(db.Integer, db.ForeignKey("Environments.id"), nullable=False)
+    operating_system_id = db.Column(db.Integer, db.ForeignKey("OperatingSystems.id"), nullable=False)
     cpu = db.Column(db.String(50), nullable=False)
     ram = db.Column(db.String(50), nullable=False)
     hdd = db.Column(db.String(50), nullable=False)
@@ -25,7 +25,7 @@ class Server(db.Model):
         self.is_active = is_active
 
     def __repr__(self):
-        return f'<Server {self.name}>'
+        return f"<Server {self.name}>"
 
     def save(self):
         if not self.id:
@@ -50,11 +50,11 @@ class Server(db.Model):
 
 
 class Access(db.Model):
-    __tablename__ = 'Access'
+    __tablename__ = "Access"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
-    server_id = db.Column(db.Integer, db.ForeignKey('Servers.id'), nullable=False)
-    connection_type_id = db.Column(db.Integer, db.ForeignKey('ConnectionType.id'), nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey("Servers.id"), nullable=False)
+    connection_type_id = db.Column(db.Integer, db.ForeignKey("ConnectionType.id"), nullable=False)
     ip_local = db.Column(db.String(15))
     port_local = db.Column(db.String(5))
     ip_public = db.Column(db.String(15))
@@ -75,7 +75,7 @@ class Access(db.Model):
         self.is_active = is_active
 
     def __repr__(self):
-        return '<Access_ID: {}>'.format(self.id)
+        return "<Access_ID: {}>".format(self.id)
 
     def save(self):
         if not self.id:
@@ -100,10 +100,10 @@ class Access(db.Model):
 
 
 class Service(db.Model):
-    __tablename__ = 'Services'
+    __tablename__ = "Services"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
-    server_id = db.Column(db.Integer, db.ForeignKey('Servers.id'), nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey("Servers.id"), nullable=False)
     service = db.Column(db.String(50), nullable=False)
     version = db.Column(db.String(50), nullable=False)
     architect = db.Column(db.String(6), nullable=False)
@@ -142,7 +142,7 @@ class Service(db.Model):
         self.is_active = is_active
 
     def __repr__(self):
-        return '<Service_ID: {}>'.format(self.id)
+        return "<Service_ID: {}>".format(self.id)
 
     def save(self):
         if not self.id:

@@ -4,7 +4,7 @@ from app.servertree import db
 
 
 class Environment(db.Model):
-    __tablename__ = 'Environments'
+    __tablename__ = "Environments"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
@@ -15,7 +15,7 @@ class Environment(db.Model):
         self.is_active = is_active
 
     def __repr__(self):
-        return '<Environment {}>'.format(self.name)
+        return "<Environment {}>".format(self.name)
 
     def save(self):
         if not self.id:

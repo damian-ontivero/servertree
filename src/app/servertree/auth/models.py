@@ -8,13 +8,13 @@ from app.servertree import db
 
 
 class Role(db.Model):
-    __tablename__ = 'Roles'
+    __tablename__ = "Roles"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     role = db.Column(db.String(30), unique=True, nullable=False)
 
     def __repr__(self):
-        return '<Role {}>'.format(self.role)
+        return "<Role {}>".format(self.role)
 
     @staticmethod
     def get_by_id(id):
@@ -26,14 +26,14 @@ class Role(db.Model):
 
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'Users'
+    __tablename__ = "Users"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     firstname = db.Column(db.String(128), nullable=False)
     lastname = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('Roles.id'), nullable=False)
+    role_id = db.Column(db.Integer, db.ForeignKey("Roles.id"), nullable=False)
     is_active = db.Column(db.Boolean)
 
     def __init__(self, firstname, lastname, email, role_id, is_active):
@@ -44,7 +44,7 @@ class User(db.Model, UserMixin):
         self.is_active = is_active
 
     def __repr__(self):
-        return f'<User {self.email}>'
+        return f"<User {self.email}>"
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

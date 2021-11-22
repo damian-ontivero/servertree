@@ -12,7 +12,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 config = ConfigParser()
-config_file = './config.ini'
+config_file = "./config.ini"
 
 
 def create_app():
@@ -20,10 +20,10 @@ def create_app():
 
     config.read(filenames=config_file)
 
-    app.config['SECRET_KEY'] = config.get('flask', 'SECRET_KEY')
-    app.config['SQLALCHEMY_DATABASE_URI'] = config.get('flask-sqlalchemy', 'SQLALCHEMY_DATABASE_URI')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.get('flask-sqlalchemy', 'SQLALCHEMY_TRACK_MODIFICATIONS')
-    app.config['JSON_SORT_KEYS'] = config.get('flask-sqlalchemy', 'JSON_SORT_KEYS')
+    app.config["SECRET_KEY"] = config.get("flask", "SECRET_KEY")
+    app.config["SQLALCHEMY_DATABASE_URI"] = config.get("flask-sqlalchemy", "SQLALCHEMY_DATABASE_URI")
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.get("flask-sqlalchemy", "SQLALCHEMY_TRACK_MODIFICATIONS")
+    app.config["JSON_SORT_KEYS"] = config.get("flask-sqlalchemy", "JSON_SORT_KEYS")
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -36,8 +36,8 @@ def create_app():
     """
 
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
-    login_manager.login_message = 'Inicie sesión para acceder a la página.'
+    login_manager.login_view = "auth.login"
+    login_manager.login_message = "Inicie sesión para acceder a la página."
     login_manager.login_message_category = "warning"
     Bootstrap(app)
 
@@ -69,12 +69,12 @@ def create_app():
 def register_error_handlers(app):
     @app.errorhandler(500)
     def base_error_handler(e):
-        return render_template('500.html'), 500
+        return render_template("500.html"), 500
 
     @app.errorhandler(404)
     def error_404_handler(e):
-        return render_template('404.html'), 404
+        return render_template("404.html"), 404
 
     @app.errorhandler(401)
     def error_401_handler(e):
-        return render_template('401.html'), 401
+        return render_template("401.html"), 401
