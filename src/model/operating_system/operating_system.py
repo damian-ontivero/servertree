@@ -1,10 +1,11 @@
 """Doc."""
 
-from app.servertree import db
+from model import db
 
 
-class OperatingSystem(db.Model):
-    __tablename__ = "OperatingSystems"
+class OperatingSystemModel(db.Base):
+    """Operating System table."""
+    __tablename__ = "operating_system"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
@@ -13,31 +14,38 @@ class OperatingSystem(db.Model):
     is_active = db.Column(db.Boolean)
 
     def __init__(self, name, version, architect, is_active):
+        """Constructor."""
         self.name = name
         self.version = version
         self.architect = architect
         self.is_active = is_active
 
     def __repr__(self):
-        return "{} - {} - {}".format(self.name, self.version, self.architect)
+        """Doc."""
+        return "<Environment {0} - {1} - {2}>".format(self.name, self.version, self.architect)
 
     def save(self):
+        """Doc."""
         if not self.id:
             db.session.add(self)
         db.session.commit()
 
     def delete(self):
+        """Doc."""
         db.session.delete(self)
         db.session.commit()
 
     @staticmethod
     def get_all():
-        return OperatingSystem.query.all()
+        """Doc."""
+        return OperatingSystemModel.query.all()
 
     @staticmethod
     def get_by_id(id):
-        return OperatingSystem.query.get(id)
+        """Doc."""
+        return OperatingSystemModel.query.get(id)
 
     @staticmethod
     def get_by_name_version_architect(name, version, architect):
-        return OperatingSystem.query.filter_by(name=name, version=version, architect=architect).first()
+        """Doc."""
+        return OperatingSystemModel.query.filter_by(name=name, version=version, architect=architect).first()

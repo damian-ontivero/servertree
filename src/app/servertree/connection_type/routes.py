@@ -1,21 +1,27 @@
 """Doc."""
 
-from flask import flash, jsonify, redirect, render_template, request
+from flask import (
+    render_template,
+    redirect,
+    request,
+    jsonify,
+    flash
+)
 from flask_login import login_required
 
 from app.servertree.connection_type import connection_type_bp
-from app.servertree.connection_type.models import ConnectionType
 from app.servertree.connection_type.forms import ConnectionTypeForm
 from app.servertree.auth.decorators import admin_required
 from app.servertree.auth.forms import UserForm
-from app.servertree.environments.models import Environment
+from model.connection_type.connection_type import ConnectionTypeModel
+from model.environment.environment import EnvironmentModel
 
 
 @connection_type_bp.route("/get_connection_type_all", methods=["GET"])
 @login_required
 def get_connection_type_all():
-    data = ConnectionType.get_all()
-    environments = Environment.get_all()
+    data = ConnectionTypeModel.get_all()
+    environments = EnvironmentModel.get_all()
     connection_type_form = ConnectionTypeForm()
     user_form = UserForm()
     return render_template(
@@ -32,7 +38,7 @@ def get_connection_type_all():
 @admin_required
 def get_connection_type_by_id():
     connection_type_id = request.form["connection_type_id"]
-    connection_type = ConnectionType.get_by_id(connection_type_id)
+    connection_type = ConnectionTypeModel.get_by_id(connection_type_id)
     return jsonify(
         name=connection_type.name,
         is_active=connection_type.is_active
@@ -47,10 +53,10 @@ def add_connection_type():
     if connection_type_form.validate_on_submit():
         name = connection_type_form.connection_type_name.data
         is_active = connection_type_form.connection_type_is_active.data
-        if ConnectionType.get_by_name(name) is not None:
+        if ConnectionTypeModel.get_by_name(name) is not None:
             flash("El tipo de conexión {} ya está registrado.".format(name), "danger")
         else:
-            connection_type = ConnectionType(name=name, is_active=is_active)
+            connection_type = ConnectionTypeModel(name=name, is_active=is_active)
             connection_type.save()
             flash("Se ha registrado correctamente el tipo de conexión {}.".format(name), "success")
 
@@ -61,7 +67,7 @@ def add_connection_type():
 @login_required
 @admin_required
 def edit_connection_type(connection_type_id):
-    connection_type = ConnectionType.get_by_id(connection_type_id)
+    connection_type = ConnectionTypeModel.get_by_id(connection_type_id)
     connection_type_form = ConnectionTypeForm(obj=connection_type)
     if connection_type_form.validate_on_submit():
         if connection_type.name == connection_type_form.connection_type_name.data:
@@ -70,7 +76,7 @@ def edit_connection_type(connection_type_id):
             connection_type.save()
             flash("Se ha actualizado correctamente el tipo de conexión {}.".format(connection_type.name), "success")
         else:
-            if ConnectionType.get_by_name(connection_type_form.connection_type_name.data) is not None:
+            if ConnectionTypeModel.get_by_name(connection_type_form.connection_type_name.data) is not None:
                 flash("El tipo de conexión {} ya está registrado.".format(connection_type_form.connection_type_name.data), "danger")
             else:
                 connection_type.name = connection_type_form.connection_type_name.data
@@ -85,7 +91,7 @@ def edit_connection_type(connection_type_id):
 @login_required
 @admin_required
 def delete_connection_type(connection_type_id):
-    connection_type = ConnectionType.get_by_id(connection_type_id)
+    connection_type = ConnectionTypeModel.get_by_id(connection_type_id)
     if connection_type is not None:
         connection_type.delete()
         flash("Se ha eliminado correctamente el tipo de conexión {}.".format(connection_type.name), "success")

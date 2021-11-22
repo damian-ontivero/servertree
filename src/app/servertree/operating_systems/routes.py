@@ -4,18 +4,18 @@ from flask import flash, jsonify, redirect, render_template, request
 from flask_login import login_required
 
 from app.servertree.operating_systems import operating_system_bp
-from app.servertree.operating_systems.models import OperatingSystem
 from app.servertree.operating_systems.forms import OperatingSystemForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
-from app.servertree.environments.models import Environment
+from model.operating_system.operating_system import OperatingSystemModel
+from model.environment.environment import EnvironmentModel
 
 
 @operating_system_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
 def get_all():
-    data = OperatingSystem.get_all()
-    environments = Environment.get_all()
+    data = OperatingSystemModel.get_all()
+    environments = EnvironmentModel.get_all()
     operating_system_form = OperatingSystemForm()
     user_form = UserForm()
     return render_template(
@@ -31,7 +31,7 @@ def get_all():
 @login_required
 def get_by_id():
     operating_system_id = request.form["operating_system_id"]
-    operating_system = OperatingSystem.get_by_id(operating_system_id)
+    operating_system = OperatingSystemModel.get_by_id(operating_system_id)
     return jsonify(
         name=operating_system.name,
         version=operating_system.version,
@@ -50,10 +50,10 @@ def add():
         version = operating_system_form.operating_system_version.data
         architect = operating_system_form.operating_system_architect.data
         is_active = operating_system_form.operating_system_is_active.data
-        if OperatingSystem.get_by_name_version_architect(name, version, architect) is not None:
+        if OperatingSystemModel.get_by_name_version_architect(name, version, architect) is not None:
             flash("El sistema operativo {} {} {} ya está registrado.".format(name, version, architect), "danger")
         else:
-            operating_system = OperatingSystem(name=name, version=version, architect=architect, is_active=is_active)
+            operating_system = OperatingSystemModel(name=name, version=version, architect=architect, is_active=is_active)
             operating_system.save()
             flash("Se ha registrador correctamente el sistema operativo {}.".format(name), "success")
 
@@ -64,7 +64,7 @@ def add():
 @login_required
 @admin_required
 def edit(operating_system_id):
-    operating_system = OperatingSystem.get_by_id(operating_system_id)
+    operating_system = OperatingSystemModel.get_by_id(operating_system_id)
     operating_system_form = OperatingSystemForm(obj=operating_system)
     if operating_system_form.validate_on_submit():
         if (operating_system.name == operating_system_form.operating_system_name.data
@@ -81,7 +81,7 @@ def edit(operating_system_id):
                 operating_system.architect
             ), "success")
         else:
-            if OperatingSystem.get_by_name_version_architect(
+            if OperatingSystemModel.get_by_name_version_architect(
                 operating_system_form.operating_system_name.data,
                 operating_system_form.operating_system_version.data,
                 operating_system_form.operating_system_architect.data
@@ -110,7 +110,7 @@ def edit(operating_system_id):
 @login_required
 @admin_required
 def delete(operating_system_id):
-    operating_system = OperatingSystem.get_by_id(operating_system_id)
+    operating_system = OperatingSystemModel.get_by_id(operating_system_id)
     if operating_system is not None:
         operating_system.delete()
         flash("Se ha eliminado correctamente el sistema operativo {}.".format(operating_system.name), "success")

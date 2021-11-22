@@ -3,13 +3,15 @@
 from flask import render_template, redirect, request, jsonify, flash
 from flask_login import login_required
 
-from app.servertree import db
+from model import db
+from model.server.server import ServerModel
+from model.server.access import AccessModel
+from model.server.service import ServiceModel
+from model.environment.environment import EnvironmentModel
+from model.operating_system.operating_system import OperatingSystemModel
+from model.connection_type.connection_type import ConnectionTypeModel
 from app.servertree.server import server_bp
-from app.servertree.server.models import Server, Access, Service
 from app.servertree.server.forms import ServerForm, AccessForm, ServiceForm
-from app.servertree.environments.models import Environment
-from app.servertree.operating_systems.models import OperatingSystem
-from app.servertree.connection_type.models import ConnectionType
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
 
@@ -17,8 +19,8 @@ from app.servertree.auth.decorators import admin_required
 @server_bp.route("/get_server_all", methods=["GET", "POST"])
 @login_required
 def get_server_all():
-    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).all()
-    environments = Environment.get_all()
+    data = db.session.query(ServerModel, EnvironmentModel, OperatingSystemModel).join(EnvironmentModel, OperatingSystemModel).all()
+    environments = EnvironmentModel.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
     service_form = ServiceForm()
@@ -37,9 +39,9 @@ def get_server_all():
 @server_bp.route("/get_server_by_env/<int:server_env>", methods=["GET", "POST"])
 @login_required
 def get_server_by_env(server_env):
-    data = db.session.query(Server, Environment, OperatingSystem).join(Environment, OperatingSystem).filter(
-        Server.environment_id == server_env).all()
-    environments = Environment.get_all()
+    data = db.session.query(ServerModel, EnvironmentModel, OperatingSystemModel).join(EnvironmentModel, OperatingSystemModel).filter(
+        ServerModel.environment_id == server_env).all()
+    environments = EnvironmentModel.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
     service_form = ServiceForm()
@@ -60,7 +62,7 @@ def get_server_by_env(server_env):
 @admin_required
 def get_server_by_id():
     server_id = request.form["server_id"]
-    server = Server.get_by_id(server_id)
+    server = ServerModel.get_by_id(server_id)
     return jsonify(
         name=server.name,
         environment_id=server.environment_id,
@@ -86,11 +88,11 @@ def add_server():
         hdd = server_form.server_hdd.data
         is_active = server_form.server_is_active.data
 
-        server = Server.get_by_name(name)
+        server = ServerModel.get_by_name(name)
         if server is not None:
             flash("El servidor {} ya está registrado".format(name), "danger")
         else:
-            server = Server(
+            server = ServerModel(
                 name=name,
                 environment_id=environment_id,
                 operating_system_id=operating_system_id,
@@ -109,7 +111,7 @@ def add_server():
 @login_required
 @admin_required
 def edit_server(server_id):
-    server = Server.get_by_id(server_id)
+    server = ServerModel.get_by_id(server_id)
     server_form = ServerForm(obj=server)
     if server_form.validate_on_submit():
         if server.name == server_form.server_name.data and server.environment_id == server_form.server_environment_id.data.id:
@@ -123,7 +125,7 @@ def edit_server(server_id):
             server.save()
             flash("Se ha actualizado correctamente el servidor {}.".format(server_form.server_name.data), "success")
         else:
-            if Server.get_by_name(server_form.server_name.data) is not None and Server.get_by_name(
+            if ServerModel.get_by_name(server_form.server_name.data) is not None and ServerModel.get_by_name(
                     server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
                 flash("El servidor {} ya está registrado.".format(server_form.server_name.data), "danger")
             else:
@@ -144,7 +146,7 @@ def edit_server(server_id):
 @login_required
 @admin_required
 def delete_server(server_id):
-    server = Server.get_by_id(server_id)
+    server = ServerModel.get_by_id(server_id)
     if server is not None:
         server.delete()
         flash("Se ha eliminado correctamente el servidor {}.".format(server.name), "success")
@@ -159,9 +161,9 @@ def delete_server(server_id):
 def get_access_by_server_id():
     server_id = request.form["server_id"]
     data_access = db.session.query(
-        Access,
-        Server,
-        ConnectionType).join(Server, ConnectionType).filter(Access.server_id == server_id).all()
+        AccessModel,
+        ServerModel,
+        ConnectionTypeModel).join(ServerModel, ConnectionTypeModel).filter(AccessModel.server_id == server_id).all()
     if data_access is not None:
         all_access = []
         for access, server, connection_type in data_access:
@@ -190,7 +192,7 @@ def get_access_by_server_id():
 @login_required
 def get_access_by_id():
     access_id = request.form["access_id"]
-    access = Access.get_by_id(access_id)
+    access = AccessModel.get_by_id(access_id)
     if access is not None:
         return jsonify(
             access_id=access.id,
@@ -224,7 +226,7 @@ def add_access():
         password = access_form.access_password.data
         is_active = access_form.access_is_active.data
 
-        access = Access(
+        access = AccessModel(
             server_id=server_id,
             connection_type_id=connection_type_id,
             ip_local=ip_local,
@@ -245,8 +247,8 @@ def add_access():
 @login_required
 @admin_required
 def edit_access(access_id):
-    access = Access.get_by_id(access_id)
-    server = Server.get_by_id(access.server_id)
+    access = AccessModel.get_by_id(access_id)
+    server = ServerModel.get_by_id(access.server_id)
     access_form = AccessForm(obj=access)
     if access_form.validate_on_submit():
         access.server_id = access_form.access_server_id.data.id
@@ -268,8 +270,8 @@ def edit_access(access_id):
 @login_required
 @admin_required
 def delete_access(access_id):
-    access = Access.get_by_id(access_id)
-    server = Server.get_by_id(access.server_id)
+    access = AccessModel.get_by_id(access_id)
+    server = ServerModel.get_by_id(access.server_id)
     if access is not None:
         access.delete()
         flash("Se ha eliminado correctamente el accesso para el servidor {}.".format(server.name), "success")
@@ -283,7 +285,7 @@ def delete_access(access_id):
 @login_required
 def get_service_by_server_id():
     server_id = request.form["server_id"]
-    data_service = db.session.query(Service, Server).join(Server).filter(Service.server_id == server_id).all()
+    data_service = db.session.query(ServiceModel, ServerModel).join(ServerModel).filter(ServiceModel.server_id == server_id).all()
     if data_service is not None:
         all_service = []
         for service, server in data_service:
@@ -314,7 +316,7 @@ def get_service_by_server_id():
 @login_required
 def get_service_by_id():
     service_id = request.form["service_id"]
-    service = Service.get_by_id(service_id)
+    service = ServiceModel.get_by_id(service_id)
     if service is not None:
         return jsonify(
             service_id=service.id,
@@ -352,7 +354,7 @@ def add_service():
         log_dir = service_form.service_log_dir.data
         is_active = service_form.service_is_active.data
 
-        service = Service(
+        service = ServiceModel(
             server_id=server_id,
             service=service,
             version=version,
@@ -375,8 +377,8 @@ def add_service():
 @login_required
 @admin_required
 def edit_service(service_id):
-    service = Service.get_by_id(service_id)
-    server = Server.get_by_id(service.server_id)
+    service = ServiceModel.get_by_id(service_id)
+    server = ServerModel.get_by_id(service.server_id)
     service_form = ServiceForm(obj=service)
     if service_form.validate_on_submit():
         service.server_id = service_form.service_server_id.data.id
@@ -400,8 +402,8 @@ def edit_service(service_id):
 @login_required
 @admin_required
 def delete_service(service_id):
-    service = Service.get_by_id(service_id)
-    server = Server.get_by_id(service.server_id)
+    service = ServiceModel.get_by_id(service_id)
+    server = ServerModel.get_by_id(service.server_id)
     if service is not None:
         service.delete()
         flash("Se ha eliminado correctamente el servicio para el servidor {}.".format(server.name), "success")
