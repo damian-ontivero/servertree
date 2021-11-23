@@ -32,9 +32,11 @@ def login():
         return redirect(url_for("index.index"))
 
     login_form = LoginForm()
+
     if login_form.validate_on_submit():
         email = login_form.email.data
-        user = UserModel.get_by_email(email)
+        user = UserModel.get_by_email(email=email)
+
         if user is not None and user.check_password(login_form.password.data) and user.is_active:
             login_user(user, remember=login_form.remember_me.data)
             flash("Se ha iniciado sesión correctamente con el usuario {}.".format(email), "success")

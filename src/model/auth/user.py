@@ -55,14 +55,14 @@ class UserModel(db.Base, UserMixin):
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return UserModel.query.get(id)
+        return db.session.query(UserModel).get(id)
 
     @staticmethod
     def get_by_email(email):
         """Doc."""
-        return UserModel.query.filter_by(email=email).first()
+        return db.session.query(UserModel).filter_by(email=email).first()
 
     @staticmethod
     def get_all():
         """Doc."""
-        return UserModel.query.all()
+        return db.session.query(UserModel).all()
