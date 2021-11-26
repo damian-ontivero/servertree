@@ -24,7 +24,7 @@ The application is using sqlite as database and is placed in "app/servertree.db"
 
 ##### Default data:
     Users roles:
-    insert into Roles (name) values ('Administrador'), ('Observador')
+    insert into Roles (role) values ('Administrador'), ('Observador')
 
     Admin user (pass = 123456):
     insert into Users (firstname, lastname, email, password, role_id, is_active) values ('Administrador', 'Administrador', 'admin@servertree.com', 'pbkdf2:sha256:150000$cNKq6yuF$ec0e397da9153a36351e4fc1cfa588cb15483926e456b3b8f1b9f02f81b9c510', 1, 1)
