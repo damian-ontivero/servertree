@@ -1,25 +1,123 @@
 """Doc."""
 
-from model import db
+from typing import List
+
+from sqlalchemy.orm import joinedload
+
+from repository.repository import Repository
 
 from model.auth.user import UserModel
-
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class UserService:
     """Doc."""
     @staticmethod
-    def get_by_id(id):
+    def get_by_id(
+        id: int
+    ) -> UserModel:
         """Doc."""
-        return db.session.query(UserModel).get(id)
+        session = Repository.get_session()
+
+        try:
+            user = session.query(
+                UserModel
+            ).get(id)
+        except Exception:
+            raise
+        else:
+            return user
+        finally:
+            session.close()
 
     @staticmethod
-    def get_by_email(email):
+    def get_by_email(
+        email: str
+    ) -> UserModel:
         """Doc."""
-        return db.session.query(UserModel).filter_by(email=email).first()
+        session = Repository.get_session()
+
+        try:
+            user = session.query(
+                UserModel
+            ).filter_by(
+                email=email
+            ).first()
+        except Exception:
+            raise
+        else:
+            return user
+        finally:
+            session.close()
 
     @staticmethod
-    def get_all():
+    def get_all() -> List[UserModel]:
         """Doc."""
-        return db.session.query(UserModel).all()
+        session = Repository.get_session()
+
+        try:
+            user_list = session.query(
+                UserModel
+            ).options(
+                joinedload("role")
+            ).all()
+        except Exception:
+            raise
+        else:
+            return user_list
+        finally:
+            session.close()
+
+    @staticmethod
+    def add(
+        user: UserModel
+    ) -> UserModel:
+        """Doc."""
+        session = Repository.get_session()
+
+        try:
+            session.add(user)
+        except Exception:
+            session.rollback()
+            raise
+        else:
+            session.commit()
+            session.refresh(user)
+            return user
+        finally:
+            session.close()
+
+    @staticmethod
+    def edit(
+        user: UserModel
+    ) -> UserModel:
+        """Doc."""
+        session = Repository.get_session()
+
+        try:
+            session.add(user)
+        except Exception:
+            session.rollback()
+            raise
+        else:
+            session.commit()
+            return user
+        finally:
+            session.close()
+
+    @staticmethod
+    def delete(
+        user: UserModel
+    ) -> UserModel:
+        """Doc."""
+        session = Repository.get_session()
+
+        try:
+            session.delete(user)
+        except Exception:
+            session.rollback()
+            raise
+        else:
+            session.commit()
+            return user
+        finally:
+            session.close()

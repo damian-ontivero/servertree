@@ -14,9 +14,9 @@ $(document).ready(function(){
     if(user_id){
       $('#userModal').modal('show');
       $('#userModalLabel').html('Editar usuario');
-      $('#userForm').attr('action', '/auth/edit_user/' + user_id);
+      $('#userForm').attr('action', '/auth/edit/' + user_id);
       $.ajax({
-        url: '/auth/get_user',
+        url: '/auth/get/' + user_id,
         method: 'post',
         data: {user_id: user_id},
         dataType: 'json',
@@ -64,7 +64,7 @@ $(document).ready(function(){
     } else {
       $('#userModalLabel').html('Nuevo usuario');
       $('#userModal').modal('show');
-      $('#userForm').attr('action', '/auth/add_user');
+      $('#userForm').attr('action', '/auth/add');
       change_password_label.style.display = "none";
       change_password.style.display = "none";
       password_label.style.display = "block";
@@ -88,6 +88,6 @@ $(document).ready(function(){
 $(document).ready(function(){
     $(document).on('click', '#deleteUserButton', function(){
       var user_id = $(this).attr('data-id');
-      $('#deleteUserForm').attr('action', '/auth/delete_user/' + user_id)
+      $('#deleteUserForm').attr('action', '/auth/delete/' + user_id)
     });
 });

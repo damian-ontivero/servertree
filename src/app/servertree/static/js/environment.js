@@ -9,7 +9,7 @@ $(document).ready(function(){
         $('#environmentModalLabel').html('Editar entorno');
         $('#environmentForm').attr('action', '/environment/edit/' + environment_id);
         $.ajax({
-          url: '/environment/get_by_id',
+          url: '/environment/get/' + environment_id,
           method: 'post',
           data: {environment_id: environment_id},
           dataType: 'json',

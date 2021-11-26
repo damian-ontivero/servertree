@@ -6,14 +6,14 @@ from sqlalchemy import pool
 from alembic import context
 
 from model import db
-from model.auth.user import UserModel
-from model.auth.role import RoleModel
-from model.connection_type.connection_type import ConnectionTypeModel
-from model.environment.environment import EnvironmentModel
-from model.operating_system.operating_system import OperatingSystemModel
-from model.server.server import ServerModel
-from model.server.access import AccessModel
-from model.server.service import ServiceModel
+from model.auth.user import UserModel  # noqa: F401
+from model.auth.role import RoleModel  # noqa: F401
+from model.connection_type.connection_type import ConnectionTypeModel  # noqa: F401
+from model.environment.environment import EnvironmentModel  # noqa: F401
+from model.operating_system.operating_system import OperatingSystemModel  # noqa: F401
+from model.server.server import ServerModel  # noqa: F401
+from model.access.access import AccessModel  # noqa: F401
+from model.service.service import ServiceModel  # noqa: F401
 
 
 # this is the Alembic Config object, which provides

@@ -33,7 +33,7 @@ def get_all():
     )
 
 
-@connection_type_bp.route("/get/<int: connection_type_id>", methods=["GET", "POST"])
+@connection_type_bp.route("/get/<int:connection_type_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def get(connection_type_id: int):
@@ -62,7 +62,7 @@ def add():
     return redirect(request.referrer)
 
 
-@connection_type_bp.route("/edit/<int: connection_type_id>", methods=["GET", "POST"])
+@connection_type_bp.route("/edit/<int:connection_type_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def edit(connection_type_id: int):
@@ -86,7 +86,7 @@ def edit(connection_type_id: int):
     return redirect(request.referrer)
 
 
-@connection_type_bp.route("/delete/<int: connection_type_id>", methods=["GET", "POST"])
+@connection_type_bp.route("/delete/<int:connection_type_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def delete(connection_type_id: int):

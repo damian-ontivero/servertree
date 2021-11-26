@@ -1,11 +1,14 @@
 """Doc."""
 
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
+from flask.globals import request
 from flask_login import LoginManager
 
 from configparser import ConfigParser
 
-from model.auth.user import UserModel
+from werkzeug.utils import redirect
+
+from service.auth.user import UserService
 
 from app.servertree.index import index_bp
 from app.servertree.auth import auth_bp
@@ -14,19 +17,22 @@ from app.servertree.connection_type import connection_type_bp
 from app.servertree.environment import environment_bp
 from app.servertree.operating_system import operating_system_bp
 
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import UnmappedInstanceError
+
 
 login_manager = LoginManager()
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return UserModel.get_by_id(int(user_id))
+    return UserService.get_by_id(int(user_id))
 
 
 def create_app():
     """Doc."""
     app = Flask(__name__, template_folder="servertree/templates", static_folder="servertree/static")
-    
+
     config = ConfigParser()
     config_file = "./config.ini"
     config.read(filenames=config_file)
@@ -68,3 +74,14 @@ def register_error_handlers(app):
     def error_401_handler(e):
         """Doc."""
         return render_template("401.html"), 401
+
+    @app.errorhandler(IntegrityError)
+    def error_integrity_handler(e):
+        """Doc."""
+        flash("El email ya está registrado por otro usuario.", "danger")
+        return redirect(request.referrer)
+
+    @app.errorhandler(UnmappedInstanceError)
+    def error_unmapped_instance_handler(e):
+        """Doc."""
+        return render_template("404.html"), 404

@@ -3,11 +3,11 @@
 from configparser import ConfigParser
 
 from sqlalchemy import create_engine
-from sqlalchemy import (
+from sqlalchemy import (  # noqa: F401
     Table,
     Column
 )
-from sqlalchemy import (
+from sqlalchemy import (  # noqa: F401
     Integer,
     String,
     Boolean,
@@ -17,7 +17,7 @@ from sqlalchemy import (
     Enum,
     ForeignKey
 )
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker, relationship  # noqa: F401
 from sqlalchemy.ext.declarative import declarative_base
 
 

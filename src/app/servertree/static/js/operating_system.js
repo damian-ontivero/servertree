@@ -9,7 +9,7 @@ $(document).ready(function(){
         $('#operatingSystemModalLabel').html('Editar sistema operativo');
         $('#operatingSystemForm').attr('action', '/operating_system/edit/' + operating_system_id);
         $.ajax({
-          url: '/operating_system/get_by_id',
+          url: '/operating_system/get/' + operating_system_id,
           method: 'post',
           data: {operating_system_id: operating_system_id},
           dataType: 'json',

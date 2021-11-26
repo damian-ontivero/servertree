@@ -36,13 +36,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('auth.get_user_all') }}">Usuarios</a>
+                <a class="nav-link" href="{{ url_for('auth.get_all') }}">Usuarios</a>
               </li>
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Servidores</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       {% block environments %}{% endblock %}
-                      <li><a class="dropdown-item" href="{{ url_for('server.get_server_all') }}">Todos</a></li>
+                      <li><a class="dropdown-item" href="{{ url_for('server.get_all') }}">Todos</a></li>
                   </ul>
               </li>
               <li class="nav-item dropdown">
@@ -50,7 +50,7 @@
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item" href="{{ url_for('environment.get_all') }}">Entornos</a></li>
                       <li><a class="dropdown-item" href="{{ url_for('operating_system.get_all') }}">Sistemas operativos</a></li>
-                      <li><a class="dropdown-item" href="{{ url_for('connection_type.get_connection_type_all') }}">Tipos de conexión</a></li>
+                      <li><a class="dropdown-item" href="{{ url_for('connection_type.get_all') }}">Tipos de conexión</a></li>
                   </ul>
               </li>
           </ul>

@@ -27,7 +27,7 @@ def get_all():
     )
 
 
-@operating_system_bp.route("/get/<int: operating_system_id>", methods=["GET", "POST"])
+@operating_system_bp.route("/get/<int:operating_system_id>", methods=["GET", "POST"])
 @login_required
 def get(operating_system_id: int):
     operating_system = OperatingSystemModel.get_by_id(operating_system_id)
@@ -59,7 +59,7 @@ def add():
     return redirect(request.referrer)
 
 
-@operating_system_bp.route("/edit/<int: operating_system_id>", methods=["GET", "POST"])
+@operating_system_bp.route("/edit/<int:operating_system_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def edit(operating_system_id: int):
@@ -105,7 +105,7 @@ def edit(operating_system_id: int):
     return redirect(request.referrer)
 
 
-@operating_system_bp.route("/delete/<int: operating_system_id>", methods=["GET", "POST"])
+@operating_system_bp.route("/delete/<int:operating_system_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def delete(operating_system_id: int):

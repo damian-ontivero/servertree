@@ -7,9 +7,9 @@ $(document).ready(function(){
       var connection_type_id = $(this).attr('data-id');
       if(connection_type_id){
         $('#connectionTypeModalLabel').html('Editar tipo de conexión');
-        $('#connectionTypeForm').attr('action', '/connection_type/edit_connection_type/' + connection_type_id);
+        $('#connectionTypeForm').attr('action', '/connection_type/edit/' + connection_type_id);
         $.ajax({
-          url: '/connection_type/get_connection_type_by_id',
+          url: '/connection_type/get/' + connection_type_id,
           method: 'post',
           data: {connection_type_id: connection_type_id},
           dataType: 'json',
@@ -26,7 +26,7 @@ $(document).ready(function(){
       } else {
         $('#connectionTypeModalLabel').html('Nuevo tipo de conexión');
         $('#connectionTypeModal').modal('show');
-        $('#connectionTypeForm').attr('action', '/connection_type/add_connection_type');
+        $('#connectionTypeForm').attr('action', '/connection_type/add');
       }
     });
   });
@@ -37,6 +37,6 @@ $(document).ready(function(){
   $(document).ready(function(){
     $(document).on('click', '#deleteConnectionTypeButton', function(){
       var connection_type_id = $(this).attr('data-id');
-      $('#deleteConnectionTypeForm').attr('action', '/connection_type/delete_connection_type/' + connection_type_id)
+      $('#deleteConnectionTypeForm').attr('action', '/connection_type/delete/' + connection_type_id)
     });
   });

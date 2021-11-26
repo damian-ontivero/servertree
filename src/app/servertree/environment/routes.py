@@ -32,7 +32,7 @@ def get_all():
     )
 
 
-@environment_bp.route("/get/<int: environment_id>", methods=["GET", "POST"])
+@environment_bp.route("/get/<int:environment_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def get(environment_id: int):
@@ -61,7 +61,7 @@ def add():
     return redirect(request.referrer)
 
 
-@environment_bp.route("/edit/<int: environment_id>", methods=["GET", "POST"])
+@environment_bp.route("/edit/<int:environment_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def edit(environment_id: int):
@@ -85,7 +85,7 @@ def edit(environment_id: int):
     return redirect(request.referrer)
 
 
-@environment_bp.route("/delete/<int: environment_id>", methods=["GET", "POST"])
+@environment_bp.route("/delete/<int:environment_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def delete(environment_id: int):

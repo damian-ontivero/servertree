@@ -7,9 +7,9 @@ $(document).ready(function(){
     var server_id = $(this).attr('data-id');
     if(server_id){
       $('#serverModalLabel').html('Editar servidor');
-      $('#serverForm').attr('action', '/server/edit_server/' + server_id);
+      $('#serverForm').attr('action', '/server/edit/' + server_id);
       $.ajax({
-        url: '/server/get_server_by_id',
+        url: '/server/get/' + server_id,
         method: 'post',
         data: {server_id: server_id},
         dataType: 'json',
@@ -31,7 +31,7 @@ $(document).ready(function(){
     } else {
       $('#serverModalLabel').html('Nuevo servidor');
       $('#serverModal').modal('show');
-      $('#serverForm').attr('action', '/server/add_server');
+      $('#serverForm').attr('action', '/server/add');
     }
   });
 });
@@ -42,7 +42,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $(document).on('click', '#deleteServerButton', function(){
     var server_id = $(this).attr('data-id');
-    $('#deleteServerForm').attr('action', '/server/delete_server/' + server_id)
+    $('#deleteServerForm').attr('action', '/server/delete/' + server_id)
   });
 });
 
@@ -57,7 +57,7 @@ $(document).ready(function(){
     var role_id = $('script[src*=server]').attr('role_id');
     if(server_id){
       $.ajax({
-        url: '/server/get_access_by_server_id',
+        url: '/access/get_by_server_id/' + server_id,
         method: 'post',
         data: {server_id: server_id},
         dataType: 'json',
@@ -107,9 +107,9 @@ $(document).ready(function(){
     access_id = $(this).attr('data-id');
     if(access_id){
       $('#addEditAccessModalLabel').html('Editar acceso');
-      $('#accessForm').attr('action', '/server/edit_access/' + access_id);
+      $('#accessForm').attr('action', '/server/edit/' + access_id);
       $.ajax({
-        url: '/server/get_access_by_id',
+        url: '/access/get/' + access_id,
         method: 'post',
         data: {access_id: access_id},
         dataType: 'json',
@@ -133,7 +133,7 @@ $(document).ready(function(){
     } else {
       $('#addEditAccessModalLabel').html('Nuevo acceso');
       $('#addEditAccessModal').modal('show');
-      $('#accessForm').attr('action', '/server/add_access');
+      $('#accessForm').attr('action', '/access/add');
       $('#access_server_id').val(server_id)
     }
   });
@@ -145,7 +145,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $(document).on('click', '#deleteAccessButton', function(){
     var access_id = $(this).attr('data-id');
-    $('#deleteAccessForm').attr('action', '/server/delete_access/' + access_id)
+    $('#deleteAccessForm').attr('action', '/access/delete/' + access_id)
   });
 });
 
@@ -159,7 +159,7 @@ $(document).ready(function(){
     var role_id = $('script[src*=server]').attr('role_id');
     if(server_id){
       $.ajax({
-        url: '/server/get_service_by_server_id',
+        url: '/service/get_by_server_id/' + server_id,
         method: 'post',
         data: {server_id: server_id},
         dataType: 'json',
@@ -213,9 +213,9 @@ $(document).ready(function(){
     service_id = $(this).attr('data-id');
     if(service_id){
       $('#addEditServiceModalLabel').html('Editar servicio');
-      $('#serviceForm').attr('action', '/server/edit_service/' + service_id);
+      $('#serviceForm').attr('action', '/service/edit/' + service_id);
       $.ajax({
-        url: '/server/get_service_by_id',
+        url: '/service/get/' + service_id,
         method: 'post',
         data: {service_id: service_id},
         dataType: 'json',
@@ -241,7 +241,7 @@ $(document).ready(function(){
     } else {
       $('#addEditServiceModalLabel').html('Nuevo servicio');
       $('#addEditServiceModal').modal('show');
-      $('#serviceForm').attr('action', '/server/add_service');
+      $('#serviceForm').attr('action', '/service/add');
       $('#service_server_id').val(server_id)
     }
   });
@@ -253,6 +253,6 @@ $(document).ready(function(){
 $(document).ready(function(){
   $(document).on('click', '#deleteServiceButton', function(){
     var service_id = $(this).attr('data-id');
-    $('#deleteServiceForm').attr('action', '/server/delete_service/' + service_id)
+    $('#deleteServiceForm').attr('action', '/service/delete/' + service_id)
   });
 });
