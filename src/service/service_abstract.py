@@ -82,6 +82,25 @@ class ServiceAbstract(ABC):
         finally:
             session.close()
 
+    def get_by_filter_all(
+        **kwargs
+    ) -> object:
+        """Doc."""
+        session = Repository.get_session()
+
+        try:
+            data = session.query(
+                ServiceAbstract.model
+            ).filter_by(
+                **kwargs
+            ).all()
+        except Exception:
+            raise
+        else:
+            return data
+        finally:
+            session.close()
+
     def add(
         obj_in: object
     ) -> object:

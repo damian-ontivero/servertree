@@ -8,25 +8,28 @@ from model.server.server import ServerModel
 from model.environment.environment import EnvironmentModel
 from model.operating_system.operating_system import OperatingSystemModel
 from app.servertree.server import server_bp
-from app.servertree.server.forms import ServerForm, AccessForm, ServiceForm
+from app.servertree.server.forms import ServerForm
+from app.servertree.access.forms import AccessForm
+from app.servertree.service.forms import ServiceForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
+from service.environment.environment import EnvironmentService
 from service.server.server import ServerService
 
 
 @server_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
 def get_all():
-    data = db.session.query(ServerModel, EnvironmentModel, OperatingSystemModel).join(EnvironmentModel, OperatingSystemModel).all()
-    environments = EnvironmentModel.get_all()
+    server_list = ServerService.get_all()
+    environment_list = EnvironmentService.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
     service_form = ServiceForm()
     user_form = UserForm()
     return render_template(
         "server.html",
-        data=data,
-        environments=environments,
+        server_list=server_list,
+        environment_list=environment_list,
         server_form=server_form,
         access_form=access_form,
         service_form=service_form,
@@ -37,25 +40,16 @@ def get_all():
 @server_bp.route("/get_by_env/<int:server_env>", methods=["GET", "POST"])
 @login_required
 def get_by_env(server_env: int):
-    data = db.session.query(
-        ServerModel,
-        EnvironmentModel,
-        OperatingSystemModel
-    ).join(
-        EnvironmentModel,
-        OperatingSystemModel
-    ).filter(
-        ServerModel.environment_id == server_env
-    ).all()
-    environments = EnvironmentModel.get_all()
+    server_list = ServerService.get_by_filter_all(environment_id=server_env)
+    environment_list = EnvironmentService.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
     service_form = ServiceForm()
     user_form = UserForm()
     return render_template(
         "server.html",
-        data=data,
-        environments=environments,
+        server_list=server_list,
+        environment_list=environment_list,
         server_form=server_form,
         access_form=access_form,
         service_form=service_form,
@@ -67,7 +61,7 @@ def get_by_env(server_env: int):
 @login_required
 @admin_required
 def get(server_id: int):
-    server = ServerModel.get_by_id(server_id)
+    server = ServerService.get(id=server_id)
     return jsonify(
         name=server.name,
         environment_id=server.environment_id,
@@ -84,6 +78,7 @@ def get(server_id: int):
 @admin_required
 def add():
     server_form = ServerForm()
+
     if server_form.validate_on_submit():
         name = server_form.server_name.data
         environment_id = server_form.server_environment_id.data.id
@@ -93,7 +88,7 @@ def add():
         hdd = server_form.server_hdd.data
         is_active = server_form.server_is_active.data
 
-        server = ServerModel.get_by_name(name)
+        server = ServerService.get_by_filter(name=name)
         
         if server:
             flash("El servidor ya se encuentra registrado.", "danger")
@@ -107,7 +102,7 @@ def add():
                 hdd=hdd,
                 is_active=is_active
             )
-            server.save()
+            ServerService.add(obj_in=server)
             flash("Se ha registrado correctamente el servidor.", "success")
 
     return redirect(request.referrer)
@@ -117,8 +112,9 @@ def add():
 @login_required
 @admin_required
 def edit(server_id: int):
-    server = ServerModel.get_by_id(server_id)
+    server = ServerService.get(id=server_id)
     server_form = ServerForm(obj=server)
+
     if server_form.validate_on_submit():
         if server.name == server_form.server_name.data and server.environment_id == server_form.server_environment_id.data.id:
             server.name = server_form.server_name.data
@@ -128,11 +124,11 @@ def edit(server_id: int):
             server.ram = server_form.server_ram.data
             server.hdd = server_form.server_hdd.data
             server.is_active = server_form.server_is_active.data
-            server.save()
+            ServerService.edit(obj_in=server)
             flash("Se ha actualizado correctamente el servidor.", "success")
         else:
-            if ServerModel.get_by_name(server_form.server_name.data) and ServerModel.get_by_name(
-                    server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
+            if ServerService.get_by_filter(name=server_form.server_name.data) and ServerService.get_by_filter(
+                    name=server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
                 flash("El servidor ya se encuentra registrado.", "danger")
             else:
                 server.name = server_form.server_name.data
@@ -142,7 +138,7 @@ def edit(server_id: int):
                 server.ram = server_form.server_ram.data
                 server.hdd = server_form.server_hdd.data
                 server.is_active = server_form.server_is_active.data
-                server.save()
+                ServerService.edit(obj_in=server)
                 flash("Se ha actualizado correctamente el servidor.", "success")
 
     return redirect(request.referrer)

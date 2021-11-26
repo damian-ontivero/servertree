@@ -10,13 +10,16 @@ from flask_login import login_required
 
 from app.servertree.auth.decorators import admin_required
 from app.servertree.service import service_bp
+from service.server.service import ServiceService
+from model.server.service import ServiceModel
+from app.servertree.service.forms import ServiceForm
 
 
 @service_bp.route("/get/<int:service_id>", methods=["GET", "POST"])
 @login_required
 def get(service_id: int):
     """Doc."""
-    service = ServiceModel.get_by_id(service_id)
+    service = ServiceService.get(id=service_id)
 
     if service:
         return jsonify(
@@ -40,18 +43,18 @@ def get(service_id: int):
 @service_bp.route("/get_by_server_id/<int:server_id>", methods=["GET", "POST"])
 @login_required
 def get_by_server_id(server_id: int):
-    data_service = db.session.query(ServiceModel, ServerModel).join(ServerModel).filter(ServiceModel.server_id == server_id).all()
+    service_list = ServiceService.get_by_filter_all(server_id=server_id)
 
-    if data_service:
+    if service_list:
         all_service = []
-        for service, server in data_service:
+        for service in service_list:
             if service.is_active:
                 is_active = "Si"
             else:
                 is_active = "No"
             all_service.append({
                 "service_id": service.id,
-                "server_name": server.name,
+                "server_name": service.server.name,
                 "service": service.service,
                 "version": service.version,
                 "architect": service.architect,
@@ -73,6 +76,7 @@ def get_by_server_id(server_id: int):
 @admin_required
 def add():
     service_form = ServiceForm()
+
     if service_form.validate_on_submit:
         server_id = service_form.service_server_id.data.id
         service = service_form.service.data
@@ -99,7 +103,7 @@ def add():
             log_dir=log_dir,
             is_active=is_active
         )
-        service.save()
+        ServiceService.add(obj_in=service)
 
         flash("Se ha registrado correctamente el servicio.", "success")
 
@@ -110,9 +114,9 @@ def add():
 @login_required
 @admin_required
 def edit(service_id: int):
-    service = ServiceModel.get_by_id(service_id)
-    server = ServerModel.get_by_id(service.server_id)
+    service = ServiceService.get(id=service_id)
     service_form = ServiceForm(obj=service)
+
     if service_form.validate_on_submit():
         service.server_id = service_form.service_server_id.data.id
         service.service = service_form.service.data
@@ -135,9 +139,7 @@ def edit(service_id: int):
 @login_required
 @admin_required
 def delete(service_id: int):
-    service = ServiceModel.get_by_id(service_id)
-    server = ServerModel.get_by_id(service.server_id)
-    if service:
-        service.delete()
-        flash("Se ha eliminado correctamente el servicio.", "success")
-        return redirect(request.referrer)
+    service = ServiceService.get(id=service_id)
+    ServiceService.delete(obj_in=service)
+    flash("Se ha eliminado correctamente el servicio.", "success")
+    return redirect(request.referrer)

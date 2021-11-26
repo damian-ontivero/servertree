@@ -10,7 +10,8 @@ from flask_login import login_required
 
 from app.servertree.auth.decorators import admin_required
 from app.servertree.access import access_bp
-
+from app.servertree.access.forms import AccessForm
+from model.server.access import AccessModel
 from service.server.server import ServerService
 from service.server.access import AccessService
 
@@ -39,21 +40,19 @@ def get(access_id: int):
 @access_bp.route("/get_by_server_id/<int:server_id>", methods=["GET", "POST"])
 @login_required
 def get_by_server_id(server_id: int):
-    data_access = db.session.query(
-        AccessModel,
-        ServerModel,
-        ConnectionTypeModel).join(ServerModel, ConnectionTypeModel).filter(AccessModel.server_id == server_id).all()
-    if data_access:
+    access_list = AccessService.get_by_filter_all(server_id=server_id)
+
+    if access_list:
         all_access = []
-        for access, server, connection_type in data_access:
+        for access in access_list:
             if access.is_active:
                 is_active = "Si"
             else:
                 is_active = "No"
             all_access.append({
                 "access_id": access.id,
-                "server_name": server.name,
-                "connection_type_name": connection_type.name,
+                "server_name": access.server.name,
+                "connection_type_name": access.connection_type.name,
                 "ip_local": access.ip_local,
                 "port_local": access.port_local,
                 "ip_public": access.ip_public,
