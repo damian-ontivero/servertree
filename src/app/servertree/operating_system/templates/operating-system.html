@@ -5,7 +5,7 @@
 {% block header %} - Sistemas operativos{% endblock %}
 
 {% block environments %}
-{% for environment in environments %}
+{% for environment in environment_list %}
   <li><a class="dropdown-item" href="{{ url_for('server.get_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
 {% endfor %}
 {% endblock %}
@@ -38,7 +38,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for operating_system in data %}
+    {% for operating_system in operating_system_list %}
       <tr>
         <td>{{ operating_system.name }}</td>
         <td>{{ operating_system.version }}</td>

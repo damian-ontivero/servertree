@@ -15,14 +15,14 @@ from service.operating_system.operating_system import OperatingSystemService
 @operating_system_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
 def get_all():
-    data = OperatingSystemService.get_all()
-    environments = EnvironmentService.get_all()
+    operating_system_list = OperatingSystemService.get_all()
+    environment_list = EnvironmentService.get_all()
     operating_system_form = OperatingSystemForm()
     user_form = UserForm()
     return render_template(
-        "operating-systems.html",
-        data=data,
-        environments=environments,
+        "operating-system.html",
+        operating_system_list=operating_system_list,
+        environment_list=environment_list,
         operating_system_form=operating_system_form,
         user_form=user_form
     )

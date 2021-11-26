@@ -20,14 +20,12 @@ from service.environment.environment import EnvironmentService
 @environment_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
 def get_all():
-    data = EnvironmentService.get_all()
-    environments = data
+    environment_list = EnvironmentService.get_all()
     environment_form = EnvironmentForm()
     user_form = UserForm()
     return render_template(
-        "environments.html",
-        data=data,
-        environments=environments,
+        "environment.html",
+        environment_list=environment_list,
         environment_form=environment_form,
         user_form=user_form
     )
