@@ -12,8 +12,8 @@ from model.connection_type.connection_type import ConnectionTypeModel  # noqa: F
 from model.environment.environment import EnvironmentModel  # noqa: F401
 from model.operating_system.operating_system import OperatingSystemModel  # noqa: F401
 from model.server.server import ServerModel  # noqa: F401
-from model.access.access import AccessModel  # noqa: F401
-from model.service.service import ServiceModel  # noqa: F401
+from model.server.access import AccessModel  # noqa: F401
+from model.server.service import ServiceModel  # noqa: F401
 
 
 # this is the Alembic Config object, which provides

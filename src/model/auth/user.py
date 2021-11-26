@@ -17,4 +17,4 @@ class UserModel(db.Base, UserMixin):
     role_id = db.Column(db.Integer, db.ForeignKey("role.id"), nullable=False)
     is_active = db.Column(db.Boolean)
 
-    role = db.relationship("RoleModel", foreign_keys=[role_id])
+    role = db.relationship("RoleModel", foreign_keys=[role_id], lazy="joined")

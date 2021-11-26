@@ -11,12 +11,15 @@ from flask_login import login_required
 from app.servertree.auth.decorators import admin_required
 from app.servertree.access import access_bp
 
+from service.server.server import ServerService
+from service.server.access import AccessService
+
 
 @access_bp.route("/get/<int:access_id>", methods=["GET", "POST"])
 @login_required
 def get(access_id: int):
-    access = AccessModel.get_by_id(access_id)
-    if access is not None:
+    access = AccessService.get(id=access_id)
+    if access:
         return jsonify(
             access_id=access.id,
             server_id=access.server_id,
@@ -91,9 +94,9 @@ def add():
             password=password,
             is_active=is_active
         )
-        access.save()
+        AccessService.add(obj_in=access)
 
-        flash(f"Se ha registrado correctamente el acceso para el servidor {access_form.access_server_id.data.name}.", "success")
+        flash("Se ha registrado correctamente el acceso.", "success")
 
     return redirect(request.referrer)
 
@@ -102,8 +105,8 @@ def add():
 @login_required
 @admin_required
 def edit(access_id: int):
-    access = AccessModel.get_by_id(access_id)
-    server = ServerModel.get_by_id(access.server_id)
+    access = AccessService.get(id=access_id)
+    server = ServerService.get(id=access.server_id)
     access_form = AccessForm(obj=access)
     if access_form.validate_on_submit():
         access.server_id = access_form.access_server_id.data.id
@@ -115,8 +118,8 @@ def edit(access_id: int):
         access.username = access_form.access_username.data
         access.password = access_form.access_password.data
         access.is_active = access_form.access_is_active.data
-        access.save()
-        flash(f"Se ha actualizado correctamente el acceso para el servidor {server.name}.", "success")
+        AccessService.edit(obj_in=access)
+        flash("Se ha actualizado correctamente el acceso.", "success")
 
     return redirect(request.referrer)
 
@@ -125,9 +128,7 @@ def edit(access_id: int):
 @login_required
 @admin_required
 def delete(access_id: int):
-    access = AccessModel.get_by_id(access_id)
-    server = ServerModel.get_by_id(access.server_id)
-    if access is not None:
-        access.delete()
-        flash(f"Se ha eliminado correctamente el accesso para el servidor {server.name}.", "success")
-        return redirect(request.referrer)
+    access = AccessService.get(id=access_id)
+    AccessService.delete(access)
+    flash("Se ha eliminado correctamente el accesso.", "success")
+    return redirect(request.referrer)

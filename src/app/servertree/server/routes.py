@@ -11,6 +11,7 @@ from app.servertree.server import server_bp
 from app.servertree.server.forms import ServerForm, AccessForm, ServiceForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
+from service.server.server import ServerService
 
 
 @server_bp.route("/get_all", methods=["GET", "POST"])
@@ -94,7 +95,7 @@ def add():
 
         server = ServerModel.get_by_name(name)
         if server is not None:
-            flash("El servidor {} ya está registrado".format(name), "danger")
+            flash("El servidor ya se encuentra registrado.", "danger")
         else:
             server = ServerModel(
                 name=name,
@@ -106,7 +107,7 @@ def add():
                 is_active=is_active
             )
             server.save()
-            flash(f"Se ha registrado correctamente el servidor {name}.", "success")
+            flash("Se ha registrado correctamente el servidor.", "success")
 
     return redirect(request.referrer)
 
@@ -127,11 +128,11 @@ def edit(server_id: int):
             server.hdd = server_form.server_hdd.data
             server.is_active = server_form.server_is_active.data
             server.save()
-            flash(f"Se ha actualizado correctamente el servidor {server_form.server_name.data}.", "success")
+            flash("Se ha actualizado correctamente el servidor.", "success")
         else:
             if ServerModel.get_by_name(server_form.server_name.data) is not None and ServerModel.get_by_name(
                     server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
-                flash(f"El servidor {server_form.server_name.data} ya está registrado.", "danger")
+                flash("El servidor ya se encuentra registrado.", "danger")
             else:
                 server.name = server_form.server_name.data
                 server.environment_id = server_form.server_environment_id.data.id
@@ -141,7 +142,7 @@ def edit(server_id: int):
                 server.hdd = server_form.server_hdd.data
                 server.is_active = server_form.server_is_active.data
                 server.save()
-                flash(f"Se ha actualizado correctamente el servidor {server_form.server_name.data}.", "success")
+                flash("Se ha actualizado correctamente el servidor.", "success")
 
     return redirect(request.referrer)
 
@@ -150,8 +151,7 @@ def edit(server_id: int):
 @login_required
 @admin_required
 def delete(server_id: int):
-    server = ServerModel.get_by_id(server_id)
-    if server is not None:
-        server.delete()
-        flash(f"Se ha eliminado correctamente el servidor {server.name}.", "success")
-        return redirect(request.referrer)
+    server = ServerService.get(id=server_id)
+    ServerService.delete(obj_in=server)
+    flash("Se ha eliminado correctamente el servidor.", "success")
+    return redirect(request.referrer)

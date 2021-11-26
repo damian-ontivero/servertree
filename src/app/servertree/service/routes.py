@@ -99,7 +99,7 @@ def add():
         )
         service.save()
 
-        flash(f"Se ha registrado correctamente el servicio para el servidor {service_form.service_server_id.data.name}.", "success")
+        flash("Se ha registrado correctamente el servicio.", "success")
 
     return redirect(request.referrer)
 
@@ -124,7 +124,7 @@ def edit(service_id: int):
         service.log_dir = service_form.service_log_dir.data
         service.is_active = service_form.service_is_active.data
         service.save()
-        flash(f"Se ha actualizado correctamente el servicio para el servidor {server.name}.", "success")
+        flash("Se ha actualizado correctamente el servicio.", "success")
 
     return redirect(request.referrer)
 
@@ -137,5 +137,5 @@ def delete(service_id: int):
     server = ServerModel.get_by_id(service.server_id)
     if service is not None:
         service.delete()
-        flash(f"Se ha eliminado correctamente el servicio para el servidor {server.name}.", "success")
+        flash("Se ha eliminado correctamente el servicio.", "success")
         return redirect(request.referrer)

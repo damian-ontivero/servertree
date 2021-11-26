@@ -22,8 +22,8 @@ from app.servertree.auth import auth_bp
 from app.servertree.auth.forms import LoginForm, UserForm
 from app.servertree.auth.decorators import admin_required
 from model.auth.user import UserModel
-from model.environment.environment import EnvironmentModel
 from service.auth.user import UserService
+from service.environment.environment import EnvironmentService
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -35,11 +35,11 @@ def login():
 
     if login_form.validate_on_submit():
         email = login_form.email.data
-        user = UserService.get_by_email(email=email)
+        user = UserService.get_by_filter(email=email)
 
         if user and check_password_hash(user.password, login_form.password.data) and user.is_active:
             login_user(user, remember=login_form.remember_me.data)
-            flash(f"Se ha iniciado sesión correctamente con el usuario {email}.", "success")
+            flash("Se ha iniciado sesión correctamente.", "success")
 
             next_page = request.args.get("next")
             if not next_page or url_parse(next_page).netloc != "":
@@ -65,7 +65,7 @@ def logout():
 @login_required
 def get_all():
     user_list = UserService.get_all()
-    environment_list = EnvironmentModel.get_all()
+    environment_list = EnvironmentService.get_all()
     user_form = UserForm()
     return render_template(
         "user.html",
@@ -78,7 +78,7 @@ def get_all():
 @auth_bp.route("/get/<int:user_id>", methods=["GET", "POST"])
 @login_required
 def get(user_id: int):
-    user = UserService.get_by_id(user_id)
+    user = UserService.get(id=user_id)
     return jsonify(
         firstname=user.firstname,
         lastname=user.lastname,
@@ -107,9 +107,9 @@ def add():
             is_active=user_form.is_active.data
         )
 
-        UserService.add(user=user)
+        UserService.add(obj_in=user)
 
-        flash(f"Se ha registrado correctamente el usuario con email {user.email}.", "success")
+        flash("Se ha registrado correctamente el usuario.", "success")
 
     # Devolvemos la vista de todos los usuarios
     return redirect(url_for("auth.get_all"))
@@ -119,7 +119,7 @@ def add():
 @login_required
 def edit(user_id: int):
     """Doc."""
-    user = UserService.get_by_id(id=user_id)
+    user = UserService.get(id=user_id)
     user_form = UserForm(obj=user)
 
     if user_form.validate_on_submit():
@@ -135,9 +135,9 @@ def edit(user_id: int):
         if user_form.change_password.data:
             user.password = generate_password_hash(user_form.password.data)
 
-        UserService.edit(user=user)
+        UserService.edit(obj_in=user)
 
-        flash(f"Se ha actualizado correctamente el usuario con email {user_form.email.data}.", "success")
+        flash("Se ha actualizado correctamente el usuario.", "success")
 
     # Devolvemos la vista de todos los usuarios
     return redirect(url_for("auth.get_all"))
@@ -147,11 +147,7 @@ def edit(user_id: int):
 @login_required
 @admin_required
 def delete(user_id: int):
-    user = UserService.get_by_id(id=user_id)
-
-    UserService.delete(user=user)
-
-    flash(f"Se ha eliminado correctamente el usuario con email {user.email}.", "success")
-
-    # Devolvemos la vista de todos los usuarios
+    user = UserService.get(id=user_id)
+    UserService.delete(obj_in=user)
+    flash("Se ha eliminado correctamente el usuario.", "success")
     return redirect(url_for("auth.get_all"))

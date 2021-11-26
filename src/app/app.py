@@ -1,7 +1,11 @@
 """Doc."""
 
-from flask import Flask, render_template, flash
-from flask.globals import request
+from flask import (
+    Flask,
+    render_template,
+    flash,
+    request
+)
 from flask_login import LoginManager
 
 from configparser import ConfigParser
@@ -25,8 +29,9 @@ login_manager = LoginManager()
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return UserService.get_by_id(int(user_id))
+def load_user(user_id: int):
+    """Doc."""
+    return UserService.get(id=user_id)
 
 
 def create_app():
