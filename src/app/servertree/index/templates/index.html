@@ -5,7 +5,7 @@
 {% block header %} - Inicio{% endblock %}
 
 {% block environments %}
-{% for environment in environments %}
+{% for environment in environment_list %}
   <li><a class="dropdown-item" href="{{ url_for('server.get_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
 {% endfor %}
 {% endblock %}

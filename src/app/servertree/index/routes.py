@@ -5,12 +5,12 @@ from flask_login import login_required
 
 from app.servertree.index import index_bp
 from app.servertree.auth.forms import UserForm
-from model.environment.environment import EnvironmentModel
+from service.environment.environment import EnvironmentService
 
 
 @index_bp.route("/", methods=["GET", "POST"])
 @login_required
 def index():
     user_form = UserForm()
-    environments = EnvironmentModel.get_all()
-    return render_template("index.html", user_form=user_form, environments=environments)
+    environment_list = EnvironmentService.get_all()
+    return render_template("index.html", user_form=user_form, environment_list=environment_list)

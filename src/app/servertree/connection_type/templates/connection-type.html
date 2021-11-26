@@ -5,7 +5,7 @@
 {% block header %} - Tipos de conexión{% endblock %}
 
 {% block environments %}
-{% for environment in environments %}
+{% for environment in environment_list %}
   <li><a class="dropdown-item" href="{{ url_for('server.get_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
 {% endfor %}
 {% endblock %}
@@ -36,7 +36,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for connection_type in data %}
+    {% for connection_type in connection_type_list %}
       <tr>
         <td>{{ connection_type.name }}</td>
         <td>
