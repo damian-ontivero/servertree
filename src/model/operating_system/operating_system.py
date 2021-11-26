@@ -22,7 +22,7 @@ class OperatingSystemModel(db.Base):
 
     def __repr__(self):
         """Doc."""
-        return "<Environment {0} - {1} - {2}>".format(self.name, self.version, self.architect)
+        return "{0} - {1} - {2}".format(self.name, self.version, self.architect)
 
     def save(self):
         """Doc."""

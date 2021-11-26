@@ -17,9 +17,9 @@ from model.connection_type.connection_type import ConnectionTypeModel
 from model.environment.environment import EnvironmentModel
 
 
-@connection_type_bp.route("/get_connection_type_all", methods=["GET"])
+@connection_type_bp.route("/get_all", methods=["GET"])
 @login_required
-def get_connection_type_all():
+def get_all():
     data = ConnectionTypeModel.get_all()
     environments = EnvironmentModel.get_all()
     connection_type_form = ConnectionTypeForm()
@@ -33,11 +33,10 @@ def get_connection_type_all():
     )
 
 
-@connection_type_bp.route("/get_connection_type_by_id", methods=["GET", "POST"])
+@connection_type_bp.route("/get/<int: connection_type_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def get_connection_type_by_id():
-    connection_type_id = request.form["connection_type_id"]
+def get(connection_type_id: int):
     connection_type = ConnectionTypeModel.get_by_id(connection_type_id)
     return jsonify(
         name=connection_type.name,
@@ -45,28 +44,28 @@ def get_connection_type_by_id():
     )
 
 
-@connection_type_bp.route("/add_connection_type", methods=["GET", "POST"])
+@connection_type_bp.route("/add", methods=["GET", "POST"])
 @login_required
 @admin_required
-def add_connection_type():
+def add():
     connection_type_form = ConnectionTypeForm()
     if connection_type_form.validate_on_submit():
         name = connection_type_form.connection_type_name.data
         is_active = connection_type_form.connection_type_is_active.data
         if ConnectionTypeModel.get_by_name(name) is not None:
-            flash("El tipo de conexión {} ya está registrado.".format(name), "danger")
+            flash(f"El tipo de conexión {name} ya está registrado.", "danger")
         else:
             connection_type = ConnectionTypeModel(name=name, is_active=is_active)
             connection_type.save()
-            flash("Se ha registrado correctamente el tipo de conexión {}.".format(name), "success")
+            flash(f"Se ha registrado correctamente el tipo de conexión {name}.", "success")
 
     return redirect(request.referrer)
 
 
-@connection_type_bp.route("/edit_connection_type/<int:connection_type_id>", methods=["GET", "POST"])
+@connection_type_bp.route("/edit/<int: connection_type_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def edit_connection_type(connection_type_id):
+def edit(connection_type_id: int):
     connection_type = ConnectionTypeModel.get_by_id(connection_type_id)
     connection_type_form = ConnectionTypeForm(obj=connection_type)
     if connection_type_form.validate_on_submit():
@@ -74,10 +73,10 @@ def edit_connection_type(connection_type_id):
             connection_type.name = connection_type_form.connection_type_name.data
             connection_type.is_active = connection_type_form.connection_type_is_active.data
             connection_type.save()
-            flash("Se ha actualizado correctamente el tipo de conexión {}.".format(connection_type.name), "success")
+            flash(f"Se ha actualizado correctamente el tipo de conexión {connection_type.name}.", "success")
         else:
             if ConnectionTypeModel.get_by_name(connection_type_form.connection_type_name.data) is not None:
-                flash("El tipo de conexión {} ya está registrado.".format(connection_type_form.connection_type_name.data), "danger")
+                flash(f"El tipo de conexión {connection_type_form.connection_type_name.data} ya está registrado.", "danger")
             else:
                 connection_type.name = connection_type_form.connection_type_name.data
                 connection_type.is_active = connection_type_form.connection_type_is_active.data
@@ -87,12 +86,12 @@ def edit_connection_type(connection_type_id):
     return redirect(request.referrer)
 
 
-@connection_type_bp.route("/delete_connection_type/<int:connection_type_id>", methods=["GET", "POST"])
+@connection_type_bp.route("/delete/<int: connection_type_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def delete_connection_type(connection_type_id):
+def delete(connection_type_id: int):
     connection_type = ConnectionTypeModel.get_by_id(connection_type_id)
     if connection_type is not None:
         connection_type.delete()
-        flash("Se ha eliminado correctamente el tipo de conexión {}.".format(connection_type.name), "success")
+        flash(f"Se ha eliminado correctamente el tipo de conexión {connection_type.name}.", "success")
         return redirect(request.referrer)

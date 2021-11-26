@@ -4,10 +4,10 @@
 
 {% block header %} - Usuarios{% endblock %}
 
-{% block environments %}
-{% for environment in environments %}
-  <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
-{% endfor %}
+{% block environment %}
+  {% for environment in environment_list %}
+    <li><a class="dropdown-item" href="{{ url_for('server.get_server_by_env', server_env=environment.id) }}">{{ environment.name }}</a></li>
+  {% endfor %}
 {% endblock %}
 
 {% block content %}
@@ -37,12 +37,12 @@
     </tr>
   </thead>
   <tbody>
-    {% for user, role in data %}
+    {% for user in user_list %}
       <tr>
         <td>{{ user.firstname }}</td>
         <td>{{ user.lastname }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ role.role }}</td>
+        <td>{{ user.role.role }}</td>
         <td>
           {% if user.is_active == 0 %}
             No

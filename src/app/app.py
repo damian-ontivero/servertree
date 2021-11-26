@@ -11,8 +11,8 @@ from app.servertree.index import index_bp
 from app.servertree.auth import auth_bp
 from app.servertree.server import server_bp
 from app.servertree.connection_type import connection_type_bp
-from app.servertree.environments import environment_bp
-from app.servertree.operating_systems import operating_system_bp
+from app.servertree.environment import environment_bp
+from app.servertree.operating_system import operating_system_bp
 
 
 login_manager = LoginManager()

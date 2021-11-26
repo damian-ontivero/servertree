@@ -24,6 +24,7 @@ from app.servertree.auth.decorators import admin_required
 from model.auth.user import UserModel
 from model.auth.role import RoleModel
 from model.environment.environment import EnvironmentModel
+from service.auth.user import UserService
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -39,7 +40,7 @@ def login():
 
         if user is not None and user.check_password(login_form.password.data) and user.is_active:
             login_user(user, remember=login_form.remember_me.data)
-            flash("Se ha iniciado sesión correctamente con el usuario {}.".format(email), "success")
+            flash(f"Se ha iniciado sesión correctamente con el usuario {email}.", "success")
             next_page = request.args.get("next")
             if not next_page or url_parse(next_page).netloc != "":
                 next_page = url_for("index.index")
@@ -59,20 +60,19 @@ def logout():
     return redirect(url_for("auth.login"))
 
 
-@auth_bp.route("/get_user_all", methods=["GET", "POST"])
+@auth_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
-def get_user_all():
-    data = db.session.query(UserModel, RoleModel).join(RoleModel).all()
-    environments = EnvironmentModel.get_all()
+def get_all():
+    user_list = UserService.get_all()
+    environment_list = EnvironmentModel.get_all()
     user_form = UserForm()
-    return render_template("user.html", data=data, environments=environments, user_form=user_form)
+    return render_template("user.html", user_list=user_list, environment_list=environment_list, user_form=user_form)
 
 
-@auth_bp.route("/get_user", methods=["GET", "POST"])
+@auth_bp.route("/get/<int: user_id>", methods=["GET", "POST"])
 @login_required
-def get_user():
-    user_id = request.form["user_id"]
-    user = UserModel.get_by_id(user_id)
+def get(user_id: int):
+    user = UserService.get_by_id(user_id)
     return jsonify(
         firstname=user.firstname,
         lastname=user.lastname,
@@ -83,10 +83,10 @@ def get_user():
     )
 
 
-@auth_bp.route("/add_user", methods=["GET", "POST"])
+@auth_bp.route("/add", methods=["GET", "POST"])
 @login_required
 @admin_required
-def add_user():
+def add():
     user_form = UserForm()
     if user_form.validate_on_submit():
         # Recuperamos los datos del formulario
@@ -99,23 +99,23 @@ def add_user():
         role_id = user_form.role_id.data.id
         is_active = user_form.is_active.data
         # Comprobamos que no hay ya un usuario con ese email
-        user = UserModel.get_by_email(email)
+        user = UserService.get_by_email(email)
         if user is not None:
-            flash("El email {} ya está registrado por otro usuario.".format(email), "danger")
+            flash("El email {email} ya está registrado por otro usuario.", "danger")
         else:
             # Creamos el usuario y lo guardamos
             user = UserModel(firstname=firstname, lastname=lastname, email=email, role_id=role_id, is_active=is_active)
             user.set_password(password)
             user.save()
-            flash("Se ha registrado correctamente el usuario con email {}.".format(email), "success")
+            flash(f"Se ha registrado correctamente el usuario con email {email}.", "success")
             # Devolvemos la vista de todos los usuarios
     return redirect(request.referrer)
 
 
-@auth_bp.route("/edit_user/<user_id>", methods=["GET", "POST"])
+@auth_bp.route("/edit/<int: user_id>", methods=["GET", "POST"])
 @login_required
-def edit_user(user_id):
-    user = UserModel.get_by_id(user_id)
+def edit(user_id: int):
+    user = UserService.get_by_id(user_id)
     user_form = UserForm(obj=user)
     if user_form.validate_on_submit():
         if user.email == user_form.email.data:
@@ -130,10 +130,10 @@ def edit_user(user_id):
             if user_form.change_password.data:
                 user.set_password(user_form.password.data)
             user.save()
-            flash("Se ha actualizado correctamente el usuario con email {}.".format(user_form.email.data), "success")
+            flash(f"Se ha actualizado correctamente el usuario con email {user_form.email.data}.", "success")
         else:
-            if UserModel.get_by_email(user_form.email.data) is not None:
-                flash("El email {} ya está registrado por otro usuario.".format(user_form.email.data), "danger")
+            if UserService.get_by_email(user_form.email.data) is not None:
+                flash(f"El email {user_form.email.data} ya está registrado por otro usuario.", "danger")
             else:
                 # Recuperamos los datos del formulario
                 user.firstname = user_form.firstname.data
@@ -146,18 +146,18 @@ def edit_user(user_id):
                 if user_form.change_password.data:
                     user.set_password(user_form.password.data)
                 user.save()
-                flash("Se ha actualizado correctamente el usuario con email {}.".format(user_form.email.data), "success")
+                flash(f"Se ha actualizado correctamente el usuario con email {user_form.email.data}.", "success")
     # Devolvemos la vista de todos los usuarios
     return redirect(request.referrer)
 
 
-@auth_bp.route("/delete_user/<user_id>", methods=["GET", "POST"])
+@auth_bp.route("/delete/<int: user_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def delete_user(user_id):
-    user = UserModel.get_by_id(user_id)
+def delete(user_id):
+    user = UserService.get_by_id(user_id)
     if user is not None:
         email = user.email
         user.delete()
-        flash("Se ha eliminado correctamente el usuario con email {}.".format(email), "success")
+        flash(f"Se ha eliminado correctamente el usuario con email {email}.", "success")
         return redirect(request.referrer)

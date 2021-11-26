@@ -16,9 +16,9 @@ from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
 
 
-@server_bp.route("/get_server_all", methods=["GET", "POST"])
+@server_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
-def get_server_all():
+def get_all():
     data = db.session.query(ServerModel, EnvironmentModel, OperatingSystemModel).join(EnvironmentModel, OperatingSystemModel).all()
     environments = EnvironmentModel.get_all()
     server_form = ServerForm()
@@ -36,9 +36,9 @@ def get_server_all():
     )
 
 
-@server_bp.route("/get_server_by_env/<int:server_env>", methods=["GET", "POST"])
+@server_bp.route("/get_by_env/<int: server_env>", methods=["GET", "POST"])
 @login_required
-def get_server_by_env(server_env):
+def get_by_env(server_env: int):
     data = db.session.query(ServerModel, EnvironmentModel, OperatingSystemModel).join(EnvironmentModel, OperatingSystemModel).filter(
         ServerModel.environment_id == server_env).all()
     environments = EnvironmentModel.get_all()
@@ -57,11 +57,10 @@ def get_server_by_env(server_env):
     )
 
 
-@server_bp.route("/get_server_by_id", methods=["GET", "POST"])
+@server_bp.route("/get/<int: server_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def get_server_by_id():
-    server_id = request.form["server_id"]
+def get(server_id: int):
     server = ServerModel.get_by_id(server_id)
     return jsonify(
         name=server.name,
@@ -74,10 +73,10 @@ def get_server_by_id():
     )
 
 
-@server_bp.route("/add_server", methods=["GET", "POST"])
+@server_bp.route("/add", methods=["GET", "POST"])
 @login_required
 @admin_required
-def add_server():
+def add():
     server_form = ServerForm()
     if server_form.validate_on_submit():
         name = server_form.server_name.data
@@ -102,15 +101,15 @@ def add_server():
                 is_active=is_active
             )
             server.save()
-            flash("Se ha registrado correctamente el servidor {}.".format(name), "success")
+            flash(f"Se ha registrado correctamente el servidor {name}.", "success")
 
     return redirect(request.referrer)
 
 
-@server_bp.route("/edit_server/<int:server_id>", methods=["GET", "POST"])
+@server_bp.route("/edit/<int: server_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def edit_server(server_id):
+def edit(server_id: int):
     server = ServerModel.get_by_id(server_id)
     server_form = ServerForm(obj=server)
     if server_form.validate_on_submit():
@@ -123,11 +122,11 @@ def edit_server(server_id):
             server.hdd = server_form.server_hdd.data
             server.is_active = server_form.server_is_active.data
             server.save()
-            flash("Se ha actualizado correctamente el servidor {}.".format(server_form.server_name.data), "success")
+            flash(f"Se ha actualizado correctamente el servidor {server_form.server_name.data}.", "success")
         else:
             if ServerModel.get_by_name(server_form.server_name.data) is not None and ServerModel.get_by_name(
                     server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
-                flash("El servidor {} ya está registrado.".format(server_form.server_name.data), "danger")
+                flash(f"El servidor {server_form.server_name.data} ya está registrado.", "danger")
             else:
                 server.name = server_form.server_name.data
                 server.environment_id = server_form.server_environment_id.data.id
@@ -137,29 +136,28 @@ def edit_server(server_id):
                 server.hdd = server_form.server_hdd.data
                 server.is_active = server_form.server_is_active.data
                 server.save()
-                flash("Se ha actualizado correctamente el servidor {}.".format(server_form.server_name.data), "success")
+                flash(f"Se ha actualizado correctamente el servidor {server_form.server_name.data}.", "success")
 
     return redirect(request.referrer)
 
 
-@server_bp.route("/delete_server/<int:server_id>", methods=["GET", "POST"])
+@server_bp.route("/delete/<int: server_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def delete_server(server_id):
+def delete(server_id: int):
     server = ServerModel.get_by_id(server_id)
     if server is not None:
         server.delete()
-        flash("Se ha eliminado correctamente el servidor {}.".format(server.name), "success")
+        flash(f"Se ha eliminado correctamente el servidor {server.name}.", "success")
         return redirect(request.referrer)
 
 
 """Server access management."""
 
 
-@server_bp.route("/get_access_by_server_id", methods=["GET", "POST"])
+@server_bp.route("/get_by_server_id/<int: server_id>", methods=["GET", "POST"])
 @login_required
-def get_access_by_server_id():
-    server_id = request.form["server_id"]
+def get_by_server_id(server_id: int):
     data_access = db.session.query(
         AccessModel,
         ServerModel,
@@ -188,10 +186,9 @@ def get_access_by_server_id():
         return jsonify()
 
 
-@server_bp.route("/get_access_by_id", methods=["GET", "POST"])
+@server_bp.route("/get/<int: access_id>", methods=["GET", "POST"])
 @login_required
-def get_access_by_id():
-    access_id = request.form["access_id"]
+def get(access_id: int):
     access = AccessModel.get_by_id(access_id)
     if access is not None:
         return jsonify(
@@ -210,10 +207,10 @@ def get_access_by_id():
         return jsonify()
 
 
-@server_bp.route("/add_access", methods=["GET", "POST"])
+@server_bp.route("/add", methods=["GET", "POST"])
 @login_required
 @admin_required
-def add_access():
+def add():
     access_form = AccessForm()
     if access_form.validate_on_submit:
         server_id = access_form.access_server_id.data.id
@@ -238,15 +235,16 @@ def add_access():
             is_active=is_active
         )
         access.save()
-        message = "Se ha registrado correctamente el acceso para el servidor {}."
-        flash(message.format(access_form.access_server_id.data.name), "success")
+
+        flash(f"Se ha registrado correctamente el acceso para el servidor {access_form.access_server_id.data.name}.", "success")
+
     return redirect(request.referrer)
 
 
-@server_bp.route("/edit_access/<int:access_id>", methods=["GET", "POST"])
+@server_bp.route("/edit/<int: access_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def edit_access(access_id):
+def edit(access_id: int):
     access = AccessModel.get_by_id(access_id)
     server = ServerModel.get_by_id(access.server_id)
     access_form = AccessForm(obj=access)
@@ -261,30 +259,29 @@ def edit_access(access_id):
         access.password = access_form.access_password.data
         access.is_active = access_form.access_is_active.data
         access.save()
-        flash("Se ha actualizado correctamente el acceso para el servidor {}.".format(server.name), "success")
+        flash(f"Se ha actualizado correctamente el acceso para el servidor {server.name}.", "success")
 
     return redirect(request.referrer)
 
 
-@server_bp.route("/delete_access/<int:access_id>")
+@server_bp.route("/delete/<int: access_id>")
 @login_required
 @admin_required
-def delete_access(access_id):
+def delete(access_id: int):
     access = AccessModel.get_by_id(access_id)
     server = ServerModel.get_by_id(access.server_id)
     if access is not None:
         access.delete()
-        flash("Se ha eliminado correctamente el accesso para el servidor {}.".format(server.name), "success")
+        flash(f"Se ha eliminado correctamente el accesso para el servidor {server.name}.", "success")
         return redirect(request.referrer)
 
 
 """Server services management."""
 
 
-@server_bp.route("/get_service_by_server_id", methods=["GET", "POST"])
+@server_bp.route("/get_by_server_id/<int: server_id>", methods=["GET", "POST"])
 @login_required
-def get_service_by_server_id():
-    server_id = request.form["server_id"]
+def get_by_server_id(server_id: int):
     data_service = db.session.query(ServiceModel, ServerModel).join(ServerModel).filter(ServiceModel.server_id == server_id).all()
     if data_service is not None:
         all_service = []
@@ -312,10 +309,9 @@ def get_service_by_server_id():
         return jsonify()
 
 
-@server_bp.route("/get_service_by_id", methods=["GET", "POST"])
+@server_bp.route("/get/<int: service_id>", methods=["GET", "POST"])
 @login_required
-def get_service_by_id():
-    service_id = request.form["service_id"]
+def get(service_id: int):
     service = ServiceModel.get_by_id(service_id)
     if service is not None:
         return jsonify(
@@ -336,10 +332,10 @@ def get_service_by_id():
         return jsonify()
 
 
-@server_bp.route("/add_service", methods=["GET", "POST"])
+@server_bp.route("/add", methods=["GET", "POST"])
 @login_required
 @admin_required
-def add_service():
+def add():
     service_form = ServiceForm()
     if service_form.validate_on_submit:
         server_id = service_form.service_server_id.data.id
@@ -368,15 +364,16 @@ def add_service():
             is_active=is_active
         )
         service.save()
-        message = "Se ha registrado correctamente el servicio para el servidor {}."
-        flash(message.format(service_form.service_server_id.data.name), "success")
+
+        flash(f"Se ha registrado correctamente el servicio para el servidor {service_form.service_server_id.data.name}.", "success")
+
     return redirect(request.referrer)
 
 
-@server_bp.route("/edit_service/<int:service_id>", methods=["GET", "POST"])
+@server_bp.route("/edit/<int: service_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
-def edit_service(service_id):
+def edit(service_id: int):
     service = ServiceModel.get_by_id(service_id)
     server = ServerModel.get_by_id(service.server_id)
     service_form = ServiceForm(obj=service)
@@ -393,18 +390,18 @@ def edit_service(service_id):
         service.log_dir = service_form.service_log_dir.data
         service.is_active = service_form.service_is_active.data
         service.save()
-        flash("Se ha actualizado correctamente el servicio para el servidor {}.".format(server.name), "success")
+        flash(f"Se ha actualizado correctamente el servicio para el servidor {server.name}.", "success")
 
     return redirect(request.referrer)
 
 
-@server_bp.route("/delete_service/<int:service_id>")
+@server_bp.route("/delete/<int: service_id>")
 @login_required
 @admin_required
-def delete_service(service_id):
+def delete(service_id: int):
     service = ServiceModel.get_by_id(service_id)
     server = ServerModel.get_by_id(service.server_id)
     if service is not None:
         service.delete()
-        flash("Se ha eliminado correctamente el servicio para el servidor {}.".format(server.name), "success")
+        flash(f"Se ha eliminado correctamente el servicio para el servidor {server.name}.", "success")
         return redirect(request.referrer)
