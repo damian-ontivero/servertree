@@ -6,7 +6,6 @@ from wtforms import StringField, BooleanField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
 
-from service.environment.environment import EnvironmentService
 from service.operating_system.operating_system import OperatingSystemService
 from service.environment.environment import EnvironmentService
 

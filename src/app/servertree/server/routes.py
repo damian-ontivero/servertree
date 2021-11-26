@@ -3,10 +3,7 @@
 from flask import render_template, redirect, request, jsonify, flash
 from flask_login import login_required
 
-from model import db
 from model.server.server import ServerModel
-from model.environment.environment import EnvironmentModel
-from model.operating_system.operating_system import OperatingSystemModel
 from app.servertree.server import server_bp
 from app.servertree.server.forms import ServerForm
 from app.servertree.access.forms import AccessForm
@@ -89,7 +86,7 @@ def add():
         is_active = server_form.server_is_active.data
 
         server = ServerService.get_by_filter(name=name)
-        
+
         if server:
             flash("El servidor ya se encuentra registrado.", "danger")
         else:

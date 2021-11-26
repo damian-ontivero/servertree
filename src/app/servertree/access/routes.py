@@ -12,7 +12,6 @@ from app.servertree.auth.decorators import admin_required
 from app.servertree.access import access_bp
 from app.servertree.access.forms import AccessForm
 from model.server.access import AccessModel
-from service.server.server import ServerService
 from service.server.access import AccessService
 
 
@@ -105,7 +104,6 @@ def add():
 @admin_required
 def edit(access_id: int):
     access = AccessService.get(id=access_id)
-    server = ServerService.get(id=access.server_id)
     access_form = AccessForm(obj=access)
     if access_form.validate_on_submit():
         access.server_id = access_form.access_server_id.data.id
