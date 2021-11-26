@@ -55,7 +55,7 @@ def add():
         name = connection_type_form.connection_type_name.data
         is_active = connection_type_form.connection_type_is_active.data
 
-        if ConnectionTypeService.get_by_filter(name=name) is not None:
+        if ConnectionTypeService.get_by_filter(name=name):
             flash("El tipo de conexión ya se encuentra registrado.", "danger")
         else:
             connection_type = ConnectionTypeModel(name=name, is_active=is_active)
@@ -79,7 +79,7 @@ def edit(connection_type_id: int):
             ConnectionTypeService.edit(obj_in=connection_type)
             flash("Se ha actualizado correctamente el tipo de conexión.", "success")
         else:
-            if ConnectionTypeService.get_by_filter(name=connection_type_form.connection_type_name.data) is not None:
+            if ConnectionTypeService.get_by_filter(name=connection_type_form.connection_type_name.data):
                 flash("El tipo de conexión ya se encuentra registrado.", "danger")
             else:
                 connection_type.name = connection_type_form.connection_type_name.data

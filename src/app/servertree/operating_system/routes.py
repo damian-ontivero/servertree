@@ -50,7 +50,7 @@ def add():
         version = operating_system_form.operating_system_version.data
         architect = operating_system_form.operating_system_architect.data
         is_active = operating_system_form.operating_system_is_active.data
-        if OperatingSystemService.get_by_filter(name=name, version=version, architect=architect) is not None:
+        if OperatingSystemService.get_by_filter(name=name, version=version, architect=architect):
             flash("El sistema operativo ya se encuentra registrado.", "danger")
         else:
             operating_system = OperatingSystemModel(name=name, version=version, architect=architect, is_active=is_active)
@@ -81,7 +81,7 @@ def edit(operating_system_id: int):
                 name=operating_system_form.operating_system_name.data,
                 version=operating_system_form.operating_system_version.data,
                 architect=operating_system_form.operating_system_architect.data
-            ) is not None:
+            ):
                 flash("El sistema operativo ya se encuentra registrado.", "danger")
             else:
                 operating_system.name = operating_system_form.operating_system_name.data

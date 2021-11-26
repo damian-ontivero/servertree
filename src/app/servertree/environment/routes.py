@@ -52,7 +52,7 @@ def add():
     if environment_form.validate_on_submit():
         name = environment_form.environment_name.data
         is_active = environment_form.environment_is_active.data
-        if EnvironmentService.get_by_filter(name=name) is not None:
+        if EnvironmentService.get_by_filter(name=name):
             flash("El entorno ya se encuentra registrado.", "danger")
         else:
             environment = EnvironmentModel(name=name, is_active=is_active)
@@ -75,7 +75,7 @@ def edit(environment_id: int):
             EnvironmentService.edit(obj_in=environment)
             flash("Se ha actualizado correctamente el entorno.", "success")
         else:
-            if EnvironmentService.get_by_filter(name=environment_form.environment_name.data) is not None:
+            if EnvironmentService.get_by_filter(name=environment_form.environment_name.data):
                 flash("El entorno ya se encuentra registrado.", "danger")
             else:
                 environment.name = environment_form.environment_name.data

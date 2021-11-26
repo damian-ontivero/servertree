@@ -43,7 +43,7 @@ def get_by_server_id(server_id: int):
         AccessModel,
         ServerModel,
         ConnectionTypeModel).join(ServerModel, ConnectionTypeModel).filter(AccessModel.server_id == server_id).all()
-    if data_access is not None:
+    if data_access:
         all_access = []
         for access, server, connection_type in data_access:
             if access.is_active:

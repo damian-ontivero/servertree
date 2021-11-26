@@ -17,7 +17,8 @@ from app.servertree.service import service_bp
 def get(service_id: int):
     """Doc."""
     service = ServiceModel.get_by_id(service_id)
-    if service is not None:
+
+    if service:
         return jsonify(
             service_id=service.id,
             server_id=service.server_id,
@@ -40,7 +41,8 @@ def get(service_id: int):
 @login_required
 def get_by_server_id(server_id: int):
     data_service = db.session.query(ServiceModel, ServerModel).join(ServerModel).filter(ServiceModel.server_id == server_id).all()
-    if data_service is not None:
+
+    if data_service:
         all_service = []
         for service, server in data_service:
             if service.is_active:
@@ -135,7 +137,7 @@ def edit(service_id: int):
 def delete(service_id: int):
     service = ServiceModel.get_by_id(service_id)
     server = ServerModel.get_by_id(service.server_id)
-    if service is not None:
+    if service:
         service.delete()
         flash("Se ha eliminado correctamente el servicio.", "success")
         return redirect(request.referrer)

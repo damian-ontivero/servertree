@@ -94,7 +94,8 @@ def add():
         is_active = server_form.server_is_active.data
 
         server = ServerModel.get_by_name(name)
-        if server is not None:
+        
+        if server:
             flash("El servidor ya se encuentra registrado.", "danger")
         else:
             server = ServerModel(
@@ -130,7 +131,7 @@ def edit(server_id: int):
             server.save()
             flash("Se ha actualizado correctamente el servidor.", "success")
         else:
-            if ServerModel.get_by_name(server_form.server_name.data) is not None and ServerModel.get_by_name(
+            if ServerModel.get_by_name(server_form.server_name.data) and ServerModel.get_by_name(
                     server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
                 flash("El servidor ya se encuentra registrado.", "danger")
             else:
