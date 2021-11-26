@@ -20,6 +20,8 @@ class ServiceModel(db.Base):
     log_dir = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean)
 
+    server = db.relationship("ServerModel", foreign_keys=[server_id])
+
     def __init__(
         self,
         server_id,
@@ -65,14 +67,14 @@ class ServiceModel(db.Base):
     @staticmethod
     def get_all():
         """Doc."""
-        return ServiceModel.query.all()
+        return db.session.query(ServiceModel).all()
 
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return ServiceModel.query.get(id)
+        return db.session.query(ServiceModel).get(id)
 
     @staticmethod
     def get_by_server_id(server_id):
         """Doc."""
-        return ServiceModel.query.filter_by(server_id=server_id).all()
+        return db.session.query(ServiceModel).filter_by(server_id=server_id).all()

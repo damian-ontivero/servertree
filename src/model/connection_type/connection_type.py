@@ -34,14 +34,14 @@ class ConnectionTypeModel(db.Base):
     @staticmethod
     def get_all():
         """Doc."""
-        return ConnectionTypeModel.query.all()
+        return db.session.query(ConnectionTypeModel).all()
 
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return ConnectionTypeModel.query.get(id)
+        return db.session.query(ConnectionTypeModel).get(id)
 
     @staticmethod
     def get_by_name(name):
         """Doc."""
-        return ConnectionTypeModel.query.filter_by(name=name).first()
+        return db.session.query(ConnectionTypeModel).filter_by(name=name).first()

@@ -27,7 +27,7 @@ The application is using sqlite as database and is placed in "app/servertree.db"
     insert into Roles (name) values ('Administrador'), ('Observador')
 
     Admin user (pass = 123456):
-    insert into Users (firstname, lastname, email, password, role_id, is_active) values ('Administrador', 'Administrador', 'admin@servertree.com', 'pbkdf2:sha256:150000$qghrCG8m$16a44c366d90f0eb0a97c2a4317089a27741a172d9a410d025ed6a7dd56f11a4', 1, 1)
+    insert into Users (firstname, lastname, email, password, role_id, is_active) values ('Administrador', 'Administrador', 'admin@servertree.com', 'pbkdf2:sha256:150000$cNKq6yuF$ec0e397da9153a36351e4fc1cfa588cb15483926e456b3b8f1b9f02f81b9c510', 1, 1)
 
 #### Run Flask:
     flask run

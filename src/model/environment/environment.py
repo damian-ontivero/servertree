@@ -34,14 +34,14 @@ class EnvironmentModel(db.Base):
     @staticmethod
     def get_all():
         """Doc."""
-        return EnvironmentModel.query.all()
+        return db.session.query(EnvironmentModel).all()
 
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return EnvironmentModel.query.get(id)
+        return db.session.query(EnvironmentModel).get(id)
 
     @staticmethod
     def get_by_name(name):
         """Doc."""
-        return EnvironmentModel.query.filter_by(name=name).first()
+        return db.session.query(EnvironmentModel).filter_by(name=name).first()

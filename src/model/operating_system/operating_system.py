@@ -38,14 +38,14 @@ class OperatingSystemModel(db.Base):
     @staticmethod
     def get_all():
         """Doc."""
-        return OperatingSystemModel.query.all()
+        return db.session.query(OperatingSystemModel).all()
 
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return OperatingSystemModel.query.get(id)
+        return db.session.query(OperatingSystemModel).get(id)
 
     @staticmethod
     def get_by_name_version_architect(name, version, architect):
         """Doc."""
-        return OperatingSystemModel.query.filter_by(name=name, version=version, architect=architect).first()
+        return db.session.query(OperatingSystemModel).filter_by(name=name, version=version, architect=architect).first()

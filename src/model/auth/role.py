@@ -17,9 +17,9 @@ class RoleModel(db.Base):
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return RoleModel.query.get(id)
+        return db.session.query(RoleModel).get(id)
 
     @staticmethod
     def get_all():
         """Doc."""
-        return RoleModel.query.all()
+        return db.session.query(RoleModel).all()

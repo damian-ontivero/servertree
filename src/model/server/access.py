@@ -5,7 +5,7 @@ from model import db
 
 class AccessModel(db.Base):
     """Access table."""
-    __tablename__ = "Access"
+    __tablename__ = "access"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     server_id = db.Column(db.Integer, db.ForeignKey("server.id"), nullable=False)
@@ -17,6 +17,10 @@ class AccessModel(db.Base):
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean)
+
+    server = db.relationship("ServerModel", foreign_keys=[server_id])
+
+    connection_type = db.relationship("ConnectionTypeModel", foreign_keys=[connection_type_id])
 
     def __init__(self, server_id, connection_type_id, ip_local, port_local, ip_public, port_public, username, password, is_active):
         """Constructor."""
@@ -48,14 +52,14 @@ class AccessModel(db.Base):
     @staticmethod
     def get_all():
         """Doc."""
-        return AccessModel.query.all()
+        return db.session.query(AccessModel).all()
 
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return AccessModel.query.get(id)
+        return db.session.query(AccessModel).get(id)
 
     @staticmethod
     def get_by_server_id(server_id):
         """Doc."""
-        return AccessModel.query.filter_by(server_id=server_id).all()
+        return db.session.query(AccessModel).filter_by(server_id=server_id).all()

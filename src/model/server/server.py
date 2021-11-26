@@ -9,12 +9,16 @@ class ServerModel(db.Base):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
-    environment_id = db.Column(db.Integer, db.ForeignKey("environments.id"), nullable=False)
+    environment_id = db.Column(db.Integer, db.ForeignKey("environment.id"), nullable=False)
     operating_system_id = db.Column(db.Integer, db.ForeignKey("operating_system.id"), nullable=False)
     cpu = db.Column(db.String(50), nullable=False)
     ram = db.Column(db.String(50), nullable=False)
     hdd = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean)
+
+    environment = db.relationship("EnvironmentModel", foreign_keys=[environment_id])
+
+    operating_system = db.relationship("OperatingSystemModel", foreign_keys=[operating_system_id])
 
     def __init__(self, name, environment_id, operating_system_id, cpu, ram, hdd, is_active):
         """Constructor."""
@@ -44,14 +48,14 @@ class ServerModel(db.Base):
     @staticmethod
     def get_by_id(id):
         """Doc."""
-        return ServerModel.query.get(id)
+        return db.session.query(ServerModel).get(id)
 
     @staticmethod
     def get_by_name(name):
         """Doc."""
-        return ServerModel.query.filter_by(name=name).first()
+        return db.session.query(ServerModel).filter_by(name=name).first()
 
     @staticmethod
     def get_all():
         """Doc."""
-        return ServerModel.query.all()
+        return db.session.query(ServerModel).all()
