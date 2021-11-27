@@ -7,4 +7,7 @@ from model.auth.user import UserModel
 
 class UserService(ServiceAbstract):
     """Doc."""
-    ServiceAbstract.model = UserModel
+    pass
+
+
+user_service = UserService(model=UserModel)

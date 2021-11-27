@@ -7,4 +7,7 @@ from model.auth.role import RoleModel
 
 class RoleService(ServiceAbstract):
     """Doc."""
-    ServiceAbstract.model = RoleModel
+    pass
+
+
+role_service = RoleService(model=RoleModel)

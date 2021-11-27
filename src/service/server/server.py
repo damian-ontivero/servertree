@@ -7,4 +7,7 @@ from model.server.server import ServerModel
 
 class ServerService(ServiceAbstract):
     """Doc."""
-    ServiceAbstract.model = ServerModel
+    pass
+
+
+server_service = ServerService(model=ServerModel)

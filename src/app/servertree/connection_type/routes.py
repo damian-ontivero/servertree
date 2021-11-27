@@ -14,23 +14,19 @@ from app.servertree.connection_type.forms import ConnectionTypeForm
 from app.servertree.auth.decorators import admin_required
 from app.servertree.auth.forms import UserForm
 from model.connection_type.connection_type import ConnectionTypeModel
-from service.connection_type.connection_type import ConnectionTypeService
-from service.environment.environment import EnvironmentService
+from service.connection_type.connection_type import connection_type_service
+from service.environment.environment import environment_service
 
 
 @connection_type_bp.route("/get_all", methods=["GET"])
 @login_required
 def get_all():
-    connection_type_list = ConnectionTypeService.get_all()
-    environment_list = EnvironmentService.get_all()
-    connection_type_form = ConnectionTypeForm()
-    user_form = UserForm()
     return render_template(
         "connection-type.html",
-        connection_type_list=connection_type_list,
-        environment_list=environment_list,
-        connection_type_form=connection_type_form,
-        user_form=user_form
+        connection_type_list=connection_type_service.get_all(),
+        environment_list=environment_service.get_all(),
+        connection_type_form=ConnectionTypeForm(),
+        user_form=UserForm()
     )
 
 
@@ -38,7 +34,7 @@ def get_all():
 @login_required
 @admin_required
 def get(connection_type_id: int):
-    connection_type = ConnectionTypeService.get(id=connection_type_id)
+    connection_type = connection_type_service.get(id=connection_type_id)
     return jsonify(
         name=connection_type.name,
         is_active=connection_type.is_active
@@ -55,11 +51,11 @@ def add():
         name = connection_type_form.connection_type_name.data
         is_active = connection_type_form.connection_type_is_active.data
 
-        if ConnectionTypeService.get_by_filter(name=name):
+        if connection_type_service.get_by_filter(name=name):
             flash("El tipo de conexión ya se encuentra registrado.", "danger")
         else:
             connection_type = ConnectionTypeModel(name=name, is_active=is_active)
-            ConnectionTypeService.add(obj_in=connection_type)
+            connection_type_service.add(obj_in=connection_type)
             flash("Se ha registrado correctamente el tipo de conexión.", "success")
 
     return redirect(request.referrer)
@@ -69,22 +65,22 @@ def add():
 @login_required
 @admin_required
 def edit(connection_type_id: int):
-    connection_type = ConnectionTypeService.get(id=connection_type_id)
+    connection_type = connection_type_service.get(id=connection_type_id)
     connection_type_form = ConnectionTypeForm(obj=connection_type)
 
     if connection_type_form.validate_on_submit():
         if connection_type.name == connection_type_form.connection_type_name.data:
             connection_type.name = connection_type_form.connection_type_name.data
             connection_type.is_active = connection_type_form.connection_type_is_active.data
-            ConnectionTypeService.edit(obj_in=connection_type)
+            connection_type_service.edit(obj_in=connection_type)
             flash("Se ha actualizado correctamente el tipo de conexión.", "success")
         else:
-            if ConnectionTypeService.get_by_filter(name=connection_type_form.connection_type_name.data):
+            if connection_type_service.get_by_filter(name=connection_type_form.connection_type_name.data):
                 flash("El tipo de conexión ya se encuentra registrado.", "danger")
             else:
                 connection_type.name = connection_type_form.connection_type_name.data
                 connection_type.is_active = connection_type_form.connection_type_is_active.data
-                ConnectionTypeService.edit(obj_in=connection_type)
+                connection_type_service.edit(obj_in=connection_type)
                 flash("Se ha actualizado correctamente el tipo de conexión.", "success")
 
     return redirect(request.referrer)
@@ -94,7 +90,7 @@ def edit(connection_type_id: int):
 @login_required
 @admin_required
 def delete(connection_type_id: int):
-    connection_type = ConnectionTypeService.get(id=connection_type_id)
-    ConnectionTypeService.delete(obj_in=connection_type)
+    connection_type = connection_type_service.get(id=connection_type_id)
+    connection_type_service.delete(obj_in=connection_type)
     flash("Se ha eliminado correctamente el tipo de conexión.", "success")
     return redirect(request.referrer)

@@ -18,5 +18,5 @@ class AccessModel(db.Base):
     password = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean)
 
-    server = db.relationship("ServerModel", foreign_keys=[server_id])
-    connection_type = db.relationship("ConnectionTypeModel", foreign_keys=[connection_type_id])
+    server = db.relationship("ServerModel", foreign_keys=[server_id], lazy="joined")
+    connection_type = db.relationship("ConnectionTypeModel", foreign_keys=[connection_type_id], lazy="joined")

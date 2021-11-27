@@ -7,4 +7,7 @@ from model.connection_type.connection_type import ConnectionTypeModel
 
 class ConnectionTypeService(ServiceAbstract):
     """Doc."""
-    ServiceAbstract.model = ConnectionTypeModel
+    pass
+
+
+connection_type_service = ConnectionTypeService(model=ConnectionTypeModel)

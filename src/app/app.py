@@ -12,7 +12,7 @@ from configparser import ConfigParser
 
 from werkzeug.utils import redirect
 
-from service.auth.user import UserService
+from service.auth.user import user_service
 
 from app.servertree.index import index_bp
 from app.servertree.auth import auth_bp
@@ -20,6 +20,8 @@ from app.servertree.server import server_bp
 from app.servertree.connection_type import connection_type_bp
 from app.servertree.environment import environment_bp
 from app.servertree.operating_system import operating_system_bp
+from app.servertree.access import access_bp
+from app.servertree.application import application_bp
 
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import UnmappedInstanceError
@@ -31,7 +33,7 @@ login_manager = LoginManager()
 @login_manager.user_loader
 def load_user(user_id: int):
     """Doc."""
-    return UserService.get(id=user_id)
+    return user_service.get(id=user_id)
 
 
 def create_app():
@@ -56,6 +58,8 @@ def create_app():
     app.register_blueprint(connection_type_bp)
     app.register_blueprint(environment_bp)
     app.register_blueprint(operating_system_bp)
+    app.register_blueprint(access_bp)
+    app.register_blueprint(application_bp)
 
     # Custom error handlers
     register_error_handlers(app)

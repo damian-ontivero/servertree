@@ -6,7 +6,7 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
 
-from service.auth.role import RoleService
+from service.auth.role import role_service
 
 
 class LoginForm(FlaskForm):
@@ -22,5 +22,5 @@ class UserForm(FlaskForm):
     change_password = BooleanField("Cambiar contraseña")
     password = PasswordField("Contraseña", validators=[DataRequired()])
     show_password = BooleanField("Mostrar contraseña")
-    role_id = QuerySelectField("Rol", query_factory=RoleService.get_all, get_label="role")
+    role_id = QuerySelectField("Rol", query_factory=role_service.get_all, get_label="name")
     is_active = BooleanField("Activo")

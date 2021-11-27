@@ -8,4 +8,4 @@ class RoleModel(db.Base):
     __tablename__ = "role"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    role = db.Column(db.String(30), unique=True, nullable=False)
+    name = db.Column(db.String(30), unique=True, nullable=False)

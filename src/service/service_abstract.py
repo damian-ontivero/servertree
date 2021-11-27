@@ -1,7 +1,5 @@
 """Doc."""
 
-from abc import ABC, abstractmethod
-
 from typing import List
 
 from repository.repository import Repository
@@ -13,23 +11,21 @@ from model.environment.environment import EnvironmentModel  # noqa: F401
 from model.operating_system.operating_system import OperatingSystemModel  # noqa: F401
 from model.server.server import ServerModel  # noqa: F401
 from model.server.access import AccessModel  # noqa: F401
-from model.server.service import ServiceModel  # noqa: F401
+from model.server.application import ApplicationModel  # noqa: F401
 
 
-class ServiceAbstract(ABC):
+class ServiceAbstract:
     """Doc."""
-    @property
-    @abstractmethod
-    def model(self):
+    def __init__(self, model):
+        """Constructor."""
+        self.model = model
+
+    def get_model(self):
         """Doc."""
         return self.model
 
-    @model.setter
-    @abstractmethod
-    def model(self, model):
-        self.model = model
-
     def get(
+        self,
         id: int
     ) -> object:
         """Doc."""
@@ -37,7 +33,7 @@ class ServiceAbstract(ABC):
 
         try:
             data = session.query(
-                ServiceAbstract.model
+                self.model
             ).get(
                 ident=id
             )
@@ -48,13 +44,13 @@ class ServiceAbstract(ABC):
         finally:
             session.close()
 
-    def get_all() -> List[object]:
+    def get_all(self) -> List[object]:
         """Doc."""
         session = Repository.get_session()
 
         try:
             data = session.query(
-                ServiceAbstract.model
+                self.model
             ).all()
         except Exception:
             raise
@@ -64,6 +60,7 @@ class ServiceAbstract(ABC):
             session.close()
 
     def get_by_filter(
+        self,
         **kwargs
     ) -> object:
         """Doc."""
@@ -71,7 +68,7 @@ class ServiceAbstract(ABC):
 
         try:
             data = session.query(
-                ServiceAbstract.model
+                self.model
             ).filter_by(
                 **kwargs
             ).first()
@@ -83,6 +80,7 @@ class ServiceAbstract(ABC):
             session.close()
 
     def get_by_filter_all(
+        self,
         **kwargs
     ) -> object:
         """Doc."""
@@ -90,7 +88,7 @@ class ServiceAbstract(ABC):
 
         try:
             data = session.query(
-                ServiceAbstract.model
+                self.model
             ).filter_by(
                 **kwargs
             ).all()

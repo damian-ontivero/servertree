@@ -7,4 +7,7 @@ from model.environment.environment import EnvironmentModel
 
 class EnvironmentService(ServiceAbstract):
     """Doc."""
-    ServiceAbstract.model = EnvironmentModel
+    pass
+
+
+environment_service = EnvironmentService(model=EnvironmentModel)

@@ -7,4 +7,7 @@ from model.operating_system.operating_system import OperatingSystemModel
 
 class OperatingSystemService(ServiceAbstract):
     """Doc."""
-    ServiceAbstract.model = OperatingSystemModel
+    pass
+
+
+operating_system_service = OperatingSystemService(model=OperatingSystemModel)

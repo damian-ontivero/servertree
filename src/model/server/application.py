@@ -3,9 +3,9 @@
 from model import db
 
 
-class ServiceModel(db.Base):
-    """Service table."""
-    __tablename__ = "service"
+class ApplicationModel(db.Base):
+    """Application table."""
+    __tablename__ = "application"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     server_id = db.Column(db.Integer, db.ForeignKey("server.id"), nullable=False)
@@ -20,4 +20,4 @@ class ServiceModel(db.Base):
     log_dir = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean)
 
-    server = db.relationship("ServerModel", foreign_keys=[server_id])
+    server = db.relationship("ServerModel", foreign_keys=[server_id], lazy="joined")

@@ -7,41 +7,35 @@ from model.server.server import ServerModel
 from app.servertree.server import server_bp
 from app.servertree.server.forms import ServerForm
 from app.servertree.access.forms import AccessForm
-from app.servertree.service.forms import ServiceForm
+from app.servertree.application.forms import ApplicationForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
-from service.environment.environment import EnvironmentService
-from service.server.server import ServerService
+from service.environment.environment import environment_service
+from service.server.server import server_service
 
 
 @server_bp.route("/get_all", methods=["GET", "POST"])
 @login_required
 def get_all():
-    server_list = ServerService.get_all()
-    environment_list = EnvironmentService.get_all()
-    server_form = ServerForm()
-    access_form = AccessForm()
-    service_form = ServiceForm()
-    user_form = UserForm()
     return render_template(
         "server.html",
-        server_list=server_list,
-        environment_list=environment_list,
-        server_form=server_form,
-        access_form=access_form,
-        service_form=service_form,
-        user_form=user_form
+        server_list=server_service.get_all(),
+        environment_list=environment_service.get_all(),
+        server_form=ServerForm(),
+        access_form=AccessForm(),
+        service_form=ApplicationForm(),
+        user_form=UserForm()
     )
 
 
 @server_bp.route("/get_by_env/<int:server_env>", methods=["GET", "POST"])
 @login_required
 def get_by_env(server_env: int):
-    server_list = ServerService.get_by_filter_all(environment_id=server_env)
-    environment_list = EnvironmentService.get_all()
+    server_list = server_service.get_by_filter_all(environment_id=server_env)
+    environment_list = environment_service.get_all()
     server_form = ServerForm()
     access_form = AccessForm()
-    service_form = ServiceForm()
+    service_form = ApplicationForm()
     user_form = UserForm()
     return render_template(
         "server.html",
@@ -58,7 +52,7 @@ def get_by_env(server_env: int):
 @login_required
 @admin_required
 def get(server_id: int):
-    server = ServerService.get(id=server_id)
+    server = server_service.get(id=server_id)
     return jsonify(
         name=server.name,
         environment_id=server.environment_id,
@@ -85,7 +79,7 @@ def add():
         hdd = server_form.server_hdd.data
         is_active = server_form.server_is_active.data
 
-        server = ServerService.get_by_filter(name=name)
+        server = server_service.get_by_filter(name=name)
 
         if server:
             flash("El servidor ya se encuentra registrado.", "danger")
@@ -99,7 +93,7 @@ def add():
                 hdd=hdd,
                 is_active=is_active
             )
-            ServerService.add(obj_in=server)
+            server_service.add(obj_in=server)
             flash("Se ha registrado correctamente el servidor.", "success")
 
     return redirect(request.referrer)
@@ -109,7 +103,7 @@ def add():
 @login_required
 @admin_required
 def edit(server_id: int):
-    server = ServerService.get(id=server_id)
+    server = server_service.get(id=server_id)
     server_form = ServerForm(obj=server)
 
     if server_form.validate_on_submit():
@@ -121,10 +115,10 @@ def edit(server_id: int):
             server.ram = server_form.server_ram.data
             server.hdd = server_form.server_hdd.data
             server.is_active = server_form.server_is_active.data
-            ServerService.edit(obj_in=server)
+            server_service.edit(obj_in=server)
             flash("Se ha actualizado correctamente el servidor.", "success")
         else:
-            if ServerService.get_by_filter(name=server_form.server_name.data) and ServerService.get_by_filter(
+            if server_service.get_by_filter(name=server_form.server_name.data) and server_service.get_by_filter(
                     name=server_form.server_name.data).environment_id == server_form.server_environment_id.data.id:
                 flash("El servidor ya se encuentra registrado.", "danger")
             else:
@@ -135,7 +129,7 @@ def edit(server_id: int):
                 server.ram = server_form.server_ram.data
                 server.hdd = server_form.server_hdd.data
                 server.is_active = server_form.server_is_active.data
-                ServerService.edit(obj_in=server)
+                server_service.edit(obj_in=server)
                 flash("Se ha actualizado correctamente el servidor.", "success")
 
     return redirect(request.referrer)
@@ -145,7 +139,7 @@ def edit(server_id: int):
 @login_required
 @admin_required
 def delete(server_id: int):
-    server = ServerService.get(id=server_id)
-    ServerService.delete(obj_in=server)
+    server = server_service.get(id=server_id)
+    server_service.delete(obj_in=server)
     flash("Se ha eliminado correctamente el servidor.", "success")
     return redirect(request.referrer)

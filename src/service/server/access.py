@@ -7,4 +7,7 @@ from model.server.access import AccessModel
 
 class AccessService(ServiceAbstract):
     """Doc."""
-    ServiceAbstract.model = AccessModel
+    pass
+
+
+access_service = AccessService(model=AccessModel)

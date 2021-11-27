@@ -16,5 +16,5 @@ class ServerModel(db.Base):
     hdd = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean)
 
-    environment = db.relationship("EnvironmentModel", foreign_keys=[environment_id])
-    operating_system = db.relationship("OperatingSystemModel", foreign_keys=[operating_system_id])
+    environment = db.relationship("EnvironmentModel", foreign_keys=[environment_id], lazy="joined")
+    operating_system = db.relationship("OperatingSystemModel", foreign_keys=[operating_system_id], lazy="joined")
