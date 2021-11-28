@@ -45,8 +45,8 @@
     {% for server in server_list %}
       <tr>
         <td>{{ server.name }}</td>
-        <td>{{ server.environment.name }}</td>
-        <td>{{ server.operating_system.name + ' - ' + server.operating_system.version + ' - ' + server.operating_system.architect }}</td>
+        <td>{{ server.environment }}</td>
+        <td>{{ server.operating_system }}</td>
         <td>{{ server.cpu }}</td>
         <td>{{ server.ram }}</td>
         <td>{{ server.hdd }}</td>

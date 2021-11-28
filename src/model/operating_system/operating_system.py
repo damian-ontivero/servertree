@@ -12,3 +12,6 @@ class OperatingSystemModel(db.Base):
     version = db.Column(db.String(50), nullable=False)
     architect = db.Column(db.String(6), nullable=False)
     is_active = db.Column(db.Boolean)
+
+    def __repr__(self) -> str:
+        return f"{self.name} {self.version} {self.architect}"

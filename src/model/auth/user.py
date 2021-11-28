@@ -18,3 +18,6 @@ class UserModel(db.Base, UserMixin):
     is_active = db.Column(db.Boolean)
 
     role = db.relationship("RoleModel", foreign_keys=[role_id], lazy="joined")
+
+    def __repr__(self) -> str:
+        return f"{self.name}"

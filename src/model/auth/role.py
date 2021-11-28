@@ -9,3 +9,6 @@ class RoleModel(db.Base):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(30), unique=True, nullable=False)
+
+    def __repr__(self) -> str:
+        return f"{self.name}"

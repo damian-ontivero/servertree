@@ -18,3 +18,6 @@ class ServerModel(db.Base):
 
     environment = db.relationship("EnvironmentModel", foreign_keys=[environment_id], lazy="joined")
     operating_system = db.relationship("OperatingSystemModel", foreign_keys=[operating_system_id], lazy="joined")
+
+    def __repr__(self) -> str:
+        return f"{self.name}"
