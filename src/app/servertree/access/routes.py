@@ -106,7 +106,10 @@ def edit(access_id: int):
     access = access_service.get(id=access_id)
     access_form = AccessForm(obj=access)
 
+    print("Validation form pending")
+
     if access_form.validate_on_submit():
+        print("Validation form ok")
         access.server_id = access_form.access_server_id.data.id
         access.connection_type_id = access_form.access_connection_type_id.data.id
         access.ip_local = access_form.access_ip_local.data

@@ -107,7 +107,7 @@ $(document).ready(function(){
     access_id = $(this).attr('data-id');
     if(access_id){
       $('#addEditAccessModalLabel').html('Editar acceso');
-      $('#accessForm').attr('action', '/server/edit/' + access_id);
+      $('#accessForm').attr('action', '/access/edit/' + access_id);
       $.ajax({
         url: '/access/get/' + access_id,
         method: 'post',
