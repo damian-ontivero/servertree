@@ -42,7 +42,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for server, env, os in server_list %}
+    {% for server in server_list %}
       <tr>
         <td>{{ server.name }}</td>
         <td>{{ server.environment.name }}</td>

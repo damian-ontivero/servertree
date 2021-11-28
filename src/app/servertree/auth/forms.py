@@ -22,5 +22,9 @@ class UserForm(FlaskForm):
     change_password = BooleanField("Cambiar contraseña")
     password = PasswordField("Contraseña", validators=[DataRequired()])
     show_password = BooleanField("Mostrar contraseña")
-    role_id = QuerySelectField("Rol", query_factory=role_service.get_all, get_label="name")
+    role_id = QuerySelectField(
+        "Rol",
+        query_factory=role_service.get_all,
+        get_label="name"
+    )
     is_active = BooleanField("Activo")

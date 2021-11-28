@@ -9,17 +9,17 @@ from flask import (
 from flask_login import login_required
 
 from app.servertree.auth.decorators import admin_required
-from app.servertree.application import application_bp
-from service.server.application import ApplicationService
-from model.server.application import ApplicationModel
-from app.servertree.application.forms import ApplicationForm
+from app.servertree.service import service_bp
+from service.server.service import service_service
+from model.server.service import ServiceModel
+from app.servertree.service.forms import ServiceForm
 
 
-@application_bp.route("/get/<int:service_id>", methods=["GET", "POST"])
+@service_bp.route("/get/<int:service_id>", methods=["GET", "POST"])
 @login_required
 def get(service_id: int):
     """Doc."""
-    service = ApplicationService.get(id=service_id)
+    service = service_service.get(id=service_id)
 
     if service:
         return jsonify(
@@ -40,10 +40,10 @@ def get(service_id: int):
         return jsonify()
 
 
-@application_bp.route("/get_by_server_id/<int:server_id>", methods=["GET", "POST"])
+@service_bp.route("/get_by_server_id/<int:server_id>", methods=["GET", "POST"])
 @login_required
 def get_by_server_id(server_id: int):
-    service_list = ApplicationService.get_by_filter_all(server_id=server_id)
+    service_list = service_service.get_by_filter_all(server_id=server_id)
 
     if service_list:
         all_service = []
@@ -71,11 +71,11 @@ def get_by_server_id(server_id: int):
         return jsonify()
 
 
-@application_bp.route("/add", methods=["GET", "POST"])
+@service_bp.route("/add", methods=["GET", "POST"])
 @login_required
 @admin_required
 def add():
-    service_form = ApplicationForm()
+    service_form = ServiceForm()
 
     if service_form.validate_on_submit:
         server_id = service_form.service_server_id.data.id
@@ -90,7 +90,7 @@ def add():
         log_dir = service_form.service_log_dir.data
         is_active = service_form.service_is_active.data
 
-        service = ApplicationModel(
+        service = ServiceModel(
             server_id=server_id,
             service=service,
             version=version,
@@ -103,19 +103,19 @@ def add():
             log_dir=log_dir,
             is_active=is_active
         )
-        ApplicationService.add(obj_in=service)
+        service_service.add(obj_in=service)
 
         flash("Se ha registrado correctamente el servicio.", "success")
 
     return redirect(request.referrer)
 
 
-@application_bp.route("/edit/<int:service_id>", methods=["GET", "POST"])
+@service_bp.route("/edit/<int:service_id>", methods=["GET", "POST"])
 @login_required
 @admin_required
 def edit(service_id: int):
-    service = ApplicationService.get(id=service_id)
-    service_form = ApplicationForm(obj=service)
+    service = service_service.get(id=service_id)
+    service_form = ServiceForm(obj=service)
 
     if service_form.validate_on_submit():
         service.server_id = service_form.service_server_id.data.id
@@ -129,17 +129,19 @@ def edit(service_id: int):
         service.install_dir = service_form.service_install_dir.data
         service.log_dir = service_form.service_log_dir.data
         service.is_active = service_form.service_is_active.data
-        service.save()
+
+        service_service.edit(obj_in=service)
+
         flash("Se ha actualizado correctamente el servicio.", "success")
 
     return redirect(request.referrer)
 
 
-@application_bp.route("/delete/<int:service_id>")
+@service_bp.route("/delete/<int:service_id>")
 @login_required
 @admin_required
 def delete(service_id: int):
-    service = ApplicationService.get(id=service_id)
-    ApplicationService.delete(obj_in=service)
+    service = service_service.get(id=service_id)
+    service_service.delete(obj_in=service)
     flash("Se ha eliminado correctamente el servicio.", "success")
     return redirect(request.referrer)

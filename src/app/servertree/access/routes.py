@@ -12,13 +12,13 @@ from app.servertree.auth.decorators import admin_required
 from app.servertree.access import access_bp
 from app.servertree.access.forms import AccessForm
 from model.server.access import AccessModel
-from service.server.access import AccessService
+from service.server.access import access_service
 
 
 @access_bp.route("/get/<int:access_id>", methods=["GET", "POST"])
 @login_required
 def get(access_id: int):
-    access = AccessService.get(id=access_id)
+    access = access_service.get(id=access_id)
     if access:
         return jsonify(
             access_id=access.id,
@@ -39,7 +39,7 @@ def get(access_id: int):
 @access_bp.route("/get_by_server_id/<int:server_id>", methods=["GET", "POST"])
 @login_required
 def get_by_server_id(server_id: int):
-    access_list = AccessService.get_by_filter_all(server_id=server_id)
+    access_list = access_service.get_by_filter_all(server_id=server_id)
 
     if access_list:
         all_access = []
@@ -92,7 +92,7 @@ def add():
             password=password,
             is_active=is_active
         )
-        AccessService.add(obj_in=access)
+        access_service.add(obj_in=access)
 
         flash("Se ha registrado correctamente el acceso.", "success")
 
@@ -103,8 +103,9 @@ def add():
 @login_required
 @admin_required
 def edit(access_id: int):
-    access = AccessService.get(id=access_id)
+    access = access_service.get(id=access_id)
     access_form = AccessForm(obj=access)
+
     if access_form.validate_on_submit():
         access.server_id = access_form.access_server_id.data.id
         access.connection_type_id = access_form.access_connection_type_id.data.id
@@ -115,7 +116,9 @@ def edit(access_id: int):
         access.username = access_form.access_username.data
         access.password = access_form.access_password.data
         access.is_active = access_form.access_is_active.data
-        AccessService.edit(obj_in=access)
+
+        access_service.edit(obj_in=access)
+
         flash("Se ha actualizado correctamente el acceso.", "success")
 
     return redirect(request.referrer)
@@ -125,7 +128,7 @@ def edit(access_id: int):
 @login_required
 @admin_required
 def delete(access_id: int):
-    access = AccessService.get(id=access_id)
-    AccessService.delete(access)
+    access = access_service.get(id=access_id)
+    access_service.delete(access)
     flash("Se ha eliminado correctamente el accesso.", "success")
     return redirect(request.referrer)

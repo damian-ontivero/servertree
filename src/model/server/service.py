@@ -3,9 +3,9 @@
 from model import db
 
 
-class ApplicationModel(db.Base):
-    """Application table."""
-    __tablename__ = "application"
+class ServiceModel(db.Base):
+    """Service table."""
+    __tablename__ = "service"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     server_id = db.Column(db.Integer, db.ForeignKey("server.id"), nullable=False)

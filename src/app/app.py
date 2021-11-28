@@ -21,7 +21,7 @@ from app.servertree.connection_type import connection_type_bp
 from app.servertree.environment import environment_bp
 from app.servertree.operating_system import operating_system_bp
 from app.servertree.access import access_bp
-from app.servertree.application import application_bp
+from app.servertree.service import service_bp
 
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import UnmappedInstanceError
@@ -59,7 +59,7 @@ def create_app():
     app.register_blueprint(environment_bp)
     app.register_blueprint(operating_system_bp)
     app.register_blueprint(access_bp)
-    app.register_blueprint(application_bp)
+    app.register_blueprint(service_bp)
 
     # Custom error handlers
     register_error_handlers(app)

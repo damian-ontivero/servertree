@@ -7,7 +7,7 @@ from model.server.server import ServerModel
 from app.servertree.server import server_bp
 from app.servertree.server.forms import ServerForm
 from app.servertree.access.forms import AccessForm
-from app.servertree.application.forms import ApplicationForm
+from app.servertree.service.forms import ServiceForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
 from service.environment.environment import environment_service
@@ -23,7 +23,7 @@ def get_all():
         environment_list=environment_service.get_all(),
         server_form=ServerForm(),
         access_form=AccessForm(),
-        service_form=ApplicationForm(),
+        service_form=ServiceForm(),
         user_form=UserForm()
     )
 
@@ -31,20 +31,14 @@ def get_all():
 @server_bp.route("/get_by_env/<int:server_env>", methods=["GET", "POST"])
 @login_required
 def get_by_env(server_env: int):
-    server_list = server_service.get_by_filter_all(environment_id=server_env)
-    environment_list = environment_service.get_all()
-    server_form = ServerForm()
-    access_form = AccessForm()
-    service_form = ApplicationForm()
-    user_form = UserForm()
     return render_template(
         "server.html",
-        server_list=server_list,
-        environment_list=environment_list,
-        server_form=server_form,
-        access_form=access_form,
-        service_form=service_form,
-        user_form=user_form
+        server_list=server_service.get_by_filter_all(environment_id=server_env),
+        environment_list=environment_service.get_all(),
+        server_form=ServerForm(),
+        access_form=AccessForm(),
+        service_form=ServiceForm(),
+        user_form=UserForm()
     )
 
 
@@ -115,7 +109,9 @@ def edit(server_id: int):
             server.ram = server_form.server_ram.data
             server.hdd = server_form.server_hdd.data
             server.is_active = server_form.server_is_active.data
+
             server_service.edit(obj_in=server)
+
             flash("Se ha actualizado correctamente el servidor.", "success")
         else:
             if server_service.get_by_filter(name=server_form.server_name.data) and server_service.get_by_filter(
@@ -129,7 +125,9 @@ def edit(server_id: int):
                 server.ram = server_form.server_ram.data
                 server.hdd = server_form.server_hdd.data
                 server.is_active = server_form.server_is_active.data
+
                 server_service.edit(obj_in=server)
+
                 flash("Se ha actualizado correctamente el servidor.", "success")
 
     return redirect(request.referrer)
