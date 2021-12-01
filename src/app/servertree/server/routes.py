@@ -4,12 +4,14 @@ from flask import render_template, redirect, request, jsonify, flash
 from flask_login import login_required
 
 from model.server.server import ServerModel
+
 from app.servertree.server import server_bp
 from app.servertree.server.forms import ServerForm
 from app.servertree.access.forms import AccessForm
 from app.servertree.service.forms import ServiceForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
+
 from service.environment.environment import environment_service
 from service.server.server import server_service
 
@@ -47,6 +49,7 @@ def get_by_env(server_env: int):
 @admin_required
 def get(server_id: int):
     server = server_service.get(id=server_id)
+
     return jsonify(
         name=server.name,
         environment_id=server.environment_id,
@@ -88,6 +91,7 @@ def add():
                 is_active=is_active
             )
             server_service.add(obj_in=server)
+
             flash("Se ha registrado correctamente el servidor.", "success")
 
     return redirect(request.referrer)
@@ -139,5 +143,7 @@ def edit(server_id: int):
 def delete(server_id: int):
     server = server_service.get(id=server_id)
     server_service.delete(obj_in=server)
+
     flash("Se ha eliminado correctamente el servidor.", "success")
+
     return redirect(request.referrer)

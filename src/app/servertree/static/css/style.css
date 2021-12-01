@@ -16,54 +16,27 @@ html, body {
 
 /********** END GENERAL  **********/
 
-/********** SIDEBAR  **********/
-/* Style the sidebar - fixed full height */
-.sidebar {
-  height: 100%;
-  width: 14%;
-  float: left;
-  background-color: #EAEAEA;
-  overflow-x: hidden;
-  padding-top: 16px;
+/********** TOP BAR **********/
+.navbar{
+  background-color: #159090;
+  box-shadow: 0 0 0.2rem rgb(0 0 0 / 10%), 0 0.2rem 0.4rem rgb(0 0 0 / 20%);
 }
 
-/* Style sidebar links */
-.sidebar a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 15px;
-  color: #141414;
-  display: block;
+.navbar-brand{
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: large;
 }
-
-/* Style links on mouse-over */
-.sidebar a:hover {
-  background-color: #018786;
-  color: white;
-}
-
-/* Style the main content */
-.main {
-  margin-left: 160px; /* Same as the width of the sidenav */
-  padding: 0px 10px;
-}
-
-/* Add media queries for small screens (when the height of the screen is less than 450px, add a smaller padding and font-size) */
-@media screen and (max-height: 450px) {
-  .sidebar {padding-top: 15px;}
-  .sidebar a {font-size: 18px;}
-}
-/********** END SIDEBAR  **********/
+/********** END TOP BAR **********/
 
 /********** CONTAINER **********/
 .container-base{
-  height: 100%;
-  width: 86%;
+  width: 80%;
   position: relative;
   padding: 20px;
-  float: left;
+  left: 10%;
+  top: 5%;
   overflow-x: auto;
-  background-color: #F1F1F1;
 }
 
 .modal-body{
@@ -74,43 +47,17 @@ html, body {
   width: 100%;
   text-align: center;
 }
+
+.container-base .buttons{
+  margin-bottom: 10px;
+}
 /********** END CONTAINER **********/
-
-/********** CONTENT **********/
-.content{
-  height: 95%;
-  width: 100%;
-  padding: 1rem;
-}
-
-.content-header{
-  height: 3.5rem;
-  width: 100%;
-}
-
-.content-title{
-  margin-bottom: 10px;
-  float: left;
-}
-
-.content-button{
-  margin-bottom: 10px;
-  float: right;
-}
-
-.content-table{
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: white;
-  border-radius: 0.2rem;
-  box-shadow: 0px 0px 7px lightgray;
-}
-/********** END CONTENT **********/
 
 /********** FOOTER **********/
 .footer{
-  height: 5%;
   width: 100%;
   text-align: center;
+  position: absolute;
+  bottom: 1%;
 }
 /********** END FOOTER **********/

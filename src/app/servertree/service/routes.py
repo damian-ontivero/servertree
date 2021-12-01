@@ -10,9 +10,11 @@ from flask_login import login_required
 
 from app.servertree.auth.decorators import admin_required
 from app.servertree.service import service_bp
-from service.server.service import service_service
-from model.server.service import ServiceModel
 from app.servertree.service.forms import ServiceForm
+
+from service.server.service import service_service
+
+from model.server.service import ServiceModel
 
 
 @service_bp.route("/get/<int:service_id>", methods=["GET", "POST"])
@@ -47,11 +49,13 @@ def get_by_server_id(server_id: int):
 
     if service_list:
         all_service = []
+
         for service in service_list:
             if service.is_active:
                 is_active = "Si"
             else:
                 is_active = "No"
+
             all_service.append({
                 "service_id": service.id,
                 "server_name": service.server.name,
@@ -66,6 +70,7 @@ def get_by_server_id(server_id: int):
                 "log_dir": service.log_dir,
                 "is_active": is_active
             })
+
         return jsonify(all_service)
     else:
         return jsonify()
@@ -103,6 +108,7 @@ def add():
             log_dir=log_dir,
             is_active=is_active
         )
+
         service_service.add(obj_in=service)
 
         flash("Se ha registrado correctamente el servicio.", "success")
@@ -143,5 +149,7 @@ def edit(service_id: int):
 def delete(service_id: int):
     service = service_service.get(id=service_id)
     service_service.delete(obj_in=service)
+
     flash("Se ha eliminado correctamente el servicio.", "success")
+
     return redirect(request.referrer)

@@ -15,13 +15,15 @@ from flask_login import (
     logout_user
 )
 
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from werkzeug.urls import url_parse
 
 from app.servertree.auth import auth_bp
 from app.servertree.auth.forms import LoginForm, UserForm
 from app.servertree.auth.decorators import admin_required
+
 from model.auth.user import UserModel
+
 from service.auth.user import user_service
 from service.environment.environment import environment_service
 
@@ -34,21 +36,24 @@ def login():
     login_form = LoginForm()
 
     if login_form.validate_on_submit():
-        user = user_service.get_by_filter(email=login_form.email.data)
+        user = user_service.authenticate(
+            email=login_form.email.data,
+            password=login_form.password.data
+        )
 
-        if user and check_password_hash(user.password, login_form.password.data) and user.is_active:
+        if not user:
+            flash("Email o contraseña incorrecto.", "danger")
+        elif not user.is_active:
+            flash("Usuario inactivo.", "danger")
+        elif user:
             login_user(user, remember=login_form.remember_me.data)
             flash("Se ha iniciado sesión correctamente.", "success")
-
             next_page = request.args.get("next")
+
             if not next_page or url_parse(next_page).netloc != "":
                 next_page = url_for("index.index")
 
             return redirect(next_page)
-        elif not user or not check_password_hash(user.password, login_form.password.data):
-            flash("Email o contraseña incorrecto.", "danger")
-        elif not user.is_active:
-            flash("Usuario inactivo.", "danger")
 
     return render_template("login.html", login_form=login_form)
 
@@ -57,6 +62,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+
     return redirect(url_for("auth.login"))
 
 
@@ -75,6 +81,7 @@ def get_all():
 @login_required
 def get(user_id: int):
     user = user_service.get(id=user_id)
+
     return jsonify(
         firstname=user.firstname,
         lastname=user.lastname,
@@ -145,5 +152,7 @@ def edit(user_id: int):
 def delete(user_id: int):
     user = user_service.get(id=user_id)
     user_service.delete(obj_in=user)
+
     flash("Se ha eliminado correctamente el usuario.", "success")
+
     return redirect(url_for("auth.get_all"))

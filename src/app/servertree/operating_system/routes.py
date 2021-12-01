@@ -7,7 +7,9 @@ from app.servertree.operating_system import operating_system_bp
 from app.servertree.operating_system.forms import OperatingSystemForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
+
 from model.operating_system.operating_system import OperatingSystemModel
+
 from service.environment.environment import environment_service
 from service.operating_system.operating_system import operating_system_service
 
@@ -28,6 +30,7 @@ def get_all():
 @login_required
 def get(operating_system_id: int):
     operating_system = operating_system_service.get(id=operating_system_id)
+
     return jsonify(
         name=operating_system.name,
         version=operating_system.version,
@@ -41,11 +44,13 @@ def get(operating_system_id: int):
 @admin_required
 def add():
     operating_system_form = OperatingSystemForm()
+
     if operating_system_form.validate_on_submit():
         name = operating_system_form.operating_system_name.data
         version = operating_system_form.operating_system_version.data
         architect = operating_system_form.operating_system_architect.data
         is_active = operating_system_form.operating_system_is_active.data
+
         if operating_system_service.get_by_filter(name=name, version=version, architect=architect):
             flash("El sistema operativo ya se encuentra registrado.", "danger")
         else:
@@ -62,6 +67,7 @@ def add():
 def edit(operating_system_id: int):
     operating_system = operating_system_service.get(id=operating_system_id)
     operating_system_form = OperatingSystemForm(obj=operating_system)
+
     if operating_system_form.validate_on_submit():
         if (operating_system.name == operating_system_form.operating_system_name.data
                 and operating_system.version == operating_system_form.operating_system_version.data
@@ -71,6 +77,7 @@ def edit(operating_system_id: int):
             operating_system.architect = operating_system_form.operating_system_architect.data
             operating_system.is_active = operating_system_form.operating_system_is_active.data
             operating_system_service.edit(obj_in=operating_system)
+
             flash("Se ha actualizado correctamente el sistema operativo.", "success")
         else:
             if operating_system_service.get_by_filter(
@@ -85,6 +92,7 @@ def edit(operating_system_id: int):
                 operating_system.architect = operating_system_form.operating_system_architect.data
                 operating_system.is_active = operating_system_form.operating_system_is_active.data
                 operating_system_service.edit(obj_in=operating_system)
+
                 flash("Se ha actualizado correctamente el sistema operativo.", "success")
 
     return redirect(request.referrer)
@@ -96,5 +104,7 @@ def edit(operating_system_id: int):
 def delete(operating_system_id: int):
     operating_system = operating_system_service.get(id=operating_system_id)
     operating_system_service.delete(obj_in=operating_system)
+
     flash("Se ha eliminado correctamente el sistema operativo.", "success")
+
     return redirect(request.referrer)

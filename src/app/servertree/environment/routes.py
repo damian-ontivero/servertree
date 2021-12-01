@@ -13,7 +13,9 @@ from app.servertree.environment import environment_bp
 from app.servertree.environment.forms import EnvironmentForm
 from app.servertree.auth.forms import UserForm
 from app.servertree.auth.decorators import admin_required
+
 from model.environment.environment import EnvironmentModel
+
 from service.environment.environment import environment_service
 
 
@@ -33,6 +35,7 @@ def get_all():
 @admin_required
 def get(environment_id: int):
     environment = environment_service.get(id=environment_id)
+
     return jsonify(
         name=environment.name,
         is_active=environment.is_active
@@ -44,6 +47,7 @@ def get(environment_id: int):
 @admin_required
 def add():
     environment_form = EnvironmentForm()
+
     if environment_form.validate_on_submit():
         name = environment_form.environment_name.data
         is_active = environment_form.environment_is_active.data
@@ -63,6 +67,7 @@ def add():
 def edit(environment_id: int):
     environment = environment_service.get(id=environment_id)
     environment_form = EnvironmentForm(obj=environment)
+
     if environment_form.validate_on_submit():
         if environment.name == environment_form.environment_name.data:
             environment.name = environment_form.environment_name.data
@@ -87,5 +92,7 @@ def edit(environment_id: int):
 def delete(environment_id: int):
     environment = environment_service.get(id=environment_id)
     environment_service.delete(obj_in=environment)
+
     flash("Se ha eliminado correctamente el entorno.", "success")
+
     return redirect(request.referrer)

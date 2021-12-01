@@ -13,7 +13,9 @@ from app.servertree.connection_type import connection_type_bp
 from app.servertree.connection_type.forms import ConnectionTypeForm
 from app.servertree.auth.decorators import admin_required
 from app.servertree.auth.forms import UserForm
+
 from model.connection_type.connection_type import ConnectionTypeModel
+
 from service.connection_type.connection_type import connection_type_service
 from service.environment.environment import environment_service
 
@@ -35,6 +37,7 @@ def get_all():
 @admin_required
 def get(connection_type_id: int):
     connection_type = connection_type_service.get(id=connection_type_id)
+
     return jsonify(
         name=connection_type.name,
         is_active=connection_type.is_active
@@ -92,5 +95,7 @@ def edit(connection_type_id: int):
 def delete(connection_type_id: int):
     connection_type = connection_type_service.get(id=connection_type_id)
     connection_type_service.delete(obj_in=connection_type)
+
     flash("Se ha eliminado correctamente el tipo de conexión.", "success")
+
     return redirect(request.referrer)
